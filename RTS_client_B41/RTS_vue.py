@@ -582,6 +582,13 @@ class Vue():
                                           tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
                 # tags=("",i.id,"artefact","eau","mobile"))
 
+        # for j in self.modele.biotopes["beacon"].keys(): #beacongif
+        #     i = self.modele.biotopes["beacon"][j]
+        #     if i.sprite:
+        #         self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
+        #                                   tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
+        #         # tags=("",i.id,"artefact","eau","mobile"))
+
         # mettre les chat a jour si de nouveaux messages sont arrives
         if self.textchat and self.modele.joueurs[self.parent.monnom].chatneuf:
             self.textchat.delete(0, END)
