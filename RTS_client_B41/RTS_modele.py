@@ -1433,6 +1433,11 @@ class Partie():
 
         # lol probably a better way to do this, ill fix it later
 
+
+        # cases = generer_cercle_pixel(cx, cy)
+        #
+        # for
+
         territoire.append(self.cartecase[cy+2][cx-1])
         territoire.append(self.cartecase[cy+2][cx])
         territoire.append(self.cartecase[cy+2][cx+1])
@@ -1455,9 +1460,43 @@ class Partie():
         territoire.append(self.cartecase[cy-2][cx])
         territoire.append(self.cartecase[cy-2][cx+1])
 
+
+
         print(territoire)
 
         return territoire
+
+    def mirror_points_8(self, x, y):
+        """ Return 8-way symmetry of points. """
+        return [(x, y),
+                (y, x),
+                (-x, y),
+                (-y, x),
+                (x, -y),
+                (y, -x),
+                (-x, -y),
+                (-y, -x)]
+
+    def generer_cercle_pixel(self, r, x, y):
+        points = []
+        x = x
+        y = y
+        F_M = 1 - r
+        d_e = 3
+        d_ne = -(r << 1) + 5
+        points.extend(self.mirror_points_8(x, y))
+        while x < -y:
+            if F_M <= 0:
+                F_M += d_e
+            else:
+                F_M += d_ne
+                d_ne += 2
+                y += 1
+            d_e += 2
+            d_ne += 2
+            x += 1
+            points.extend(self.mirror_points_8(x, y))
+        return points
 
     def trouver_case(self, x, y):
 
