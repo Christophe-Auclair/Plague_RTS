@@ -181,6 +181,20 @@ class Beacon(Biotope):
     def __init__(self, parent, id, monimg, x, y, montype):
         Biotope.__init__(self, parent, id, monimg, x, y, montype)
         self.valeur = 100
+        n = random.randrange(50)
+        if n == 6:
+            self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
+            self.sprite = "beacon"
+            self.spriteno = random.randrange(self.spritelen)
+            self.valeur = 100
+        else:
+            self.valeur = 10
+
+    def jouer_prochain_coup(self):  # beacongif
+        if self.sprite:
+            self.spriteno += 1
+            if self.spriteno > self.spritelen - 1:
+                self.spriteno = 0
 
 
 class Baie(Biotope):
@@ -217,7 +231,7 @@ class Eau(Biotope):
 
     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        n = random.randrange(50)
+        n = random.randrange(50) #beacongif
         if n == 6:
             self.spritelen = 6  # len(self.parent.parent.vue.gifs["poissons"])
             self.sprite = "poissons"
@@ -1332,6 +1346,9 @@ class Partie():
 
         for i in self.biotopes["eau"].keys():
             self.biotopes["eau"][i].jouer_prochain_coup()
+
+        # for i in self.biotopes["beacon"].keys(): #beacongif
+        #     self.biotopes["beacon"][i].jouer_prochain_coup()
 
         # demander aux objets de s'activer
         for i in self.joueurs.keys():

@@ -281,6 +281,8 @@ class Vue():
 
         self.canevas.bind("<Control-Button-1>", self.parent.montrer_stats)
 
+        self.canevas.bind("<Control-Button-2>", self.action.attaquer)
+
     def defiler_vertical(self, evt):
         rep = self.scrollV.get()[0]
         if evt.delta < 0:
@@ -582,6 +584,13 @@ class Vue():
                                           tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
                 # tags=("",i.id,"artefact","eau","mobile"))
 
+        # for j in self.modele.biotopes["beacon"].keys(): #beacongif
+        #     i = self.modele.biotopes["beacon"][j]
+        #     if i.sprite:
+        #         self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
+        #                                   tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
+        #         # tags=("",i.id,"artefact","eau","mobile"))
+
         # mettre les chat a jour si de nouveaux messages sont arrives
         if self.textchat and self.modele.joueurs[self.parent.monnom].chatneuf:
             self.textchat.delete(0, END)
@@ -802,6 +811,7 @@ class Action():
         if self.persochoisi:
             action = [self.parent.parent.monnom, "chasserressource", [tag[4], tag[2], self.persochoisi]]
             self.parent.parent.actionsrequises.append(action)
+
 
     def ramasser_ressource(self, tag):
         if self.persochoisi:
