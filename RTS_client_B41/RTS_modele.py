@@ -19,7 +19,7 @@ class SiteConstruction():
         self.etat = "attente"
         self.sorte = sorte
         self.delai = Partie.valeurs[self.sorte]["delai"]
-
+        self.size = 0
     def decremente_delai(self):
         self.delai -= 1
 
@@ -54,7 +54,7 @@ class Usineballiste(Batiment):
         self.montype = montype
         self.maxperso = 10
         self.perso = 0
-
+        self.size = 20
 
 class Maison(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
@@ -63,6 +63,7 @@ class Maison(Batiment):
         self.montype = montype
         self.maxperso = 10
         self.perso = 0
+        self.size = 20
 
 
 class Abri():
@@ -72,6 +73,7 @@ class Abri():
         self.montype = montype
         self.maxperso = 20
         self.perso = 0
+        self.size = 20
 
 
 class Caserne():
@@ -81,6 +83,7 @@ class Caserne():
         self.montype = montype
         self.maxperso = 20
         self.perso = 0
+        self.size = 20
 
 
 class Daim():
@@ -178,6 +181,20 @@ class Beacon(Biotope):
     def __init__(self, parent, id, monimg, x, y, montype):
         Biotope.__init__(self, parent, id, monimg, x, y, montype)
         self.valeur = 100
+        n = random.randrange(50)
+        if n == 6:
+            self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
+            self.sprite = "beacon"
+            self.spriteno = random.randrange(self.spritelen)
+            self.valeur = 100
+        else:
+            self.valeur = 10
+
+    def jouer_prochain_coup(self):  # beacongif
+        if self.sprite:
+            self.spriteno += 1
+            if self.spriteno > self.spritelen - 1:
+                self.spriteno = 0
 
 
 class Baie(Biotope):
@@ -214,7 +231,7 @@ class Eau(Biotope):
 
     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        n = random.randrange(50)
+        n = random.randrange(50) #beacongif
         if n == 6:
             self.spritelen = 6  # len(self.parent.parent.vue.gifs["poissons"])
             self.sprite = "poissons"
@@ -372,6 +389,8 @@ class Perso():
         self.image = couleur[0] + "_" + montype + self.dir
         self.x = x
         self.y = y
+        self.movX = 0
+        self.movY = 0
         self.montype = montype
         self.cible = None
         self.position_visee = None
@@ -385,6 +404,7 @@ class Perso():
                                  "ciblerennemi": None,
                                  "attaquerennemi": None,
                                  "retourbatimentmere": None,
+                                 "bougerGroupe": self.bougerGroupe,
                                  }
 
     def attaquer(self, ennemi):
@@ -422,6 +442,44 @@ class Perso():
         self.position_visee = pos
         self.actioncourante = "bouger"
 
+    def deplacerGroupe(self, pos, len):
+        self.position_visee = pos
+        self.actioncourante = "bougerGroupe"
+        self.movX = self.position_visee[0] + random.randrange(-15 + (-5 * len), 15 + (5 * len))
+        self.movY = self.position_visee[1] + random.randrange(-15 + (-5 * len), 15 + (5 * len))
+
+
+    def bougerGroupe(self):
+        if self.position_visee:
+            # le if sert à savoir si on doit repositionner notre visee pour un objet
+            # dynamique comme le daim
+            x = self.movX
+            y = self.movY
+            ang = Helper.calcAngle(self.x, self.y, x, y)
+            x1, y1 = Helper.getAngledPoint(ang, self.vitesse, self.x, self.y)
+            ######## ICI METTRE TEST PROCHAIN PAS POUR VOIR SI ON PEUT AVANCER
+            if self.testCollisionBatiment(x1, y1) != False:
+                if self.testCollisionUnite(x1, y1) != False:
+                    ######## FIN DE TEST POUR SURFACE MARCHEE
+                    # si tout ba bien on continue avec la nouvelle valeur
+                    self.x, self.y = x1, y1
+                    # ici on test pour vori si nous rendu a la cible (en deca de la longueur de notre pas)
+                    dist = Helper.calcDistance(self.x, self.y, x, y)
+                    if dist <= self.vitesse:
+                        if self.actioncourante == "bougerGroupe":
+                            self.actioncourante = None
+                        return "rendu"
+                    else:
+                        return dist
+                else:
+                    if self.actioncourante == "bougerGroupe":
+                        self.actioncourante = None
+                    return "rendu"
+            else:
+                if self.actioncourante == "bougerGroupe":
+                    self.actioncourante = None
+                return "rendu"
+
     def bouger(self):
         if self.position_visee:
             # le if sert à savoir si on doit repositionner notre visee pour un objet
@@ -431,7 +489,7 @@ class Perso():
             ang = Helper.calcAngle(self.x, self.y, x, y)
             x1, y1 = Helper.getAngledPoint(ang, self.vitesse, self.x, self.y)
             ######## ICI METTRE TEST PROCHAIN PAS POUR VOIR SI ON PEUT AVANCER
-            if self.test_etat_du_sol(x1, y1) == True:
+            if self.testCollisionBatiment(x1, y1) != False:
                 if self.testCollisionUnite(x1, y1) != False:
                     ######## FIN DE TEST POUR SURFACE MARCHEE
                     # si tout ba bien on continue avec la nouvelle valeur
@@ -490,23 +548,6 @@ class Perso():
         else:
             return True
 
-    def test_etat_du_sol1(self, x1, y1):
-        ######## SINON TROUVER VOIE DE CONTOURNEMENT
-        # ici oncalcule sur quelle case on circule
-        casex = x1 / self.parent.parent.taillecase
-        if casex != int(casex):
-            casex = int(casex) + 1
-        casey = y1 / self.parent.parent.taillecase
-        if casey != int(casey):
-            casey = int(casey) + 1
-        #####AJOUTER TEST DE LIMITE
-        # test si different de 0 (0=plaine), voir Partie pour attribution des valeurs
-        if self.parent.parent.cartecase[int(casey)][int(casex)].montype != "plaine":
-            # test pour être sur que de n'est 9 (9=batiment)
-            if self.parent.parent.cartecase[int(casey)][int(casex)].montype != "batiment":
-                print("marche dans ", )
-            else:
-                print("marche dans batiment")
 
     def testCollisionUnite(self, x1, y1):
         for i in self.parent.parent.joueurs:
@@ -517,6 +558,15 @@ class Perso():
                         if self.id != obj.id:
                             if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
                                 return False
+
+
+    def testCollisionBatiment(self, x1, y1):
+        for i in self.parent.parent.joueurs:
+            for j in self.parent.parent.joueurs[i].batiments:
+                for k in self.parent.parent.joueurs[i].batiments[j]:
+                    obj = self.parent.parent.joueurs[i].batiments[j][k]
+                    if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
+                        return False
 
 
 class Soldat(Perso):
@@ -623,8 +673,9 @@ class Ouvrier(Perso):
         self.champvision = random.randrange(100) + 300
         self.champchasse = 120
         self.javelots = []
-        self.vitesse = random.randrange(5) + 5
+        self.vitesse = 7
         self.etats_et_actions = {"bouger": self.bouger,
+                                 "bougerGroupe": self.bougerGroupe,
                                  "ciblersiteconstruction": self.cibler_site_construction,
                                  "ciblerproie": self.cibler_proie,
                                  "ciblerennemi": None,
@@ -912,6 +963,7 @@ class Joueur():
 
         self.actions = {"creerperso": self.creer_perso,
                         "deplacer": self.deplacer,
+                        "deplacerGroupe": self.deplacerGroupe,
                         "ramasserressource": self.ramasser_ressource,
                         "chasserressource": self.chasser_ressource,
                         "construirebatiment": self.construire_batiment,
@@ -987,6 +1039,13 @@ class Joueur():
             for j in self.persos.keys():
                 if i in self.persos[j]:
                     self.persos[j][i].deplacer(pos)
+
+    def deplacerGroupe(self, param):
+        pos, troupe, len = param
+        for i in troupe:
+            for j in self.persos.keys():
+                if i in self.persos[j]:
+                    self.persos[j][i].deplacerGroupe(pos, len)
 
     def creer_point_origine(self, x, y):
         idmaison = get_prochain_id()
@@ -1287,6 +1346,9 @@ class Partie():
 
         for i in self.biotopes["eau"].keys():
             self.biotopes["eau"][i].jouer_prochain_coup()
+
+        # for i in self.biotopes["beacon"].keys(): #beacongif
+        #     self.biotopes["beacon"][i].jouer_prochain_coup()
 
         # demander aux objets de s'activer
         for i in self.joueurs.keys():
