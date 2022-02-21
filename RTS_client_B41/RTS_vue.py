@@ -281,6 +281,8 @@ class Vue():
 
         self.canevas.bind("<Control-Button-1>", self.parent.montrer_stats)
 
+        self.canevas.bind("<Control-Button-2>", self.action.attaquer)
+
     def defiler_vertical(self, evt):
         rep = self.scrollV.get()[0]
         if evt.delta < 0:
@@ -798,6 +800,7 @@ class Action():
         if self.persochoisi:
             action = [self.parent.parent.monnom, "chasserressource", [tag[4], tag[2], self.persochoisi]]
             self.parent.parent.actionsrequises.append(action)
+
 
     def ramasser_ressource(self, tag):
         if self.persochoisi:
