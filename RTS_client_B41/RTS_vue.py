@@ -790,7 +790,11 @@ class Action():
             self.parent.parent.actionsrequises.append(action)
 
     def deplacer(self):
-        if self.persochoisi:
+        if len(self.persochoisi) > 1:
+            action = [self.parent.parent.monnom, "deplacerGroupe", [self.position, self.persochoisi, len(self.persochoisi)]]
+            self.parent.parent.actionsrequises.append(action)
+
+        elif self.persochoisi:
             action = [self.parent.parent.monnom, "deplacer", [self.position, self.persochoisi]]
             self.parent.parent.actionsrequises.append(action)
 
