@@ -1455,65 +1455,83 @@ class Partie():
         #
         # for
 
-        territoire.append(self.cartecase[cy+2][cx-1])
-        territoire.append(self.cartecase[cy+2][cx])
-        territoire.append(self.cartecase[cy+2][cx+1])
-        territoire.append(self.cartecase[cy+1][cx-2])
-        territoire.append(self.cartecase[cy+1][cx-1])
-        territoire.append(self.cartecase[cy+1][cx])
-        territoire.append(self.cartecase[cy+1][cx+1])
-        territoire.append(self.cartecase[cy+1][cx+2])
-        territoire.append(self.cartecase[cy][cx-2])
-        territoire.append(self.cartecase[cy][cx-1])
-        territoire.append(self.cartecase[cy][cx])
-        territoire.append(self.cartecase[cy][cx+1])
-        territoire.append(self.cartecase[cy][cx+2])
-        territoire.append(self.cartecase[cy-1][cx-2])
-        territoire.append(self.cartecase[cy-1][cx-1])
-        territoire.append(self.cartecase[cy-1][cx])
-        territoire.append(self.cartecase[cy-1][cx+1])
-        territoire.append(self.cartecase[cy-1][cx+2])
-        territoire.append(self.cartecase[cy-2][cx-1])
-        territoire.append(self.cartecase[cy-2][cx])
-        territoire.append(self.cartecase[cy-2][cx+1])
+        # territoire.append(self.cartecase[cy+2][cx-1])
+        # territoire.append(self.cartecase[cy+2][cx])
+        # territoire.append(self.cartecase[cy+2][cx+1])
+        # territoire.append(self.cartecase[cy+1][cx-2])
+        # territoire.append(self.cartecase[cy+1][cx-1])
+        # territoire.append(self.cartecase[cy+1][cx])
+        # territoire.append(self.cartecase[cy+1][cx+1])
+        # territoire.append(self.cartecase[cy+1][cx+2])
+        # territoire.append(self.cartecase[cy][cx-2])
+        # territoire.append(self.cartecase[cy][cx-1])
+        # territoire.append(self.cartecase[cy][cx])
+        # territoire.append(self.cartecase[cy][cx+1])
+        # territoire.append(self.cartecase[cy][cx+2])
+        # territoire.append(self.cartecase[cy-1][cx-2])
+        # territoire.append(self.cartecase[cy-1][cx-1])
+        # territoire.append(self.cartecase[cy-1][cx])
+        # territoire.append(self.cartecase[cy-1][cx+1])
+        # territoire.append(self.cartecase[cy-1][cx+2])
+        # territoire.append(self.cartecase[cy-2][cx-1])
+        # territoire.append(self.cartecase[cy-2][cx])
+        # territoire.append(self.cartecase[cy-2][cx+1])
 
 
+
+        # print(self.generer_cercle_pixel(10, cx, cy))
+
+        for i in range(cx - 10, cx + 10):
+            for j in range(cy - 10, cy + 10):
+                territoire.append(self.cartecase[j][i])
 
         print(territoire)
 
         return territoire
 
-    def mirror_points_8(self, x, y):
-        """ Return 8-way symmetry of points. """
-        return [(x, y),
-                (y, x),
-                (-x, y),
-                (-y, x),
-                (x, -y),
-                (y, -x),
-                (-x, -y),
-                (-y, -x)]
+    def territoitre_initial(self, x, y):
+        territoire = []
+        cx = int(x/20)
+        cy= int(y/20)
+        for i in self.joueurs.keys():
+            for j in range(cx - 10, cx + 10):
+                for k in range(cy - 10, cy + 10):
+                    territoire.append(self.cartecase[k][j])
 
-    def generer_cercle_pixel(self, r, x, y):
-        points = []
-        x = x
-        y = y
-        F_M = 1 - r
-        d_e = 3
-        d_ne = -(r << 1) + 5
-        points.extend(self.mirror_points_8(x, y))
-        while x < -y:
-            if F_M <= 0:
-                F_M += d_e
-            else:
-                F_M += d_ne
-                d_ne += 2
-                y += 1
-            d_e += 2
-            d_ne += 2
-            x += 1
-            points.extend(self.mirror_points_8(x, y))
-        return points
+        self.joueurs[i].territoire.append(territoire)
+        self.parent.afficher_territoire(self.joueurs[i].territoire)
+
+    # def mirror_points_8(self, x, y):
+    #     """ Return 8-way symmetry of points. """
+    #     return [(x, y),
+    #             (y, x),
+    #             (-x, y),
+    #             (-y, x),
+    #             (x, -y),
+    #             (y, -x),
+    #             (-x, -y),
+    #             (-y, -x)]
+    #
+    # def generer_cercle_pixel(self, r, x, y):
+    #     points = []
+    #     x = x
+    #     y = y
+    #     F_M = 1 - r
+    #     d_e = 3
+    #     d_ne = -(r << 1) + 5
+    #     points.extend(self.mirror_points_8(x, y))
+    #     while x < -y:
+    #         if F_M <= 0:
+    #             F_M += d_e
+    #         else:
+    #             F_M += d_ne
+    #             d_ne += 2
+    #             y += 1
+    #         d_e += 2
+    #         d_ne += 2
+    #         x += 1
+    #         points.extend(self.mirror_points_8(x, y))
+    #     return points
 
     def trouver_case(self, x, y):
 

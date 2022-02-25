@@ -450,6 +450,7 @@ class Vue():
                 coul = self.modele.joueurs[j].couleur[0]
                 self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
                                           tags=("statique", j, m.id, "batiment", m.montype, ""))
+                self.parent.territoitre_initial(m.x, m.y)
                 self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75,
                                          width=10,
                                          fill="green")

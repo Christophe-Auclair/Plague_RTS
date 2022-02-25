@@ -63,6 +63,9 @@ class Controleur():
         self.vue.changer_cadre("lobby")
         self.boucler_sur_lobby()
 
+    def territoitre_initial(self, x, y):
+        self.modele.territoitre_initial(x, y)
+
     # un joueur s'inscrit à la partie, similaire à creer_partie
     def inscrire_joueur(self, nom, urljeu):
         # on quitte le splash et sa boucle
@@ -222,6 +225,9 @@ class Controleur():
         x1, y1, x2, y2 = self.vue.afficher_batiment(nomjoueur, batiment)
         self.vue.afficher_nouveau_territoire(territoire)
         return [x1, y1, x2, y2]
+
+    def afficher_territoire(self, territoire):
+        self.vue.afficher_nouveau_territoire(territoire)
 
     def trouver_valeurs(self):
         vals = self.modele.trouver_valeurs()
