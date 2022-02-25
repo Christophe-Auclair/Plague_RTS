@@ -813,7 +813,6 @@ class Action():
             action = [self.parent.parent.monnom, "chasserressource", [tag[4], tag[2], self.persochoisi]]
             self.parent.parent.actionsrequises.append(action)
 
-
     def ramasser_ressource(self, tag):
         if self.persochoisi:
             action = [self.parent.parent.monnom, "ramasserressource", [tag[4], tag[2], self.persochoisi]]

@@ -190,7 +190,7 @@ class Beacon(Biotope):
         else:
             self.valeur = 10
 
-    def jouer_prochain_coup(self):  # beacongif
+    def jouer_prochain_coup(self):  #beacongif
         if self.sprite:
             self.spriteno += 1
             if self.spriteno > self.spritelen - 1:
@@ -759,16 +759,21 @@ class Ouvrier(Perso):
     def construire_batiment(self):
         self.cible.decremente_delai()
         if self.cible.delai < 1:
-            batiment = self.parent.parent.classesbatiments[self.cible.sorte](self, self.cible.id, self.parent.couleur,
-                                                                             self.cible.x, self.cible.y,
-                                                                             self.cible.sorte)
-            self.parent.batiments[self.cible.sorte][self.cible.id] = batiment
+            #test pour multiouvrier de construction
+            if self.cible.id in self.parent.batiments['siteconstruction'].keys():
 
-            sitecons = self.parent.batiments['siteconstruction'].pop(batiment.id)
-            print(sitecons)
+                batiment = self.parent.parent.classesbatiments[self.cible.sorte](self, self.cible.id, self.parent.couleur,
+                                                                                 self.cible.x, self.cible.y,
+                                                                                 self.cible.sorte)
+                self.parent.batiments[self.cible.sorte][self.cible.id] = batiment
 
-            self.parent.installer_batiment(batiment)
+                sitecons = self.parent.batiments['siteconstruction'].pop(batiment.id)
+                print(sitecons)
+                self.parent.installer_batiment(batiment)
+
+            #mise a jour des ouvriers
             if self.cible.sorte == "maison":
+                batiment = self.parent.batiments[self.cible.sorte][self.cible.id]
                 self.batimentmere = batiment
             self.cible = None
             self.actioncourante = None
@@ -1098,7 +1103,7 @@ class Joueur():
 
 
 #######################  LE MODELE est la partie #######################
-class Partie():
+class Partie:
     valeurs = {"maison": {"nourriture": 10,
                           "arbre": 20,
                           "roche": 20,
@@ -1449,7 +1454,6 @@ class Partie():
             cy -= 1
 
         # lol probably a better way to do this, ill fix it later
-
 
         # cases = generer_cercle_pixel(cx, cy)
         #
