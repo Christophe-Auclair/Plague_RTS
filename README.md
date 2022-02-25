@@ -33,7 +33,3 @@ de petites surfaces qui se rejoingnet pour former des régions polygonales
 
 ### VERSION 0.1: 
 -
-
-
-### KNOWN BUGS
-deux ouvriers selectionné qui veulent construire un batiment fait crasher le jeu
