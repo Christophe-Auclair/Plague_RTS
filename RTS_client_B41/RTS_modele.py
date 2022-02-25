@@ -405,6 +405,7 @@ class Perso():
                                  "attaquerennemi": self.attaquerennemi,
                                  "retourbatimentmere": None,
                                  "bougerGroupe": self.bougerGroupe,
+                                 "trouverennemi": self.trouverennemi,
                                  }
 
     def attaquer(self, ennemi):
@@ -424,7 +425,32 @@ class Perso():
             self.cibleennemi = None
             self.cible = None
 
+            self.actioncourante = "trouverennemi"
+
+    def trouverennemi(self):
+
+        for i in self.parent.parent.joueurs:
+           # if self.parent.parent.joueurs[]
+            for j in self.parent.parent.joueurs[i].persos:
+                for k in self.parent.parent.joueurs[i].persos[j]:
+                    ennemi = self.parent.parent.joueurs[i].persos[j][k]
+                    if self.id != ennemi.id:
+                        distance = Helper.calcDistance(self.x, self.y, ennemi.x, ennemi.y)
+                        if distance <= self.champvision:
+                            self.cibleennemi = ennemi
+
+        if self.cibleennemi:
+            x = self.cibleennemi.x
+            y = self.cibleennemi.y
+            self.cibler(ennemi)
+            dist = Helper.calcDistance(self.x, self.y, x, y)
+            if dist <= self.vitesse:
+                self.actioncourante = "attaquerennemi"
+            else:
+                self.actioncourante = "ciblerennemi"
+        else:
             self.actioncourante = None
+
 
     def recevoir_coup(self, force):
         self.mana -= force
@@ -691,6 +717,7 @@ class Ouvrier(Perso):
                                  "ciblerressource": self.cibler_ressource,
                                  "retourbatimentmere": self.retour_batiment_mere,
                                  "validerjavelot": self.valider_javelot,
+                                 "trouverennemi": self.trouverennemi,
                                  }
 
     def chasser_ramasser(self, objetcible, sontype, actiontype):
@@ -728,7 +755,6 @@ class Ouvrier(Perso):
             self.actioncourante = "ramasserressource"
 
     def cibler_ennemi(self):
-        print(self.cible)
         reponse = self.bouger()
         if reponse == "rendu":
             self.actioncourante = "attaquerennemi"
