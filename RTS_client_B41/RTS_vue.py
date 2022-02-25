@@ -536,7 +536,7 @@ class Vue():
                     i = self.modele.joueurs[j].persos[p][k]
                     coul = self.modele.joueurs[j].couleur[0]
                     self.canevas.create_image(i.x, i.y, anchor=S, image=self.images[i.image],
-                                              tags=("mobile", j, k, "perso", type(i).__name__, ""))
+                                              tags=("mobile", j, k, "perso", i.montype, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
                     self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
                                              tags=("", i.id, "artefact", "mobile"))
@@ -545,14 +545,14 @@ class Vue():
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
-                                                      tags=("mobile", j, p, "perso", type(i).__name__, "persochoisi"))
+                                                      tags=("mobile", j, p, "perso", i.montype, "persochoisi"))
                         # tags=(j,k,"artefact","mobile","persochoisi"))
 
                     # dessiner javelot de l'ouvrier
                     if p == "ouvrier":
                         for b in self.modele.joueurs[j].persos[p][k].javelots:
                             self.canevas.create_image(b.x, b.y, image=self.images[b.image],
-                                                      tags=("mobile", j, b.id, "", type(b).__name__, ""))
+                                                      tags=("mobile", j, b.id, "", i.montype, ""))
                             # tags=(j,b.id,"artefact","mobile","javelot"))
 
         # ajuster les choses vivantes dependantes de la partie (mais pas des joueurs)
@@ -791,13 +791,26 @@ class Action():
         self.chaton = 0
         self.aideon = 0
 
-    def attaquer(self):
+    def attaquer(self, evt):
+        tag = self.parent.canevas.gettags(CURRENT)
+
         if self.persochoisi:
+            qui = tag[1]
+            cible = tag[2]
+            sorte = tag[4]
+            action = [self.parent.parent.monnom, "attaquer", [self.persochoisi, [qui, cible, sorte]]]
+            self.parent.parent.actionsrequises.append(action)
+
+    def mouvementAgressif(self):
+        if self.persochoisi:
+
             qui = self.ciblechoisi[1]
             cible = self.ciblechoisi[2]
             sorte = self.ciblechoisi[5]
+
             action = [self.parent.parent.monnom, "attaquer", [self.persochoisi, [qui, cible, sorte]]]
             self.parent.parent.actionsrequises.append(action)
+
 
     def deplacer(self):
         if len(self.persochoisi) > 1:

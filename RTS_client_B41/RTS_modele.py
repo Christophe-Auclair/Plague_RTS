@@ -401,8 +401,8 @@ class Perso():
         self.vitesse = 5
         self.angle = None
         self.etats_et_actions = {"bouger": self.bouger,
-                                 "ciblerennemi": None,
-                                 "attaquerennemi": None,
+                                 "ciblerennemi": self.cibler_ennemi,
+                                 "attaquerennemi": self.attaquerennemi,
                                  "retourbatimentmere": None,
                                  "bougerGroupe": self.bougerGroupe,
                                  }
@@ -418,13 +418,13 @@ class Perso():
         else:
             self.actioncourante = "ciblerennemi"
 
-    def attaquer_ennemi(self):
+    def attaquerennemi(self):
         rep = self.cibleennemi.recevoir_coup(self.force)
         if rep == 1:
             self.cibleennemi = None
             self.cible = None
 
-            self.actioncourante = "deplacer"
+            self.actioncourante = None
 
     def recevoir_coup(self, force):
         self.mana -= force
@@ -433,6 +433,12 @@ class Perso():
             print("MORTS")
             self.parent.annoncer_mort(self)
             return 1
+
+    def cibler_ennemi(self):
+        reponse = self.bouger()
+        if reponse == "rendu":
+            self.actioncourante = "attaquerennemi"
+
 
     def jouer_prochain_coup(self):
         if self.actioncourante:
@@ -678,8 +684,8 @@ class Ouvrier(Perso):
                                  "bougerGroupe": self.bougerGroupe,
                                  "ciblersiteconstruction": self.cibler_site_construction,
                                  "ciblerproie": self.cibler_proie,
-                                 "ciblerennemi": None,
-                                 "attaquerennemi": None,
+                                 "ciblerennemi": self.cibler_ennemi,
+                                 "attaquerennemi": self.attaquerennemi,
                                  "construirebatiment": self.construire_batiment,
                                  "ramasserressource": self.ramasser,
                                  "ciblerressource": self.cibler_ressource,
@@ -720,6 +726,12 @@ class Ouvrier(Perso):
         reponse = self.bouger()
         if reponse == "rendu":
             self.actioncourante = "ramasserressource"
+
+    def cibler_ennemi(self):
+        print(self.cible)
+        reponse = self.bouger()
+        if reponse == "rendu":
+            self.actioncourante = "attaquerennemi"
 
     def cibler_site_construction(self):
         reponse = self.bouger()
@@ -995,12 +1007,28 @@ class Joueur():
     def attaquer(self, param):
         attaquants, attaque = param
         nomjoueur, idperso, sorte = attaque
-        ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+        if sorte in self.parent.joueurs[nomjoueur].persos.keys():
+            ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+
+        elif sorte in self.parent.joueurs[nomjoueur].batiments.keys():
+            ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][idperso]
+
         for i in self.persos.keys():
             for j in attaquants:
                 if j in self.persos[i]:
                     self.persos[i][j].attaquer(ennemi)
-                    # j.attaquer(ennemi)
+
+
+    def movAttaque(self, param):
+        attaquants, attaque = param
+        nomjoueur, idperso, sorte = attaque
+        ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+
+
+        for i in self.persos.keys():
+            for j in attaquants:
+                if j in self.persos[i]:
+                    self.persos[i][j].attaquer(ennemi)
 
     def abandonner(self, param):
         # ajouter parametre nom de l'Abandonneux, et si c'est moi, envoyer une action
