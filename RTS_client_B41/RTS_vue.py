@@ -632,7 +632,7 @@ class Vue():
     def ajouter_selection(self, evt):
         mestags = self.canevas.gettags(CURRENT)
         if self.parent.monnom == mestags[1]:
-            if "Ouvrier" == mestags[4]:
+            if "Ouvrier" == mestags[4] or "ouvrier" == mestags[4] :
                 self.action.persochoisi.append(mestags[2])
                 self.action.afficher_commande_perso()
             ######
