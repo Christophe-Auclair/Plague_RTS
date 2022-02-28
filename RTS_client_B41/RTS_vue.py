@@ -281,6 +281,11 @@ class Vue():
 
         self.canevas.bind("<Control-Button-1>", self.parent.montrer_stats)
 
+        self.canevas.tag_bind("territoire", "<Button-1>", self.annuler_action)
+        self.canevas.tag_bind("territoire", "<Button-2>", self.indiquer_position)
+        self.canevas.tag_bind("territoire", "<Button-3>", self.construire_batiment)
+
+
         self.canevas.bind("<Control-Button-2>", self.action.attaquer)
 
     def defiler_vertical(self, evt):
@@ -536,7 +541,7 @@ class Vue():
                     i = self.modele.joueurs[j].persos[p][k]
                     coul = self.modele.joueurs[j].couleur[0]
                     self.canevas.create_image(i.x, i.y, anchor=S, image=self.images[i.image],
-                                              tags=("mobile", j, k, "perso", i.montype, ""))
+                                              tags=("mobile", j, k, "perso", type(i).__name__, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
                     self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
                                              tags=("", i.id, "artefact", "mobile"))
@@ -619,7 +624,7 @@ class Vue():
 
     def annuler_action(self, evt):
         mestags = self.canevas.gettags(CURRENT)
-        if not mestags:
+        if not mestags or "territoire" in mestags:
             self.canevasaction.delete(self.action.widgetsactifs)
             if self.action.btnactif:
                 self.action.btnactif.config(bg="SystemButtonFace")
@@ -691,7 +696,7 @@ class Vue():
 
     def indiquer_position(self, evt):
         tag = self.canevas.gettags(CURRENT)
-        if not tag and self.action.persochoisi:
+        if (not tag or "territoire" in tag) and self.action.persochoisi:
             x, y = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
             self.action.position = [x, y]
             self.action.deplacer()
@@ -738,7 +743,7 @@ class Vue():
 
     def construire_batiment(self, evt):
         mestags = self.canevas.gettags(CURRENT)
-        if not mestags and self.action.persochoisi and self.action.prochaineaction:
+        if (not mestags or "territoire" in mestags) and self.action.persochoisi and self.action.prochaineaction:
             pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
             self.action.construire_batiment(pos)
 

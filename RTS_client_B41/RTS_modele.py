@@ -1112,19 +1112,29 @@ class Joueur():
 
     def construire_batiment(self, param):
         perso, sorte, pos = param
-        id = get_prochain_id()
+        liste_case = []
+
         # payer batiment
-        vals = Partie.valeurs
-        for k, val in self.ressources.items():
-            self.ressources[k] = val - vals[sorte][k]
 
-        siteconstruction = SiteConstruction(self, id, pos[0], pos[1], sorte)
-        self.batiments["siteconstruction"][id] = siteconstruction
-        for i in perso:
-            self.persos["ouvrier"][i].construire_site_construction(siteconstruction)
-            # self.persos["ouvrier"][i].construire_batiment(siteconstruction)
+        for i in self.territoire:
+            for j in i:
+                liste_case.append((j.x, j.y))
 
-        self.territoire.append(self.parent.aggrandir_territoire(param[2][0], param[2][1]))
+        if (int(param[2][0] / 20), int(param[2][1] / 20)) in liste_case:
+            id = get_prochain_id()
+            vals = Partie.valeurs
+            for k, val in self.ressources.items():
+                self.ressources[k] = val - vals[sorte][k]
+
+            siteconstruction = SiteConstruction(self, id, pos[0], pos[1], sorte)
+            self.batiments["siteconstruction"][id] = siteconstruction
+            for i in perso:
+                self.persos["ouvrier"][i].construire_site_construction(siteconstruction)
+                # self.persos["ouvrier"][i].construire_batiment(siteconstruction)
+
+            self.territoire.append(self.parent.aggrandir_territoire(param[2][0], param[2][1]))
+        else:
+            print("Doit construire les nouveaux batiments à l'intérieur de son territoire")
 
     def installer_batiment(self, batiment):
         # self.batiments['siteconstruction'].pop(batiment.id)
@@ -1541,7 +1551,8 @@ class Partie:
 
         for i in range(cx - 10, cx + 10):
             for j in range(cy - 10, cy + 10):
-                territoire.append(self.cartecase[j][i])
+                if self.cartecase[j][i] not in territoire:
+                    territoire.append(self.cartecase[j][i])
 
         print(territoire)
 
