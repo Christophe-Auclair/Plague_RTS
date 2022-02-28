@@ -774,9 +774,8 @@ class Vue():
 
     def afficher_nouveau_territoire(self, territoire):
         for i in territoire:
-            for j in i:
-                self.canevas.create_rectangle(j.x * 20 - 10, j.y * 20 - 10, j.x * 20 + 10, j.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
-                self.canevas.tag_lower("territoire")
+            self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
+            self.canevas.tag_lower("territoire")
 
 
 

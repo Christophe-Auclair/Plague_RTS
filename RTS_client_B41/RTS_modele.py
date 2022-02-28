@@ -1127,15 +1127,14 @@ class Joueur():
 
     def construire_batiment(self, param):
         perso, sorte, pos = param
-        liste_case = []
 
         # payer batiment
 
-        for i in self.territoire:
-            for j in i:
-                liste_case.append((j.x, j.y))
+        case = self.parent.cartecase[int(param[2][1] / 20)][int(param[2][0] / 20)]
 
-        if (int(param[2][0] / 20), int(param[2][1] / 20)) in liste_case:
+        # case = self.parent.trouver_case(int(param[2][1] / 20), int(param[2][0] / 20))
+
+        if (case) in self.territoire:
             id = get_prochain_id()
             vals = Partie.valeurs
             for k, val in self.ressources.items():
@@ -1150,8 +1149,8 @@ class Joueur():
             nouveau_territoire = self.parent.aggrandir_territoire(param[2][0], param[2][1])
 
             for i in nouveau_territoire:
-                if i not in self.territoire[0]:
-                    self.territoire[0].append(i)
+                if i not in self.territoire:
+                    self.territoire.append(i)
 
             self.parent.calculer_supply()
         else:
@@ -1178,18 +1177,19 @@ class Joueur():
     def creer_perso(self, param):
         sorteperso, batimentsource, idbatiment, pos = param
 
-        supply_cost = self.persos[sorteperso].supply_cost
+        # supply_cost = self.persos[sorteperso].supply_cost
 
-        if self.current_supply + supply_cost <= self.supply:
-            id = get_prochain_id()
-            batiment = self.batiments[batimentsource][idbatiment]
+        # if self.current_supply + supply_cost <= self.supply:
 
-            x = batiment.x + 100 + (random.randrange(50) - 15)
-            y = batiment.y + (random.randrange(50) - 15)
+        id = get_prochain_id()
+        batiment = self.batiments[batimentsource][idbatiment]
 
-            self.persos[sorteperso][id] = Joueur.classespersos[sorteperso](self, id, batiment, self.couleur, x, y,
-                                                                           sorteperso)
-            self.current_supply += supply_cost
+        x = batiment.x + 100 + (random.randrange(50) - 15)
+        y = batiment.y + (random.randrange(50) - 15)
+
+        self.persos[sorteperso][id] = Joueur.classespersos[sorteperso](self, id, batiment, self.couleur, x, y,
+                                                                       sorteperso)
+        # self.current_supply += supply_cost
 
 
 
@@ -1511,7 +1511,7 @@ class Partie:
 
     def calculer_supply(self):
         for i in self.joueurs:
-            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire[0]) / 10)
+            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10)
 
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
@@ -1559,20 +1559,19 @@ class Partie:
                 if self.cartecase[j][i] not in territoire:
                     territoire.append(self.cartecase[j][i])
 
-        print(territoire)
-
         return territoire
 
     def territoitre_initial(self, x, y):
-        territoire = []
+        # territoire = []
         cx = int(x/20)
         cy= int(y/20)
         for i in self.joueurs.keys():
             for j in range(cx - 10, cx + 10):
                 for k in range(cy - 10, cy + 10):
-                    territoire.append(self.cartecase[k][j])
+                    self.joueurs[i].territoire.append(self.cartecase[k][j])
+                    # territoire.append(self.cartecase[k][j])
 
-        self.joueurs[i].territoire.append(territoire)
+        # self.joueurs[i].territoire.append(territoire)
         self.parent.afficher_territoire(self.joueurs[i].territoire)
         self.calculer_supply()
 
