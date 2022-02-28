@@ -201,7 +201,8 @@ class Vue():
                         "Bois": None,
                         "Roche": None,
                         "Aureus": None,
-                        "DNA": None}
+                        "DNA": None,
+                        "Supply": None,}
 
         # fonction interne uniquement pour reproduire chaque info de ressource
         def creer_champ_interne(listechamp):
@@ -522,6 +523,7 @@ class Vue():
                 self.infohud["Roche"][0].set(self.modele.joueurs[j].ressources["roche"])
                 self.infohud["Aureus"][0].set(self.modele.joueurs[j].ressources["aureus"])
                 self.infohud["DNA"][0].set(self.modele.joueurs[j].ressources["DNA"])
+                self.infohud["Supply"][0].set(self.modele.joueurs[j].ressources["Supply"])
                 self.infohud["msggeneral"][0].config(text=self.modele.msggeneral)
 
             # ajuster les constructions de chaque joueur
@@ -773,9 +775,7 @@ class Vue():
     def afficher_nouveau_territoire(self, territoire):
         for i in territoire:
             for j in i:
-                ## self.canevas.create_rectangle(j.x - 10, j.y - 10, j.x + 10, j.y + 10, outline="", fill="brown")
-
-                toto = self.canevas.create_rectangle(j.x * 20 - 10, j.y * 20 - 10, j.x * 20 + 10, j.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
+                self.canevas.create_rectangle(j.x * 20 - 10, j.y * 20 - 10, j.x * 20 + 10, j.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
                 self.canevas.tag_lower("territoire")
 
 

@@ -397,6 +397,7 @@ class Perso():
         self.cibleennemi = None
         self.mana = 100
         self.force = 5
+        self.supply_cost = 0
         self.champvision = 100
         self.vitesse = 5
         self.angle = None
@@ -607,6 +608,7 @@ class Soldat(Perso):
         self.force = 20
         self.hp = 2
         self.size = 10  # nombre à ajuster
+        self.supply_cost = 10
 
 
 class Archer(Perso):
@@ -614,6 +616,8 @@ class Archer(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
+        self.supply_cost = 10
+
 
 
 class Chevalier(Perso):
@@ -621,6 +625,8 @@ class Chevalier(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
+        self.supply_cost = 10
+
 
 
 class Druide(Perso):
@@ -628,6 +634,8 @@ class Druide(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
+        self.supply_cost = 10
+
 
 
 class Ingenieur(Perso):
@@ -635,6 +643,7 @@ class Ingenieur(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
+        self.supply_cost = 10
 
 
 class Ballista(Perso):
@@ -651,6 +660,8 @@ class Ballista(Perso):
         self.size = 2
         self.fleches = []
         self.cibleennemi = None
+        self.supply_cost = 10
+
         # self.nomimg="ballista"
 
     def cibler(self, pos):
@@ -702,10 +713,11 @@ class Ouvrier(Perso):
         self.ramassage = 0
         self.cibletemp = None
         self.dejavisite = []
-        self.champvision = random.randrange(100) + 300
+        self.champvision = 200
         self.champchasse = 120
         self.javelots = []
         self.vitesse = 7
+        self.supply_cost = 10
         self.etats_et_actions = {"bouger": self.bouger,
                                  "bougerGroupe": self.bougerGroupe,
                                  "ciblersiteconstruction": self.cibler_site_construction,
@@ -984,12 +996,15 @@ class Joueur():
         self.monchat = []
         self.chatneuf = 0
         self.territoire = []
+        self.supply = 0
+        self.current_supply = 0
         self.ressourcemorte = []
         self.ressources = {"nourriture": 200,
                            "arbre": 200,
                            "roche": 200,
                            "aureus": 200,
-                           "DNA": 50}
+                           "DNA": 50,
+                           "Supply": self.supply,}
         self.persos = {"ouvrier": {},
                        "soldat": {},
                        "archer": {},
@@ -1132,7 +1147,13 @@ class Joueur():
                 self.persos["ouvrier"][i].construire_site_construction(siteconstruction)
                 # self.persos["ouvrier"][i].construire_batiment(siteconstruction)
 
-            self.territoire.append(self.parent.aggrandir_territoire(param[2][0], param[2][1]))
+            nouveau_territoire = self.parent.aggrandir_territoire(param[2][0], param[2][1])
+
+            for i in nouveau_territoire:
+                if i not in self.territoire[0]:
+                    self.territoire[0].append(i)
+
+            self.parent.calculer_supply()
         else:
             print("Doit construire les nouveaux batiments à l'intérieur de son territoire")
 
@@ -1156,14 +1177,21 @@ class Joueur():
 
     def creer_perso(self, param):
         sorteperso, batimentsource, idbatiment, pos = param
-        id = get_prochain_id()
-        batiment = self.batiments[batimentsource][idbatiment]
 
-        x = batiment.x + 100 + (random.randrange(50) - 15)
-        y = batiment.y + (random.randrange(50) - 15)
+        supply_cost = self.persos[sorteperso].supply_cost
 
-        self.persos[sorteperso][id] = Joueur.classespersos[sorteperso](self, id, batiment, self.couleur, x, y,
-                                                                       sorteperso)
+        if self.current_supply + supply_cost <= self.supply:
+            id = get_prochain_id()
+            batiment = self.batiments[batimentsource][idbatiment]
+
+            x = batiment.x + 100 + (random.randrange(50) - 15)
+            y = batiment.y + (random.randrange(50) - 15)
+
+            self.persos[sorteperso][id] = Joueur.classespersos[sorteperso](self, id, batiment, self.couleur, x, y,
+                                                                           sorteperso)
+            self.current_supply += supply_cost
+
+
 
 
 #######################  LE MODELE est la partie #######################
@@ -1173,24 +1201,28 @@ class Partie:
                           "roche": 20,
                           "aureus": 2,
                           "DNA": 0,
+                          "Supply": 0,
                           "delai": 50},
                "abri": {"nourriture": 10,
                         "arbre": 10,
                         "roche": 5,
                         "aureus": 1,
                         "DNA": 0,
+                        "Supply": 0,
                         "delai": 30},
                "caserne": {"nourriture": 10,
                            "arbre": 10,
                            "roche": 5,
                            "aureus": 1,
                            "DNA": 0,
+                           "Supply": 0,
                            "delai": 60},
                "usineballiste": {"nourriture": 10,
                                  "arbre": 10,
                                  "roche": 5,
                                  "aureus": 1,
                                  "DNA": 0,
+                                 "Supply": 0,
                                  "delai": 80}
 
                }
@@ -1477,6 +1509,10 @@ class Partie:
         for i in self.joueurs:
             self.joueurs[i].ressources["DNA"] += 1
 
+    def calculer_supply(self):
+        for i in self.joueurs:
+            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire[0]) / 10)
+
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
     def make_carte_case(self):
@@ -1517,37 +1553,6 @@ class Partie:
         if cy == self.taillecarte:
             cy -= 1
 
-        # lol probably a better way to do this, ill fix it later
-
-        # cases = generer_cercle_pixel(cx, cy)
-        #
-        # for
-
-        # territoire.append(self.cartecase[cy+2][cx-1])
-        # territoire.append(self.cartecase[cy+2][cx])
-        # territoire.append(self.cartecase[cy+2][cx+1])
-        # territoire.append(self.cartecase[cy+1][cx-2])
-        # territoire.append(self.cartecase[cy+1][cx-1])
-        # territoire.append(self.cartecase[cy+1][cx])
-        # territoire.append(self.cartecase[cy+1][cx+1])
-        # territoire.append(self.cartecase[cy+1][cx+2])
-        # territoire.append(self.cartecase[cy][cx-2])
-        # territoire.append(self.cartecase[cy][cx-1])
-        # territoire.append(self.cartecase[cy][cx])
-        # territoire.append(self.cartecase[cy][cx+1])
-        # territoire.append(self.cartecase[cy][cx+2])
-        # territoire.append(self.cartecase[cy-1][cx-2])
-        # territoire.append(self.cartecase[cy-1][cx-1])
-        # territoire.append(self.cartecase[cy-1][cx])
-        # territoire.append(self.cartecase[cy-1][cx+1])
-        # territoire.append(self.cartecase[cy-1][cx+2])
-        # territoire.append(self.cartecase[cy-2][cx-1])
-        # territoire.append(self.cartecase[cy-2][cx])
-        # territoire.append(self.cartecase[cy-2][cx+1])
-
-
-
-        # print(self.generer_cercle_pixel(10, cx, cy))
 
         for i in range(cx - 10, cx + 10):
             for j in range(cy - 10, cy + 10):
@@ -1569,6 +1574,7 @@ class Partie:
 
         self.joueurs[i].territoire.append(territoire)
         self.parent.afficher_territoire(self.joueurs[i].territoire)
+        self.calculer_supply()
 
     # def mirror_points_8(self, x, y):
     #     """ Return 8-way symmetry of points. """
