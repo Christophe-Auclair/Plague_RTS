@@ -86,6 +86,176 @@ class Caserne():
         self.size = 20
 
 
+class CelluleBlanche():
+    def __init__(self, parent, id, x, y, notyperegion=-1, idregion=None):
+        self.parent = parent
+        self.id = id
+        self.etat = "vivant"
+        self.nomimg = "daim"
+        self.montype = "daim"
+        self.idregion = idregion
+        self.img = ""
+        self.x = x
+        self.y = y
+        self.hp = 1
+        self.champvision = 200
+        self.valeur = 40
+        self.position_visee = None
+        self.angle = None
+        self.dir = "GB"
+        self.img = self.nomimg + self.dir
+        self.cibleennemi = None
+        self.mana = 100
+        self.force = 5
+        self.vitesse = 3
+
+    def mourir(self):
+        self.etat = "mort"
+        self.position_visee = None
+
+    def deplacer(self):
+        if self.position_visee:
+            x = self.position_visee[0]
+            y = self.position_visee[1]
+            x1, y1 = Helper.getAngledPoint(self.angle, self.vitesse, self.x, self.y)
+            # probleme potentiel de depasser la bordure et de ne pas trouver la case suivante
+            case = self.parent.trouver_case(x1, y1)
+            # if case[0]>self.parent.taillecarte or case[0]<0:
+            #    self.cible=None
+            # elif case[1]>self.parent.taillecarte or case[1]<0:
+            #    self.cible=None
+            # else:
+            if case.montype != "plaine":
+                pass
+                # print("marche dans ",self.parent.regionstypes[self.parent.cartecase[case[1]][case[0]]])
+            # changer la vitesse tant qu'il est sur un terrain irregulier
+            # FIN DE TEST POUR SURFACE MARCHEE
+            self.x, self.y = x1, y1
+            dist = Helper.calcDistance(self.x, self.y, x, y)
+            if dist <= self.vitesse:
+                self.cible = None
+                self.position_visee = None
+        else:
+            if self.etat == "vivant":
+                self.trouver_cible()
+
+    def trouver_cible(self):
+        n = 1
+        while n:
+            x = (random.randrange(100) - 50) + self.x
+            y = (random.randrange(100) - 50) + self.y
+            case = self.parent.trouver_case(x, y)
+            # if case[0]>self.parent.taillecarte or case[0]<0:
+            #    continue
+            # if case[1]>self.parent.taillecarte or case[1]<0:
+            #    continue
+
+            if case.montype == "plaine":
+                self.position_visee = [x, y]
+                n = 0
+        self.angle = Helper.calcAngle(self.x, self.y, self.position_visee[0], self.position_visee[1])
+        if self.x < self.position_visee[0]:
+            self.dir = "D"
+        else:
+            self.dir = "G"
+        if self.y < self.position_visee[1]:
+            self.dir = self.dir + "B"
+        else:
+            self.dir = self.dir + "H"
+        self.img = self.nomimg + self.dir
+
+
+    def attaquer(self, ennemi):
+        self.cibleennemi = ennemi
+        x = self.cibleennemi.x
+        y = self.cibleennemi.y
+        self.cibler(ennemi)
+        dist = Helper.calcDistance(self.x, self.y, x, y)
+        if dist <= self.vitesse:
+            self.attaquerennemi()
+        else:
+            self.cibleennemi()
+
+    def attaquerennemi(self):
+        rep = self.cibleennemi.recevoir_coup(self.force)
+        if rep == 1:
+            self.cibleennemi = None
+            self.cible = None
+
+            self.trouverennemi()
+
+    def trouverennemi(self):
+
+        for i in self.parent.parent.joueurs:
+           # if self.parent.parent.joueurs[]
+            for j in self.parent.parent.joueurs[i].persos:
+                for k in self.parent.parent.joueurs[i].persos[j]:
+                    ennemi = self.parent.parent.joueurs[i].persos[j][k]
+                    if self.id != ennemi.id:
+                        distance = Helper.calcDistance(self.x, self.y, ennemi.x, ennemi.y)
+                        if distance <= self.champvision:
+                            self.cibleennemi = ennemi
+
+        if self.cibleennemi:
+            x = self.cibleennemi.x
+            y = self.cibleennemi.y
+            self.cibler(ennemi)
+            dist = Helper.calcDistance(self.x, self.y, x, y)
+            if dist <= self.vitesse:
+                self.attaquer(ennemi)
+            else:
+                self.deplacer()
+        else:
+            self.trouver_cible()
+
+
+    def recevoir_coup(self, force):
+        self.mana -= force
+        print("Ouch")
+        if self.mana < 1:
+            print("MORTS")
+            self.parent.annoncer_mort(self)
+            return 1
+
+    def cibler_ennemi(self):
+        reponse = self.bouger()
+        if reponse == "rendu":
+            self.actioncourante = "attaquerennemi"
+
+    def cibler(self, obj):
+        self.cible = obj
+        if obj:
+            self.position_visee = [self.cible.x, self.cible.y]
+            if self.x < self.position_visee[0]:
+                self.dir = "D"
+            else:
+                self.dir = "G"
+            self.image = self.image[:-1] + self.dir
+        else:
+
+            self.position_visee = None
+
+    def testCollisionUnite(self, x1, y1):
+        for i in self.parent.parent.joueurs:
+            for j in self.parent.parent.joueurs[i].persos:
+                for k in self.parent.parent.joueurs[i].persos[j]:
+                    obj = self.parent.parent.joueurs[i].persos[j][k]
+                    if len(self.parent.parent.joueurs[i].persos["ouvrier"]) > 1:
+                        if self.id != obj.id:
+                            if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
+                                return False
+
+
+    def testCollisionBatiment(self, x1, y1):
+        for i in self.parent.parent.joueurs:
+            for j in self.parent.parent.joueurs[i].batiments:
+                for k in self.parent.parent.joueurs[i].batiments[j]:
+                    obj = self.parent.parent.joueurs[i].batiments[j][k]
+                    if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
+                        return False
+
+
+
 class Daim():
     def __init__(self, parent, id, x, y, notyperegion=-1, idregion=None):
         self.parent = parent
@@ -159,6 +329,11 @@ class Daim():
         else:
             self.dir = self.dir + "H"
         self.img = self.nomimg + self.dir
+
+
+
+
+
 
 
 class Biotope():
@@ -938,6 +1113,27 @@ class Ouvrier(Perso):
     #             c = None
     #     self.angle = Helper.calcAngle(self.x, self.y, self.cible.x, self.cible.y)
 
+class NPC(Perso):
+    def __init__(self, parent, id, maison, couleur, x, y, montype):
+        Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
+        self.force = 20
+        self.hp = 2
+        self.size = 10
+        self.supply_cost = 10
+        self.delai_action = 40
+        self.delai_action_max = 40
+
+    def jouer_tour(self): #bouge pas encore
+        if not self.actioncourante:
+            self.delai_action -= 1
+            if self.delai_action == 0:
+               # self.trouverennemi()
+                if not self.actioncourante:
+                    pos = [self.x + random.randrange(-20, 20), self.y + random.randrange(-20,20)]
+                    self.deplacer(pos)
+                self.delai_action = self.delai_action_max
+
+
 
 class Region():
     def __init__(self, parent, id, x, y, taillex, tailley, montype):
@@ -1288,6 +1484,7 @@ class Partie:
         self.taillecarte = int(self.aireX / self.taillecase)
         self.cartecase = []
         self.make_carte_case()
+        self.NPCs = []
 
         self.delaiprochaineaction = 20
 
@@ -1301,7 +1498,8 @@ class Partie:
                               "soldat": Soldat,
                               "archer": Archer,
                               "chevalier": Chevalier,
-                              "druide": Druide}
+                              "druide": Druide,
+                              "NPC": NPC}
         self.ressourcemorte = []
         self.msggeneral = None
         self.msggeneraldelai = 30
@@ -1327,6 +1525,7 @@ class Partie:
         self.creer_biotopes()
         self.creer_population(mondict)
         self.produire_beacon()
+        self.creer_NPC(20)
 
     def calc_stats(self):
         total = 0
@@ -1475,6 +1674,20 @@ class Partie:
                     self.joueurs[i] = Joueur(self, id, i, coul, x, y)
                     n = 0
 
+    def creer_NPC(self, nbr = 100):
+
+        while nbr:
+            x = random.randrange(self.aireX)
+            y = random.randrange(self.aireY)
+            case = self.trouver_case(x, y)
+            if case.montype == "plaine":
+                id = get_prochain_id()
+                monNPC = NPC(self, id, None, "red", x, y, "NPC")
+                monNPC.image = None
+                self.NPCs.append(monNPC)
+                nbr -= 1
+
+
     def deplacer(self):
         for i in self.joueurs:
             self.joueurs[i].deplacer()
@@ -1493,6 +1706,9 @@ class Partie:
         # demander aux objets de s'activer
         for i in self.biotopes["daim"].keys():
             self.biotopes["daim"][i].deplacer()
+
+        for i in self.NPCs:
+            i.jouer_tour()
 
         for i in self.biotopes["eau"].keys():
             self.biotopes["eau"][i].jouer_prochain_coup()

@@ -607,6 +607,12 @@ class Vue():
                 self.btnchat.config(bg="orange")
             self.modele.joueurs[self.parent.monnom].chatneuf = 0
 
+
+        #affichage NPC
+        for j in self.modele.NPCs:
+            self.canevas.create_rectangle(j.x, j.y, j.x + 20, j.y + 40, fill="purple",
+                                      tags=("mobile", "", j.id, "NPC", "NPC", ""))
+
     def centrer_maison(self):
         self.root.update()
         cle = list(self.modele.joueurs[self.monnom].batiments["maison"].keys())[0]
