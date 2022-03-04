@@ -552,14 +552,14 @@ class Vue():
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
-                                                      tags=("mobile", j, p, "perso", i.montype, "persochoisi"))
+                                                      tags=("mobile", j, p, "perso", type(i).__name__, "persochoisi"))
                         # tags=(j,k,"artefact","mobile","persochoisi"))
 
                     # dessiner javelot de l'ouvrier
                     if p == "ouvrier":
                         for b in self.modele.joueurs[j].persos[p][k].javelots:
                             self.canevas.create_image(b.x, b.y, image=self.images[b.image],
-                                                      tags=("mobile", j, b.id, "", i.montype, ""))
+                                                      tags=("mobile", j, b.id, "", type(b).__name__, ""))
                             # tags=(j,b.id,"artefact","mobile","javelot"))
 
         # ajuster les choses vivantes dependantes de la partie (mais pas des joueurs)

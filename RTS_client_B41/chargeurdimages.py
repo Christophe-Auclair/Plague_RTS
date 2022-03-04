@@ -11,10 +11,41 @@ import os,os.path
 
 def chargerimages2():
     images = {
+
+        #teams
+        'virus': PhotoImage(file='images/teams/virus.png'),
+        'fungus': PhotoImage(file='images/teams/fungus.png'),
+        'bacteria': PhotoImage(file='images/teams/bacteria.png'),
+        'worm': PhotoImage(file='images/teams/worm.png'),
+
+        #ennemi
+        "globrouges": PhotoImage(file='images/ennemi/globrouges.png'),
+        'cellanimale': PhotoImage(file='images/ennemi/cellanimal.png'),
+
+        #cellules blanches
+        #"monocyte": PhotoImage(file='images/cellblanc/monocyte.png'),
+        'neutrophil': PhotoImage(file='images/cellblanc/neutrophil.png'),
+        'lymphocyte': PhotoImage(file='images/cellblanc/lymphocyte.png'),
+
+        #territoires
+        't_virus': PhotoImage(file='images/territoire/t_virus.png'),
+        't_fungus': PhotoImage(file='images/territoire/t_fungus.png'),
+        't_bacteria': PhotoImage(file='images/territoire/t_bacteria.png'),
+        't_worm': PhotoImage(file='images/territoire/t_worm.png'),
+
+        #misc
+        'seringue': PhotoImage(file='images/misc/seringe.png'),
+        'dna': PhotoImage(file='images/misc/dna.png'),
         'beacon': PhotoImage(file='images/beacon/beacon.png'),
+
+        #constructions
         'siteX': PhotoImage(file='images/divers/siteX.png'),
-        'EnConstruction': PhotoImage(file='images/divers/EnConstruction.png'),
-        'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'),
+        'EnConstruction': PhotoImage(file='images/divers/EnConstruction.png'), #L
+        'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'), #L
+
+
+        ########################## REDACTED IMAGES/OBJECTS ##########################
+        ##############weapon
         'flecheGH': PhotoImage(file='images/divers/flecheGH.png'),
         'flecheGB': PhotoImage(file='images/divers/flecheGB.png'),
         'flecheDH': PhotoImage(file='images/divers/flecheDH.png'),
@@ -23,7 +54,8 @@ def chargerimages2():
         'javelotGB': PhotoImage(file='images/divers/javelotGB.png'),
         'javelotDH': PhotoImage(file='images/divers/javelotDH.png'),
         'javelotDB': PhotoImage(file='images/divers/javelotDB.png'),
-        'cerfD': PhotoImage(file='images/animal/cerfD.png'),
+
+        #############animaux
         'cerfD': PhotoImage(file='images/animal/cerfD.png'),
         'cerfG': PhotoImage(file='images/animal/cerfG.png'),
         'cheval': PhotoImage(file='images/animal/cheval.png'),
@@ -37,6 +69,8 @@ def chargerimages2():
         'ours60_dh': PhotoImage(file='images/animal/ours60_dh.png'),
         'ours60_gb': PhotoImage(file='images/animal/ours60_gb.png'),
         'ours60_gh': PhotoImage(file='images/animal/ours60_gh.png'),
+
+        ##############ressources
         'arbre0grand': PhotoImage(file='images/arbre/arbre0grand.png'),
         'arbre0petit': PhotoImage(file='images/arbre/arbre0petit.png'),
         'arbre1grand': PhotoImage(file='images/arbre/arbre1grand.png'),
@@ -52,6 +86,8 @@ def chargerimages2():
         'aureusrocgrand': PhotoImage(file='images/aureus/aureusrocgrand.png'),
         'aureusrocmoyen': PhotoImage(file='images/aureus/aureusrocmoyen.png'),
         'aureusrocpetit': PhotoImage(file='images/aureus/aureusrocpetit.png'),
+
+        ##############equipe bleu
         'B_abri': PhotoImage(file='images/bleu/B_abri.png'),
         'B_usineballiste': PhotoImage(file='images/bleu/B_usineballiste.png'),
         'B_ballistaDH': PhotoImage(file='images/bleu/B_ballistaDH.png'),
@@ -71,6 +107,7 @@ def chargerimages2():
         'B_soldatD': PhotoImage(file='images/bleu/B_soldatD.png'),
         'B_soldatG': PhotoImage(file='images/bleu/B_soldatG.png'),
 
+        ##############equipe orange
         'O_abri': PhotoImage(file='images/orange/O_abri.png'),
         'O_usineballiste': PhotoImage(file='images/orange/O_usineballiste.png'),
         'O_ballistaDH': PhotoImage(file='images/orange/O_ballistaDH.png'),
@@ -90,6 +127,7 @@ def chargerimages2():
         'O_soldatD': PhotoImage(file='images/orange/O_soldatD.png'),
         'O_soldatG': PhotoImage(file='images/orange/O_soldatG.png'),
 
+        ##############objet environnant
         'gazonfond': PhotoImage(file='images/divers/gazonfond.png'),
         'quaiD': PhotoImage(file='images/divers/quaiD.png'),
         'quaiG': PhotoImage(file='images/divers/quaiG.png'),
@@ -110,6 +148,8 @@ def chargerimages2():
         'culturegrand': PhotoImage(file='images/ferme/culturegrand.png'),
         'culturemoyen': PhotoImage(file='images/ferme/culturemoyen.png'),
         'culturepetit': PhotoImage(file='images/ferme/culturepetit.png'),
+
+        ##############equipe jaune
         'J_abri': PhotoImage(file='images/jaune/J_abri.png'),
         'J_usineballiste': PhotoImage(file='images/jaune/J_usineballiste.png'),
         'J_ballistaDH': PhotoImage(file='images/jaune/J_ballistaDH.png'),
@@ -128,6 +168,8 @@ def chargerimages2():
         'J_ouvrierG': PhotoImage(file='images/jaune/J_ouvrierG.png'),
         'J_soldatD': PhotoImage(file='images/jaune/J_soldatD.png'),
         'J_soldatG': PhotoImage(file='images/jaune/J_soldatG.png'),
+
+        ##############objets environnant
         'marais1': PhotoImage(file='images/marais/marais1.png'),
         'marais2': PhotoImage(file='images/marais/marais2.png'),
         'marais3': PhotoImage(file='images/marais/marais3.png'),
@@ -140,6 +182,8 @@ def chargerimages2():
         'roches4grand': PhotoImage(file='images/roche/roches4grand.png'),
         'roches4petit': PhotoImage(file='images/roche/roches4petit.png'),
         'roches5grand': PhotoImage(file='images/roche/roches5grand.png'),
+
+        ##############equipe rouge
         'R_abri': PhotoImage(file='images/rouge/R_abri.png'),
         'R_archerD': PhotoImage(file='images/rouge/R_archerD.png'),
         'R_usineballiste': PhotoImage(file='images/rouge/R_usineballiste.png'),
@@ -158,6 +202,8 @@ def chargerimages2():
         'R_ouvrierG': PhotoImage(file='images/rouge/R_ouvrierG.png'),
         'R_soldatD': PhotoImage(file='images/rouge/R_soldatD.png'),
         'R_soldatG': PhotoImage(file='images/rouge/R_soldatG.png'),
+
+        ##############equipe vert ---- DEFAULT
         'V_abri': PhotoImage(file='images/vert/V_abri.png'),
         'V_usineballiste': PhotoImage(file='images/vert/V_usineballiste.png'),
         'V_ballistaDH': PhotoImage(file='images/vert/V_ballistaDH.png'),
@@ -178,7 +224,8 @@ def chargerimages2():
         'V_soldatG': PhotoImage(file='images/vert/V_soldatG.png')}
     return images
 
-images={}
+images = {}
+
 
 def chargerimages(chemin=None):
     if chemin==None:
@@ -193,6 +240,7 @@ def chargerimages(chemin=None):
             if ".png"==ext:
                     images[nom]=PhotoImage(file=che) #.replace("\\","/")
     return images
+
 
 def chargergifs():
     gifs = {}
