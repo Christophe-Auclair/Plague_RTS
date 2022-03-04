@@ -752,21 +752,59 @@ class Vue():
     def creer_entite(self, evt):
         x, y = evt.x, evt.y
         mestags = self.canevas.gettags(CURRENT)
+        type_batiment = mestags[4]
+        action = None
+
+        if type_batiment == "maison":
+            type_unite = "ouvrier"
+        elif type_batiment == "abri":
+            type_unite = "druide"
+        elif type_batiment == "caserne":
+            type_unite = "soldat"
+        elif type_batiment == "usineballiste":
+            type_unite = "ballista"
+
+        vals = self.parent.trouver_valeurs()
+
+
         if self.parent.monnom in mestags:
             if "batiment" in mestags:
                 if "maison" in mestags:
-                    pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                    action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val >= vals[type_unite][k]:
+                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
+                            action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
+                        else:
+                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                            break
                 if "caserne" in mestags:
-                    pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                    action = [self.parent.monnom, "creerperso", ["soldat", mestags[4], mestags[2], pos]]
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val >= vals[type_unite][k]:
+                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
+                            action = [self.parent.monnom, "creerperso", ["soldat", mestags[4], mestags[2], pos]]
+                        else:
+                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                            break
                 if "abri" in mestags:
-                    pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                    action = [self.parent.monnom, "creerperso", ["druide", mestags[4], mestags[2], pos]]
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val >= vals[type_unite][k]:
+                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
+                            action = [self.parent.monnom, "creerperso", ["druide", mestags[4], mestags[2], pos]]
+                        else:
+                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                            break
                 if "usineballiste" in mestags:
-                    pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                    action = [self.parent.monnom, "creerperso", ["ballista", mestags[4], mestags[2], pos]]
-                self.parent.actionsrequises.append(action)
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val >= vals[type_unite][k]:
+                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
+                            action = [self.parent.monnom, "creerperso", ["ballista", mestags[4], mestags[2], pos]]
+                        else:
+                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                            break
+                if action:
+                    self.parent.actionsrequises.append(action)
+
+
         ###### les ATTAQUES SUR BATIMENT INACTIFS
         # elif self.action.persochoisi:
         #     self.action.ciblechoisi=mestags
@@ -776,8 +814,6 @@ class Vue():
         for i in territoire:
             self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
             self.canevas.tag_lower("territoire")
-
-
 
 
 

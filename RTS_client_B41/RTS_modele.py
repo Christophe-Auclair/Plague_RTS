@@ -397,7 +397,6 @@ class Perso():
         self.cibleennemi = None
         self.mana = 100
         self.force = 5
-        self.supply_cost = 0
         self.champvision = 100
         self.vitesse = 5
         self.angle = None
@@ -554,7 +553,6 @@ class Perso():
                 self.dir = "G"
             self.image = self.image[:-1] + self.dir
         else:
-
             self.position_visee = None
 
     def test_etat_du_sol(self, x1, y1):
@@ -616,7 +614,7 @@ class Archer(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-        self.supply_cost = 10
+
 
 
 
@@ -625,7 +623,6 @@ class Chevalier(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-        self.supply_cost = 10
 
 
 
@@ -634,7 +631,6 @@ class Druide(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-        self.supply_cost = 10
 
 
 
@@ -643,7 +639,6 @@ class Ingenieur(Perso):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-        self.supply_cost = 10
 
 
 class Ballista(Perso):
@@ -660,7 +655,6 @@ class Ballista(Perso):
         self.size = 2
         self.fleches = []
         self.cibleennemi = None
-        self.supply_cost = 10
 
         # self.nomimg="ballista"
 
@@ -717,7 +711,6 @@ class Ouvrier(Perso):
         self.champchasse = 120
         self.javelots = []
         self.vitesse = 7
-        self.supply_cost = 10
         self.etats_et_actions = {"bouger": self.bouger,
                                  "bougerGroupe": self.bougerGroupe,
                                  "ciblersiteconstruction": self.cibler_site_construction,
@@ -1134,7 +1127,7 @@ class Joueur():
 
         # case = self.parent.trouver_case(int(param[2][1] / 20), int(param[2][0] / 20))
 
-        if (case) in self.territoire:
+        if case in self.territoire:
             id = get_prochain_id()
             vals = Partie.valeurs
             for k, val in self.ressources.items():
@@ -1177,9 +1170,10 @@ class Joueur():
     def creer_perso(self, param):
         sorteperso, batimentsource, idbatiment, pos = param
 
-        # supply_cost = self.persos[sorteperso].supply_cost
+        vals = Partie.valeurs
+        for k, val in self.ressources.items():
+            self.ressources[k] = val - vals[sorteperso][k]
 
-        # if self.current_supply + supply_cost <= self.supply:
 
         id = get_prochain_id()
         batiment = self.batiments[batimentsource][idbatiment]
@@ -1196,7 +1190,11 @@ class Joueur():
 
 #######################  LE MODELE est la partie #######################
 class Partie:
-    valeurs = {"maison": {"nourriture": 10,
+    valeurs = {
+
+        ### CRAFTING COSTS BATIMENTS
+
+               "maison": {"nourriture": 10,
                           "arbre": 20,
                           "roche": 20,
                           "aureus": 2,
@@ -1223,8 +1221,59 @@ class Partie:
                                  "aureus": 1,
                                  "DNA": 0,
                                  "Supply": 0,
-                                 "delai": 80}
+                                 "delai": 80},
 
+        ### CRAFTING COSTS UNITS
+
+               "soldat": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "archer": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "chevalier": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "druide": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "ingenieur": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "ballista": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 10,
+                                 "aureus": 10,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
+               "ouvrier": {"nourriture": 10,
+                                 "arbre": 10,
+                                 "roche": 0,
+                                 "aureus": 0,
+                                 "DNA": 0,
+                                 "Supply": 10,
+                                 "delai": 50},
                }
 
     def __init__(self, parent, mondict):
