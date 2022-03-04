@@ -750,10 +750,8 @@ class Vue():
             self.action.construire_batiment(pos)
 
     def creer_entite(self, evt):
-        x, y = evt.x, evt.y
         mestags = self.canevas.gettags(CURRENT)
         type_batiment = mestags[4]
-        action = None
 
         if type_batiment == "maison":
             type_unite = "ouvrier"
@@ -766,43 +764,36 @@ class Vue():
 
         vals = self.parent.trouver_valeurs()
 
+        ok = 1
 
         if self.parent.monnom in mestags:
             if "batiment" in mestags:
                 if "maison" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val >= vals[type_unite][k]:
-                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                            action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
-                        else:
-                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                        if val < vals[type_unite][k]:
+                            ok = 0
                             break
                 if "caserne" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val >= vals[type_unite][k]:
-                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                            action = [self.parent.monnom, "creerperso", ["soldat", mestags[4], mestags[2], pos]]
-                        else:
-                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                        if val < vals[type_unite][k]:
+                            ok = 0
                             break
                 if "abri" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val >= vals[type_unite][k]:
-                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                            action = [self.parent.monnom, "creerperso", ["druide", mestags[4], mestags[2], pos]]
-                        else:
-                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                        if val < vals[type_unite][k]:
+                            ok = 0
                             break
                 if "usineballiste" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val >= vals[type_unite][k]:
-                            pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
-                            action = [self.parent.monnom, "creerperso", ["ballista", mestags[4], mestags[2], pos]]
-                        else:
-                            print("VOUS N'AVEZ PAS ASSEZ DE", k)
+                        if val < vals[type_unite][k]:
+                            ok = 0
                             break
-                if action:
+                if ok:
+                    pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
+                    action = [self.parent.monnom, "creerperso", [type_unite, mestags[4], mestags[2], pos]]
                     self.parent.actionsrequises.append(action)
+                else:
+                    print("VOUS N'AVEZ PAS ASSEZ DE", k)
 
 
         ###### les ATTAQUES SUR BATIMENT INACTIFS
