@@ -17,6 +17,7 @@ class Vue():
         self.parent = parent
         self.root = Tk()
         self.root.title("Je suis " + monnom)
+        self.root.iconbitmap('images/teams/virus.ico')
         self.monnom = monnom
         # attributs
         self.cadrechaton = 0
@@ -227,8 +228,12 @@ class Vue():
 
         self.btnchat = Button(self.cadrejeuinfo, text="Chat", command=self.action.chatter)
         self.btnaide = Button(self.cadrejeuinfo, text="Aide", command=self.action.aider)
+        self.btnskill = Button(self.cadrejeuinfo, text="Skill", command=self.action.skill)
+
         self.btnaide.pack(side=RIGHT)
         self.btnchat.pack(side=RIGHT)
+        self.btnskill.pack(side=RIGHT)
+
 
         self.cadrejeuinfo.grid(row=0, column=0, sticky=E + W, columnspan=2)
 
@@ -827,6 +832,7 @@ class Action():
         self.widgetsactifs = []
         self.chaton = 0
         self.aideon = 0
+        self.skillon = 0
 
     def attaquer(self, evt):
         tag = self.parent.canevas.gettags(CURRENT)
@@ -920,6 +926,20 @@ class Action():
         else:
             self.parent.canevas.delete(self.aideon)
             self.aideon = 0
+
+    def skill(self):
+        if self.skillon == 0:
+            self.windowskill = Tk()
+            self.windowskill.title("Skill Tree ")
+            self.windowskill.iconbitmap('images/misc/dna.ico')
+
+            self.label = Label(self.windowskill, text="Skill Tree lmao")
+            # self.btnL = Button(self.label, highlightthickness=0, bd=0, image=self.parent.images["daimMORT"])
+            self.label.pack(pady=250, padx=400)
+            # self.btnL.pack()
+
+        else:
+            self.parent.canevas.delete(self.skillon)
 
     ### FIN des methodes pour lancer la partie
 

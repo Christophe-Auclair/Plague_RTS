@@ -20,6 +20,7 @@ class SiteConstruction():
         self.sorte = sorte
         self.delai = Partie.valeurs[self.sorte]["delai"]
         self.size = 0
+
     def decremente_delai(self):
         self.delai -= 1
 
