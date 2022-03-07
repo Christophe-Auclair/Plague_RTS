@@ -775,15 +775,12 @@ class Perso():
                     if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
                         return False
 
-
 class Soldat(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.force = 20
         self.hp = 2
         self.size = 10  # nombre à ajuster
-        self.supply_cost = 10
-
 
 class Archer(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
@@ -791,16 +788,11 @@ class Archer(Perso):
         self.hp = 2
         self.size = 2
 
-
-
-
 class Chevalier(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-
-
 
 class Druide(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
@@ -808,14 +800,11 @@ class Druide(Perso):
         self.hp = 2
         self.size = 2
 
-
-
 class Ingenieur(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
-
 
 class Ballista(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
@@ -1186,7 +1175,7 @@ class Joueur():
         self.monchat = []
         self.chatneuf = 0
         self.territoire = []
-        self.supply = 0
+        self.total_supply = 0
         self.current_supply = 0
         self.ressourcemorte = []
         self.ressources = {"nourriture": 200,
@@ -1194,7 +1183,7 @@ class Joueur():
                            "roche": 200,
                            "aureus": 200,
                            "DNA": 50,
-                           "Supply": self.supply,}
+                           "Supply": self.total_supply - self.current_supply,}
         self.persos = {"ouvrier": {},
                        "soldat": {},
                        "archer": {},
@@ -1342,6 +1331,7 @@ class Joueur():
                 if i not in self.territoire:
                     self.territoire.append(i)
 
+            # self.parent.calculer_total_supply()
             self.parent.calculer_supply()
         else:
             print("Doit construire les nouveaux batiments à l'intérieur de son territoire")
@@ -1369,7 +1359,8 @@ class Joueur():
 
         vals = Partie.valeurs
         for k, val in self.ressources.items():
-            self.ressources[k] = val - vals[sorteperso][k]
+            if k != "Supply":
+                self.ressources[k] = val - vals[sorteperso][k]
 
 
         id = get_prochain_id()
@@ -1380,10 +1371,8 @@ class Joueur():
 
         self.persos[sorteperso][id] = Joueur.classespersos[sorteperso](self, id, batiment, self.couleur, x, y,
                                                                        sorteperso)
-        # self.current_supply += supply_cost
-
-
-
+        # self.parent.calculer_current_supply()
+        self.parent.calculer_supply()
 
 #######################  LE MODELE est la partie #######################
 class Partie:
@@ -1775,9 +1764,27 @@ class Partie:
         for i in self.joueurs:
             self.joueurs[i].ressources["DNA"] += 1
 
+    # def calculer_total_supply(self):
+    #     for i in self.joueurs:
+    #         self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
+    #         self.joueurs[i].total_supply = int(len(self.joueurs[i].territoire) / 10)
+    #
+    # def calculer_current_supply(self):
+    #     for i in self.joueurs:
+    #         self.joueurs[i].current_supply = 0
+    #         for j in self.joueurs[i].persos:
+    #             # if j == "ouvrier":
+    #             self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
+
     def calculer_supply(self):
         for i in self.joueurs:
-            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10)
+            self.joueurs[i].total_supply = int(len(self.joueurs[i].territoire) / 10)
+            self.joueurs[i].current_supply = 0
+            for j in self.joueurs[i].persos:
+                # if j == "ouvrier":
+                self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
+            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
+
 
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
@@ -1839,6 +1846,7 @@ class Partie:
 
         # self.joueurs[i].territoire.append(territoire)
         self.parent.afficher_territoire(self.joueurs[i].territoire)
+        # self.calculer_total_supply()
         self.calculer_supply()
 
     # def mirror_points_8(self, x, y):

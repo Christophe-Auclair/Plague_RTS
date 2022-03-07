@@ -528,7 +528,7 @@ class Vue():
                 self.infohud["Roche"][0].set(self.modele.joueurs[j].ressources["roche"])
                 self.infohud["Aureus"][0].set(self.modele.joueurs[j].ressources["aureus"])
                 self.infohud["DNA"][0].set(self.modele.joueurs[j].ressources["DNA"])
-                self.infohud["Supply"][0].set(self.modele.joueurs[j].ressources["Supply"])
+                self.infohud["Supply"][0].set(str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))
                 self.infohud["msggeneral"][0].config(text=self.modele.msggeneral)
 
             # ajuster les constructions de chaque joueur
@@ -744,7 +744,7 @@ class Vue():
         vals = self.parent.trouver_valeurs()
         ok = 1
         for k, val in self.modele.joueurs[self.monnom].ressources.items():
-            if val <= vals[nomsorte][k]:
+            if val < vals[nomsorte][k]:
                 ok = 0  # on indique qu'on a PAS les ressources
                 break
         if ok:
