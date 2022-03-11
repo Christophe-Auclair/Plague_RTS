@@ -98,19 +98,17 @@ class Vue():
         ############ ## NOTES : ceci est un exemple pour ajouter des options au cadresplash
         # ## POUR CHOIX CIVILISATION, 4 OPTIONS
         # # LA VARIABLE DONT LA VALEUR CHANGERA AU FIL DES CLICK
-        # self.valciv = StringVar(self.cadresplash, "1")
-        # # LES 4 BTN RADIO
-        # radciv1 = Radiobutton(text="Azteque", variable=self.valciv, value="Azteque")
-        # radciv2 = Radiobutton(text="Congolaise", variable=self.valciv, value="Congolaise")
-        # radciv3 = Radiobutton(text="Russe", variable=self.valciv, value="Russe")
-        # radciv4 = Radiobutton(text="Maya", variable=self.valciv, value="Maya")
-        # radciv5 = Radiobutton(text="Magyar", variable=self.valciv, value="Magyar")
-        # # LE PLACEMENTS DES BTN RADIOS
-        # self.canevassplash.create_window(220, 350, window=radciv1, width=180, height=30)
-        # self.canevassplash.create_window(220, 380, window=radciv2, width=180, height=30)
-        # self.canevassplash.create_window(220, 410, window=radciv3, width=180, height=30)
-        # self.canevassplash.create_window(220, 440, window=radciv4, width=180, height=30)
-        # self.canevassplash.create_window(220, 470, window=radciv5, width=180, height=30)
+        self.valciv = StringVar(self.cadresplash, "1")
+        # LES 4 BTN RADIO
+        radciv1 = Radiobutton(text="Virus", variable=self.valciv, value="Virus")
+        radciv2 = Radiobutton(text="Fungus", variable=self.valciv, value="Fungus")
+        radciv3 = Radiobutton(text="Worm", variable=self.valciv, value="Worm")
+        radciv4 = Radiobutton(text="Bacterie", variable=self.valciv, value="Bacterie")
+        # LE PLACEMENTS DES BTN RADIOS
+        self.canevassplash.create_window(220, 350, window=radciv1, width=180, height=30)
+        self.canevassplash.create_window(220, 380, window=radciv2, width=180, height=30)
+        self.canevassplash.create_window(220, 410, window=radciv3, width=180, height=30)
+        self.canevassplash.create_window(220, 440, window=radciv4, width=180, height=30)
         # ## ##########    FIN de l'exemple des choix de civilisations
 
         ############# NOTE le bouton suivant permet de générer un Frame issu d'un autre module et l'intégrer à la vue directement
