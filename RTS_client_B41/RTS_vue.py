@@ -614,9 +614,10 @@ class Vue():
 
 
         #affichage NPC
-        for j in self.modele.NPCs:
-            self.canevas.create_rectangle(j.x, j.y, j.x + 20, j.y + 40, fill="purple",
-                                      tags=("mobile", "", j.id, "NPC", "NPC", ""))
+        for j in self.modele.NPCs["NPC1"].keys():
+            i = self.modele.NPCs["NPC1"][j]
+            self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
+                                      tags=("mobile", "", i.id, "NPC", "NPC", ""))
 
     def centrer_maison(self):
         self.root.update()

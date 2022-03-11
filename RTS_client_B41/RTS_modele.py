@@ -1098,7 +1098,7 @@ class Ouvrier(Perso):
     #             c = None
     #     self.angle = Helper.calcAngle(self.x, self.y, self.cible.x, self.cible.y)
 
-class NPC(Perso):
+class NPC1(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.force = 20
@@ -1208,6 +1208,10 @@ class Joueur():
                         "attaquer": self.attaquer,
                         "chatter": self.chatter,
                         "abandonner": self.abandonner}
+
+        self.skilltree = {"skill1": 0,
+                          "skill2": 0,
+                          "skill3": 0}
         # on va creer une maison comme centre pour le joueur
         self.creer_point_origine(x, y)
 
@@ -1228,11 +1232,18 @@ class Joueur():
     def attaquer(self, param):
         attaquants, attaque = param
         nomjoueur, idperso, sorte = attaque
-        if sorte in self.parent.joueurs[nomjoueur].persos.keys():
+
+
+        if sorte in self.parent.NPCs.keys():             #a fixer
+            ennemi = self.parent.NPCs[sorte][idperso]
+
+        elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
             ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
 
         elif sorte in self.parent.joueurs[nomjoueur].batiments.keys():
             ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][idperso]
+
+
 
         for i in self.persos.keys():
             for j in attaquants:
@@ -1497,7 +1508,7 @@ class Partie:
         self.taillecarte = int(self.aireX / self.taillecase)
         self.cartecase = []
         self.make_carte_case()
-        self.NPCs = []
+        self.NPCs = {"NPC1": {}}
 
         self.delaiprochaineaction = 20
 
@@ -1518,7 +1529,7 @@ class Partie:
                               "archer": Archer,
                               "chevalier": Chevalier,
                               "druide": Druide,
-                              "NPC": NPC}
+                              "NPC1": NPC1}
         self.ressourcemorte = []
         self.msggeneral = None
         self.msggeneraldelai = 30
@@ -1704,9 +1715,12 @@ class Partie:
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
-                monNPC = NPC(self, id, None, "red", x, y, "NPC")
-                monNPC.image = None
-                self.NPCs.append(monNPC)
+                sorte = "NPC1"
+               # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
+               # monNPC.image = None
+                self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
+                self.NPCs[sorte][id].image = None
+                #self.NPCs.append(monNPC)
                 nbr -= 1
 
 
@@ -1729,8 +1743,9 @@ class Partie:
         for i in self.biotopes["daim"].keys():
             self.biotopes["daim"][i].deplacer()
 
-        for i in self.NPCs:
-            i.jouer_tour()
+        for i in self.NPCs["NPC1"].keys():                #a fixer
+            self.NPCs["NPC1"][i].jouer_tour()
+          #  i.jouer_prochain_coup()
 
         for i in self.biotopes["eau"].keys():
             self.biotopes["eau"][i].jouer_prochain_coup()
