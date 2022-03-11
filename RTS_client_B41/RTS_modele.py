@@ -349,9 +349,10 @@ class Biotope():
 class Beacon(Biotope):
     typeressource = ['beacon']
 
-    def __init__(self, parent, id, monimg, x, y, montype):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype)
+    def __init__(self, parent, id, monimg, x, y, montype, case):
+        Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
         self.valeur = 100
+        self.case = case
         n = random.randrange(50)
         if n == 6:
             self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
@@ -1796,13 +1797,13 @@ class Partie:
         typeressource = Beacon.typeressource
         n = 10
         while n:
-            x = random.randrange(1000 + (self.aireX / 2))
-            y = random.randrange(1000 + (self.aireY / 2))
+            x = random.randrange(int(1000 + (self.aireX / 2)))
+            y = random.randrange(int(1000 + (self.aireY / 2)))
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
                 img = random.choice(typeressource)
-                beacon = Beacon(self, id, img, x, y, "beacon")
+                beacon = Beacon(self, id, img, x, y, "beacon", case)
                 self.biotopes["beacon"][id] = beacon
                 n -= 1
                 self.parent.afficher_bio(beacon)
@@ -1873,9 +1874,19 @@ class Partie:
         if cy == self.taillecarte:
             cy -= 1
 
-
         for i in range(cx - 10, cx + 10):
             for j in range(cy - 10, cy + 10):
+
+                for k in self.biotopes["beacon"]:
+                    case = self.biotopes["beacon"][k].case
+                    if case.x == i and case.y == j:
+                        print("beacon!")
+                        for l in range(case.x - 20, case.x + 20):
+                            for m in range(case.y - 20, case.y + 20):
+                                if self.cartecase[m][l] not in territoire:
+                                    territoire.append(self.cartecase[m][l])
+
+
                 if self.cartecase[j][i] not in territoire:
                     territoire.append(self.cartecase[j][i])
 
