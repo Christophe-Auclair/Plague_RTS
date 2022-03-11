@@ -404,7 +404,9 @@ class Vue():
         coul = self.modele.joueurs[self.parent.monnom].couleur
         self.cadrejeuinfo.config(bg=coul[1])
         self.creer_aide()
-        self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
+        # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
+        self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
+
         self.creer_chatter()
         # on affiche les maisons, point de depart des divers joueurs
         self.afficher_depart()
@@ -764,13 +766,22 @@ class Vue():
         mestags = self.canevas.gettags(CURRENT)
         type_batiment = mestags[4]
 
+        # if type_batiment == "maison":
+        #     type_unite = "ouvrier"
+        # elif type_batiment == "abri":
+        #     type_unite = "druide"
+        # elif type_batiment == "caserne":
+        #     type_unite = "soldat"
+        # elif type_batiment == "usineballiste":
+        #     type_unite = "ballista"
+
         if type_batiment == "maison":
             type_unite = "ouvrier"
-        elif type_batiment == "abri":
+        elif type_batiment == "monocyte":
             type_unite = "druide"
-        elif type_batiment == "caserne":
+        elif type_batiment == "lymphocyte":
             type_unite = "soldat"
-        elif type_batiment == "usineballiste":
+        elif type_batiment == "neutrophil":
             type_unite = "ballista"
 
         vals = self.parent.trouver_valeurs()
@@ -779,26 +790,48 @@ class Vue():
 
         if self.parent.monnom in mestags:
             if "batiment" in mestags:
-                if "maison" in mestags:
+                # if "maison" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "caserne" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "abri" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "usineballiste" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+
+                if "cellanimal" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "caserne" in mestags:
+                if "lymphocyte" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "abri" in mestags:
+                if "monocyte" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "usineballiste" in mestags:
+                if "neutrophil" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
+
                 if ok:
                     pos = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
                     action = [self.parent.monnom, "creerperso", [type_unite, mestags[4], mestags[2], pos]]

@@ -332,11 +332,6 @@ class Daim():
         self.img = self.nomimg + self.dir
 
 
-
-
-
-
-
 class Biotope():
     def __init__(self, parent, id, monimg, x, y, montype, idregion=0, posid="0"):
         self.parent = parent
@@ -1192,10 +1187,16 @@ class Joueur():
                        "ingenieur": {},
                        "ballista": {}}
 
+        # self.batiments = {"maison": {},
+        #                   "abri": {},
+        #                   "caserne": {},
+        #                   "usineballiste": {},
+        #                   "siteconstruction": {}}
+
         self.batiments = {"maison": {},
-                          "abri": {},
-                          "caserne": {},
-                          "usineballiste": {},
+                          "lymphocyte": {},
+                          "monocyte": {},
+                          "neutrophil": {},
                           "siteconstruction": {}}
 
         self.actions = {"creerperso": self.creer_perso,
@@ -1387,21 +1388,43 @@ class Partie:
                           "DNA": 0,
                           "Supply": 0,
                           "delai": 50},
-               "abri": {"nourriture": 10,
+               # "abri": {"nourriture": 10,
+               #          "arbre": 10,
+               #          "roche": 5,
+               #          "aureus": 1,
+               #          "DNA": 0,
+               #          "Supply": 0,
+               #          "delai": 30},
+               # "caserne": {"nourriture": 10,
+               #             "arbre": 10,
+               #             "roche": 5,
+               #             "aureus": 1,
+               #             "DNA": 0,
+               #             "Supply": 0,
+               #             "delai": 60},
+               # "usineballiste": {"nourriture": 10,
+               #                   "arbre": 10,
+               #                   "roche": 5,
+               #                   "aureus": 1,
+               #                   "DNA": 0,
+               #                   "Supply": 0,
+               #                   "delai": 80},
+
+               "lymphocyte": {"nourriture": 10,
                         "arbre": 10,
                         "roche": 5,
                         "aureus": 1,
                         "DNA": 0,
                         "Supply": 0,
                         "delai": 30},
-               "caserne": {"nourriture": 10,
+               "monocyte": {"nourriture": 10,
                            "arbre": 10,
                            "roche": 5,
                            "aureus": 1,
                            "DNA": 0,
                            "Supply": 0,
                            "delai": 60},
-               "usineballiste": {"nourriture": 10,
+               "neutrophil": {"nourriture": 10,
                                  "arbre": 10,
                                  "roche": 5,
                                  "aureus": 1,
@@ -1480,10 +1503,16 @@ class Partie:
 
         self.joueurs = {}
         ###  reference vers les classes appropriées
+        # self.classesbatiments = {"maison": Maison,
+        #                          "caserne": Caserne,
+        #                          "abri": Abri,
+        #                          "usineballiste": Usineballiste}
+
         self.classesbatiments = {"maison": Maison,
-                                 "caserne": Caserne,
-                                 "abri": Abri,
-                                 "usineballiste": Usineballiste}
+                                 "lymphocyte": Caserne,
+                                 "monocyte": Abri,
+                                 "neutrophil": Usineballiste}
+
         self.classespersos = {"ouvrier": Ouvrier,
                               "soldat": Soldat,
                               "archer": Archer,
@@ -1553,11 +1582,11 @@ class Partie:
                 self.biotopes["daim"][id] = mondaim
                 self.listebiotopes.append(mondaim)
                 n -= 1
-        self.creer_biotope("arbre", "arbre", Arbre)
-        self.creer_biotope("roche", "roche", Roche)
-        self.creer_biotope("eau", "eau", Eau)
-        self.creer_biotope("marais", "marais", Marais)
-        self.creer_biotope("aureus", "aureus", Aureus)
+        # self.creer_biotope("arbre", "arbre", Arbre)
+        # self.creer_biotope("roche", "roche", Roche)
+        # self.creer_biotope("eau", "eau", Eau)
+        # self.creer_biotope("marais", "marais", Marais)
+        # self.creer_biotope("aureus", "aureus", Aureus)
 
     def creer_biotope(self, region, ressource, typeclasse):  # creation des forets
         typeressource = typeclasse.typeressource
@@ -1639,7 +1668,10 @@ class Partie:
                 self.regions[nomregion][id] = newregion
 
     def creer_population(self, mondict):
-        couleurs = [["O", "orange"], ["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
+        couleurs = [["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
+        # couleurs = [["V", "virus"], ["F", "fungus"], ["W", "worm"], ["B", "bacteria"]]
+
+
         quadrants = [[[0, 0], [int(self.aireX / 2), int(self.aireY / 2)]],
                      [[int(self.aireX / 2), 0], [self.aireX, int(self.aireY / 2)]],
                      [[0, int(self.aireY / 2)], [int(self.aireX / 2), self.aireY]],
