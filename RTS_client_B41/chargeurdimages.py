@@ -21,6 +21,7 @@ def chargerimages2():
         #ennemi
         "globrouges": PhotoImage(file='images/ennemi/globrouges.png'),
         # 'cellanimale': PhotoImage(file='images/ennemi/cellanimal.png'),
+        "npc": PhotoImage(file="images/ennemi/npc.png"),
 
         #cellules blanches
         "monocyte": PhotoImage(file='images/cellblanc/monocyte.png'),
@@ -153,9 +154,9 @@ def chargerimages2():
         'arbre2grand': PhotoImage(file='images/arbre/arbre2grand.png'),
         'arbresapin0grand': PhotoImage(file='images/arbre/arbresapin0grand.png'),
         'arbresapin0petit': PhotoImage(file='images/arbre/arbresapin0petit.png'),
-        'baiegrand': PhotoImage(file='images/arbuste/arbustebaiesgrand.png'),
-        'baiepetit': PhotoImage(file='images/arbuste/arbustebaiespetit.png'),
-        'baievert': PhotoImage(file='images/arbuste/arbustevert.png'),
+        # 'baiegrand': PhotoImage(file='images/arbuste/arbustebaiesgrand.png'),
+        # 'baiepetit': PhotoImage(file='images/arbuste/arbustebaiespetit.png'),
+        # 'baievert': PhotoImage(file='images/arbuste/arbustevert.png'),
         'aureusbrillant': PhotoImage(file='images/aureus/aureusbrillant.png'),
         'aureusD_': PhotoImage(file='images/aureus/aureusD_.png'),
         'aureusG': PhotoImage(file='images/aureus/aureusG.png'),

@@ -369,14 +369,14 @@ class Beacon(Biotope):
                 self.spriteno = 0
 
 
-class Baie(Biotope):
-    typeressource = ['arbustebaiesgrand',
-                     'arbustebaiespetit',
-                     'arbustevert']
-
-    def __init__(self, parent, id, monimg, x, y, montype):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype)
-        self.valeur = 30
+# class Baie(Biotope):
+#     typeressource = ['arbustebaiesgrand',
+#                      'arbustebaiespetit',
+#                      'arbustevert']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype)
+#         self.valeur = 30
 
 
 class Marais(Biotope):
@@ -896,7 +896,7 @@ class Ouvrier(Perso):
         reponse = self.bouger()
         if reponse == "rendu":
             if self.cible:
-                if self.typeressource == "baie" or self.typeressource == "daim" or self.typeressource == "eau":
+                if self.typeressource == "daim" or self.typeressource == "eau":  # or self.typeressource == "baie"
                     self.parent.ressources["nourriture"] += self.ramassage
                 else:
                     self.parent.ressources[self.typeressource] += self.ramassage
@@ -998,7 +998,7 @@ class Ouvrier(Perso):
 
     def chercher_nouvelle_ressource(self, typ, idreg):
         print("Je cherche nouvelle ressource")
-        if typ != "baie" and typ != "daim":
+        if typ != "daim":  # and typ != "baie"
             reg = self.parent.parent.regions[typ]
             if idreg in reg:
                 regspec = self.parent.parent.regions[typ][idreg]
@@ -1542,7 +1542,7 @@ class Partie:
                          "aureus": {},
                          "eau": {},
                          "marais": {},
-                         "baie": {},
+                         # "baie": {},
                          "beacon": {}
                          }
 
@@ -1720,7 +1720,7 @@ class Partie:
                # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
                # monNPC.image = None
                 self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
-                self.NPCs[sorte][id].image = None
+                self.NPCs[sorte][id].image = "npc"
                 #self.NPCs.append(monNPC)
                 nbr -= 1
 
@@ -1772,26 +1772,26 @@ class Partie:
 
     def faire_action_partie(self):
         if self.delaiprochaineaction == 0:
-            self.produire_action()
+            # self.produire_action() #baies
             self.produireDNA()
             self.delaiprochaineaction = random.randrange(20, 30)
         else:
             self.delaiprochaineaction -= 1
 
-    def produire_action(self):
-        typeressource = Baie.typeressource
-        n = 1
-        while n:
-            x = random.randrange(self.aireX)
-            y = random.randrange(self.aireY)
-            case = self.trouver_case(x, y)
-            if case.montype == "plaine":
-                id = get_prochain_id()
-                img = random.choice(typeressource)
-                baie = Baie(self, id, img, x, y, "baie")
-                self.biotopes["baie"][id] = baie
-                n -= 1
-                self.parent.afficher_bio(baie)
+    # def produire_action(self):  #baies
+    #     typeressource = Baie.typeressource
+    #     n = 1
+    #     while n:
+    #         x = random.randrange(self.aireX)
+    #         y = random.randrange(self.aireY)
+    #         case = self.trouver_case(x, y)
+    #         if case.montype == "plaine":
+    #             id = get_prochain_id()
+    #             img = random.choice(typeressource)
+    #             baie = Baie(self, id, img, x, y, "baie")
+    #             self.biotopes["baie"][id] = baie
+    #             n -= 1
+    #             self.parent.afficher_bio(baie)
 
     def produire_beacon(self):
         typeressource = Beacon.typeressource

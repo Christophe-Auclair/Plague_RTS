@@ -155,7 +155,7 @@ class Vue():
     ### cadre de jeu : inclus aire de jeu, le HUD, le cadre_jeu_action
     def creer_cadre_jeu(self):
         # le cadre principal du jeu, remplace le Lobby
-        self.cadrepartie = Frame(self.cadreapp, bg="green", width=400, height=400)
+        self.cadrepartie = Frame(self.cadreapp, bg="#d36060", width=400, height=400)
         # cadre du jeu et ses scrollbars
         self.creer_aire_de_jeu()
         # cadre pour info sur les ressources du joueur en haut de l'aire de jeu
@@ -174,7 +174,7 @@ class Vue():
         # on crée les scrollbar AVANT le canevas de jeu car le canevas est dépendant de leur
         self.scrollV = Scrollbar(self.cadrecanevas, orient=VERTICAL)
         self.scrollH = Scrollbar(self.cadrecanevas, orient=HORIZONTAL)
-        self.canevas = Canvas(self.cadrecanevas, width=400, height=400, bg="DarkOliveGreen2",
+        self.canevas = Canvas(self.cadrecanevas, width=400, height=400, bg="#d36060",
                               yscrollcommand=self.scrollV.set,
                               xscrollcommand=self.scrollH.set)
         self.scrollV.config(command=self.canevas.yview)
@@ -279,7 +279,7 @@ class Vue():
         self.canevas.tag_bind("arbre", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("aureus", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("roche", "<Button-1>", self.ramasser_ressource)
-        self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
+        # self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("eau", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("daim", "<Button-1>", self.chasser_ressource)
 
@@ -616,8 +616,9 @@ class Vue():
         #affichage NPC
         for j in self.modele.NPCs["NPC1"].keys():
             i = self.modele.NPCs["NPC1"][j]
-            self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
-                                      tags=("mobile", "", i.id, "NPC", "NPC", ""))
+            # self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
+            #                           tags=("mobile", "", i.id, "NPC", "NPC", ""))
+            self.canevas.create_image(i.x, i.y, image=self.images[i.image])
 
     def centrer_maison(self):
         self.root.update()
@@ -966,8 +967,10 @@ class Action():
             self.windowskill.iconbitmap('images/misc/dna.ico')
 
             self.label = Label(self.windowskill, text="Skill Tree lmao")
+            self.button1 = Button(self.windowskill, text="lol")
             # self.btnL = Button(self.label, highlightthickness=0, bd=0, image=self.parent.images["daimMORT"])
             self.label.pack(pady=250, padx=400)
+            self.button1.pack()
             # self.btnL.pack()
 
         else:
