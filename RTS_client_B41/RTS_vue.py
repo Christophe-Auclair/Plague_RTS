@@ -404,6 +404,7 @@ class Vue():
         self.creer_aide()
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
+        # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
 
         self.creer_chatter()
         # on affiche les maisons, point de depart des divers joueurs
@@ -417,6 +418,13 @@ class Vue():
             btn = Button(self.cadreouvrier, text=i, image=self.images[coul + i])
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
+
+    # def creer_cadre_cellules(self, coul, artefacts):
+    #     self.cadrecellules = Frame(self.canevasaction)
+    #     for i in artefacts:
+    #         btn = Button(self.cadrecellules, text=i, image=self.images[coul + i])
+    #         btn.bind("<Button>", self.batir_artefact)
+    #         btn.pack()
 
     ##FONCTIONS D'AFFICHAGES##################################
     def afficher_depart(self):
@@ -618,7 +626,8 @@ class Vue():
             i = self.modele.NPCs["NPC1"][j]
             # self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
             #                           tags=("mobile", "", i.id, "NPC", "NPC", ""))
-            self.canevas.create_image(i.x, i.y, image=self.images[i.image])
+            self.canevas.create_image(i.x, i.y, image=self.images[i.image],
+                                      tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
 
     def centrer_maison(self):
         self.root.update()

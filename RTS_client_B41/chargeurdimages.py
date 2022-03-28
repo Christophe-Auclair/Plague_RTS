@@ -120,7 +120,7 @@ def chargerimages2():
         'J_soldatD': PhotoImage(file='images/jaune/J_soldatD.png'),
         'J_soldatG': PhotoImage(file='images/jaune/J_soldatG.png'),
 
-        ########################## REDACTED IMAGES/OBJECTS ##########################
+        ########################## TO BE WORKED ON IMAGES/OBJECTS ##########################
         ##############weapon
 
         'flecheGH': PhotoImage(file='images/divers/flecheGH.png'),
