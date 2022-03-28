@@ -790,11 +790,11 @@ class Vue():
 
         if self.parent.monnom in mestags:
             if "batiment" in mestags:
-                # if "maison" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
+                if "maison" in mestags:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
                 # if "caserne" in mestags:
                 #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                 #         if val < vals[type_unite][k]:

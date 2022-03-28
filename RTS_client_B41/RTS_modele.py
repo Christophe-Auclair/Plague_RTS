@@ -975,6 +975,15 @@ class Ouvrier(Perso):
                 print(sitecons)
                 self.parent.installer_batiment(batiment)
 
+                nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
+
+                for i in nouveau_territoire:
+                    if i not in self.parent.territoire:
+                        self.parent.territoire.append(i)
+
+                self.parent.parent.calculer_supply()
+                self.parent.parent.parent.afficher_territoire(nouveau_territoire)
+
             #mise a jour des ouvriers
             if self.cible.sorte == "maison":
                 batiment = self.parent.batiments[self.cible.sorte][self.cible.id]
@@ -1338,14 +1347,13 @@ class Joueur():
                 self.persos["ouvrier"][i].construire_site_construction(siteconstruction)
                 # self.persos["ouvrier"][i].construire_batiment(siteconstruction)
 
-            nouveau_territoire = self.parent.aggrandir_territoire(param[2][0], param[2][1])
-
-            for i in nouveau_territoire:
-                if i not in self.territoire:
-                    self.territoire.append(i)
-
-            # self.parent.calculer_total_supply()
-            self.parent.calculer_supply()
+            # nouveau_territoire = self.parent.aggrandir_territoire(pos[0], pos[1])
+            #
+            # for i in nouveau_territoire:
+            #     if i not in self.territoire:
+            #         self.territoire.append(i)
+            #
+            # self.parent.calculer_supply()
         else:
             print("Doit construire les nouveaux batiments à l'intérieur de son territoire")
 
