@@ -597,11 +597,11 @@ class Vue():
                                          tags=("", i.id, "artefact", "mobile"))
 
         # ajuster les choses vivantes dependantes de la partie (mais pas des joueurs)
-        for j in self.modele.biotopes["eau"].keys():
-            i = self.modele.biotopes["eau"][j]
-            if i.sprite:
-                self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
-                                          tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
+        # for j in self.modele.biotopes["eau"].keys():
+        #     i = self.modele.biotopes["eau"][j]
+        #     if i.sprite:
+        #         self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
+        #                                   tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
                 # tags=("",i.id,"artefact","eau","mobile"))
 
         # for j in self.modele.biotopes["beacon"].keys(): #beacongif

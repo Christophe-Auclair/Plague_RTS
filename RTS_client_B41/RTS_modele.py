@@ -379,86 +379,86 @@ class Beacon(Biotope):
 #         self.valeur = 30
 
 
-class Marais(Biotope):
-    typeressource = ['marais1',
-                     'marais2',
-                     'marais3']
-
-    def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        self.valeur = 100
-
-
-class Eau(Biotope):
-    typeressource = ['eaugrand1',
-                     'eaugrand2',
-                     'eaugrand3',
-                     'eaujoncD',
-                     'eaujoncG',
-                     'eauquenouillesD',
-                     'eauquenouillesG',
-                     'eauquenouillesgrand',
-                     'eautourbillon',
-                     'eautroncs']
-
-    def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        n = random.randrange(50) #beacongif
-        if n == 6:
-            self.spritelen = 6  # len(self.parent.parent.vue.gifs["poissons"])
-            self.sprite = "poissons"
-            self.spriteno = random.randrange(self.spritelen)
-            self.valeur = 100
-        else:
-            self.valeur = 10
-
-    def jouer_prochain_coup(self):
-        if self.sprite:
-            self.spriteno += 1
-            if self.spriteno > self.spritelen - 1:
-                self.spriteno = 0
+# class Marais(Biotope):
+#     typeressource = ['marais1',
+#                      'marais2',
+#                      'marais3']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
+#         self.valeur = 100
 
 
-class Aureus(Biotope):
-    typeressource = ['aureusbrillant',
-                     'aureusD_',
-                     'aureusG',
-                     'aureusrocgrand',
-                     'aureusrocmoyen',
-                     'aureusrocpetit']
+# class Eau(Biotope):
+#     typeressource = ['eaugrand1',
+#                      'eaugrand2',
+#                      'eaugrand3',
+#                      'eaujoncD',
+#                      'eaujoncG',
+#                      'eauquenouillesD',
+#                      'eauquenouillesG',
+#                      'eauquenouillesgrand',
+#                      'eautourbillon',
+#                      'eautroncs']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
+#         n = random.randrange(50) #beacongif
+#         if n == 6:
+#             self.spritelen = 6  # len(self.parent.parent.vue.gifs["poissons"])
+#             self.sprite = "poissons"
+#             self.spriteno = random.randrange(self.spritelen)
+#             self.valeur = 100
+#         else:
+#             self.valeur = 10
+#
+#     def jouer_prochain_coup(self):
+#         if self.sprite:
+#             self.spriteno += 1
+#             if self.spriteno > self.spritelen - 1:
+#                 self.spriteno = 0
 
-    def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        self.valeur = 100
+
+# class Aureus(Biotope):
+#     typeressource = ['aureusbrillant',
+#                      'aureusD_',
+#                      'aureusG',
+#                      'aureusrocgrand',
+#                      'aureusrocmoyen',
+#                      'aureusrocpetit']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
+#         self.valeur = 100
+
+#
+# class Roche(Biotope):
+#     typeressource = ['roches1 grand',
+#                      'roches1petit',
+#                      'roches2grand',
+#                      'roches2petit',
+#                      'roches3grand',
+#                      'roches3petit',
+#                      'roches4grand',
+#                      'roches4petit',
+#                      'roches5grand']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
+#         self.valeur = 100
 
 
-class Roche(Biotope):
-    typeressource = ['roches1 grand',
-                     'roches1petit',
-                     'roches2grand',
-                     'roches2petit',
-                     'roches3grand',
-                     'roches3petit',
-                     'roches4grand',
-                     'roches4petit',
-                     'roches5grand']
-
-    def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        self.valeur = 100
-
-
-class Arbre(Biotope):
-    typeressource = ['arbre0grand',
-                     'arbre0petit',
-                     'arbre1grand',
-                     'arbre2grand',
-                     'arbresapin0grand',
-                     'arbresapin0petit']
-
-    def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-        self.valeur = 30
+# class Arbre(Biotope):
+#     typeressource = ['arbre0grand',
+#                      'arbre0petit',
+#                      'arbre1grand',
+#                      'arbre2grand',
+#                      'arbresapin0grand',
+#                      'arbresapin0petit']
+#
+#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
+#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
+#         self.valeur = 30
 
 
 class DNAObjet(Biotope):  # version physique du DNA pour les events entre autres
@@ -1557,22 +1557,22 @@ class Partie:
         self.msggeneralcompteur = 0
         self.listebiotopes = []
         self.biotopes = {"daim": {},
-                         "arbre": {},
-                         "roche": {},
-                         "aureus": {},
-                         "eau": {},
-                         "marais": {},
+                         # "arbre": {},
+                         # "roche": {},
+                         # "aureus": {},
+                         # "eau": {},
+                         # "marais": {},
                          # "baie": {},
                          "beacon": {}
                          }
 
         self.regions = {}
-        self.regionstypes = [["arbre", 50, 20, 5, "forest green"],
-                             ["eau", 10, 20, 12, "light blue"],
-                             ["marais", 3, 8, 8, "DarkSeaGreen3"],
-                             ["roche", 8, 3, 6, "gray60"],
-                             ["aureus", 12, 3, 4, "gold2"],]
-        self.creer_regions()
+        # self.regionstypes = [["arbre", 50, 20, 5, "forest green"],
+        #                      # ["eau", 10, 20, 12, "light blue"],
+        #                      # ["marais", 3, 8, 8, "DarkSeaGreen3"],
+        #                      # ["roche", 8, 3, 6, "gray60"],
+        #                      ["aureus", 12, 3, 4, "gold2"],]
+        # self.creer_regions()
         self.creer_biotopes()
         self.creer_population(mondict)
         self.produire_beacon()
@@ -1645,59 +1645,59 @@ class Partie:
                 self.listebiotopes.append(objet)
                 nressource -= 1
 
-    def creer_regions(self):
-        for reg in self.regionstypes:
-            nomregion = reg[0]
-            nbrreg = reg[1]
-            minreg = reg[2]
-            rndreg = reg[3]
-            coulreg = reg[4]
-            self.regions[nomregion] = {}
-            for i in range(nbrreg):
-                listecasereg = []
-                # trouve une case dans la carte
-                x = random.randrange(self.taillecarte)
-                y = random.randrange(self.taillecarte)
-                # calcule la largeur (x) et hauteur(y) de la regtion
-                taillex = random.randrange(reg[3]) + reg[2]
-                tailley = random.randrange(reg[3]) + reg[2]
-                # verifie que la region de deborde pas vers l'exterieur du jeu
-                # (ex: si le centre de la region est case 1,1
-                # et on la veut 10 case de large, cette region debuterait a la case -5, qui n'existe pas
-                x0 = x - int(taillex / 2)
-                if x0 < 0:
-                    x0 = 0
-
-                x1 = x + int(taillex / 2)
-                if x1 > self.taillecarte - 1:
-                    x1 = self.taillecarte - 1
-
-                y0 = y - int(tailley / 2)
-                if y0 < 0:
-                    y0 = 0
-
-                y1 = y + int(tailley / 2)
-                if y1 > self.taillecarte - 1:
-                    y1 = self.taillecarte - 1
-
-                taillex = x1 - x0
-                tailley = y1 - y0
-
-                id = get_prochain_id()
-                newregion = Region(self, id, x0, y0, taillex, tailley, nomregion)
-
-                dicoreg = {}
-                for i in range(tailley):
-                    for j in range(taillex):
-                        self.cartecase[y0 + i][x0 + j].parent = newregion
-                        self.cartecase[y0 + i][x0 + j].montype = nomregion
-                        # listereg.append(self.cartecase[y0+i][x0+j])
-                        casereg = self.cartecase[y0 + i][x0 + j]
-                        casereg.parent = newregion
-                        dicoreg[casereg.id] = casereg
-
-                newregion.dicocases = dicoreg
-                self.regions[nomregion][id] = newregion
+    # def creer_regions(self):
+    #     for reg in self.regionstypes:
+    #         nomregion = reg[0]
+    #         nbrreg = reg[1]
+    #         minreg = reg[2]
+    #         rndreg = reg[3]
+    #         coulreg = reg[4]
+    #         self.regions[nomregion] = {}
+    #         for i in range(nbrreg):
+    #             listecasereg = []
+    #             # trouve une case dans la carte
+    #             x = random.randrange(self.taillecarte)
+    #             y = random.randrange(self.taillecarte)
+    #             # calcule la largeur (x) et hauteur(y) de la regtion
+    #             taillex = random.randrange(reg[3]) + reg[2]
+    #             tailley = random.randrange(reg[3]) + reg[2]
+    #             # verifie que la region de deborde pas vers l'exterieur du jeu
+    #             # (ex: si le centre de la region est case 1,1
+    #             # et on la veut 10 case de large, cette region debuterait a la case -5, qui n'existe pas
+    #             x0 = x - int(taillex / 2)
+    #             if x0 < 0:
+    #                 x0 = 0
+    #
+    #             x1 = x + int(taillex / 2)
+    #             if x1 > self.taillecarte - 1:
+    #                 x1 = self.taillecarte - 1
+    #
+    #             y0 = y - int(tailley / 2)
+    #             if y0 < 0:
+    #                 y0 = 0
+    #
+    #             y1 = y + int(tailley / 2)
+    #             if y1 > self.taillecarte - 1:
+    #                 y1 = self.taillecarte - 1
+    #
+    #             taillex = x1 - x0
+    #             tailley = y1 - y0
+    #
+    #             id = get_prochain_id()
+    #             newregion = Region(self, id, x0, y0, taillex, tailley, nomregion)
+    #
+    #             dicoreg = {}
+    #             for i in range(tailley):
+    #                 for j in range(taillex):
+    #                     self.cartecase[y0 + i][x0 + j].parent = newregion
+    #                     self.cartecase[y0 + i][x0 + j].montype = nomregion
+    #                     # listereg.append(self.cartecase[y0+i][x0+j])
+    #                     casereg = self.cartecase[y0 + i][x0 + j]
+    #                     casereg.parent = newregion
+    #                     dicoreg[casereg.id] = casereg
+    #
+    #             newregion.dicocases = dicoreg
+    #             self.regions[nomregion][id] = newregion
 
     def creer_population(self, mondict):
         couleurs = [["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
@@ -1768,8 +1768,8 @@ class Partie:
             self.NPCs["NPC1"][i].jouer_tour()
           #  i.jouer_prochain_coup()
 
-        for i in self.biotopes["eau"].keys():
-            self.biotopes["eau"][i].jouer_prochain_coup()
+        # for i in self.biotopes["eau"].keys():
+        #     self.biotopes["eau"][i].jouer_prochain_coup()
 
         # for i in self.biotopes["beacon"].keys(): #beacongif
         #     self.biotopes["beacon"][i].jouer_prochain_coup()
