@@ -18,6 +18,7 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 - Clique-droit de la souris pour faire apparaitre les ouvriers et pour attaquer les autres NPCs
 - Clique-gauche apres avoir choisit une cellule merepour le faire apparaitre sur le territoire qui proliférera le terrioire
 - Shift-click pour selectionner plusieurs troupeau de travailleur pour ensuite leur faire faire une tache 
+- Ctrl-MiddleClick pour attaquer les joueurs
 
 ### VERSION 0.3
 - Les assets des NPCs et des joueurs sont mis a jours pour rentrer dans le theme du jeu
