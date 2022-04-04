@@ -1932,10 +1932,10 @@ class Partie:
                         for l in range(case.x - 20, case.x + 20):
                             for m in range(case.y - 20, case.y + 20):
                                 if self.cartecase[m][l] not in territoire:
-                                    if m < 200 and l < 200:
+                                    if 200 > m >= 0 and 200 > l >= 0:
                                         territoire.append(self.cartecase[m][l])
 
-                if j < 200 and i < 200:
+                if 200 > j >= 0 and 200 > i >= 0:
                     if self.cartecase[j][i] not in territoire:
                         territoire.append(self.cartecase[j][i])
 
