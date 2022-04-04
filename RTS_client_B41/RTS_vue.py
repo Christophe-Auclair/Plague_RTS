@@ -855,7 +855,11 @@ class Vue():
         for i in territoire:
             self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
                                           fill="brown", tags=("territoire",))
-            self.minicarte.create_rectangle(i.x + 20, i.y, i.x + 20, i.y, outline="",
+
+            x1 = int((i.x * 20 / self.modele.aireX) * self.tailleminicarte)
+            y1 = int((i.y * 20 / self.modele.aireY) * self.tailleminicarte)
+
+            self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, outline="",
                                             fill="brown", tags=("territoire",))
             self.canevas.tag_lower("territoire")
             self.minicarte.tag_lower("territoire")
