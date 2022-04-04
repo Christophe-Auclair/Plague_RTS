@@ -855,7 +855,10 @@ class Vue():
         for i in territoire:
             self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
                                           fill="brown", tags=("territoire",))
+            self.minicarte.create_rectangle(i.x + 20, i.y, i.x + 20, i.y, outline="",
+                                            fill="brown", tags=("territoire",))
             self.canevas.tag_lower("territoire")
+            self.minicarte.tag_lower("territoire")
 
 
 # Singleton (mais pas automatique) sert a conserver les manipulations du joueur pour demander une action
