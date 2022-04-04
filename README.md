@@ -29,10 +29,10 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 
 ### VERSION 0.2:
 - Revision de l'engin d'actions
-- La fonction de territoire existe et peuvent s'agrandir
-- L'ajout de beacon (pour aider a agrandir le territoire sans rester dand notre territore --ceci vas etre ajouter plus tard)
-- Les joueurs peut maintenant attaquer sans avoir donner la commande si les ennemis sont trop proche d'eux
-- Les joueurs se deplacent en formation et ne rentre plus en dedans
+- La fonction de territoire existe et peut s'agrandir
+- L'ajout de beacon (Objet qui spawn aléatoirement qui agrandit le territoire --> ceci vas etre ajouter plus tard)
+- Les joueurs peut maintenant attaquer sans avoir donner la commande si les ennemis sont trop proche d'eux pendant leur mouvement en cours
+- Les joueurs se deplacent en formation et ne s'entassent plus un par dessus l'autre
 
 ### VERSION 0.1: 
 - Renommage des fonctions avec "_"
