@@ -201,7 +201,7 @@ class Vue():
                         "Roche": None,
                         "Aureus": None,
                         "DNA": None,
-                        "Supply": None,}
+                        "Supply": None, }
 
         # fonction interne uniquement pour reproduire chaque info de ressource
         def creer_champ_interne(listechamp):
@@ -231,7 +231,6 @@ class Vue():
         self.btnaide.pack(side=RIGHT)
         self.btnchat.pack(side=RIGHT)
         self.btnskill.pack(side=RIGHT)
-
 
         self.cadrejeuinfo.grid(row=0, column=0, sticky=E + W, columnspan=2)
 
@@ -288,7 +287,6 @@ class Vue():
         self.canevas.tag_bind("territoire", "<Button-1>", self.annuler_action)
         self.canevas.tag_bind("territoire", "<Button-2>", self.indiquer_position)
         self.canevas.tag_bind("territoire", "<Button-3>", self.construire_batiment)
-
 
         self.canevas.bind("<Control-Button-2>", self.action.attaquer)
 
@@ -496,8 +494,8 @@ class Vue():
         print(self.parent.monnom)
         chose = self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.image],
                                           tags=(
-                                          "statique", self.parent.monnom, batiment.id, "batiment", batiment.montype,
-                                          ""))
+                                              "statique", self.parent.monnom, batiment.id, "batiment", batiment.montype,
+                                              ""))
 
         x0, y0, x2, y2 = self.canevas.bbox(chose)
         self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + 100, batiment.y - 75, width=10,
@@ -536,7 +534,8 @@ class Vue():
                 self.infohud["Roche"][0].set(self.modele.joueurs[j].ressources["roche"])
                 self.infohud["Aureus"][0].set(self.modele.joueurs[j].ressources["aureus"])
                 self.infohud["DNA"][0].set(self.modele.joueurs[j].ressources["DNA"])
-                self.infohud["Supply"][0].set(str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))
+                self.infohud["Supply"][0].set(
+                    str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))
                 self.infohud["msggeneral"][0].config(text=self.modele.msggeneral)
 
             # ajuster les constructions de chaque joueur
@@ -556,7 +555,7 @@ class Vue():
                     i = self.modele.joueurs[j].persos[p][k]
                     coul = self.modele.joueurs[j].couleur[0]
                     self.canevas.create_image(i.x, i.y, anchor=S, image=self.images[i.image],
-                                              tags=("mobile", j, k, "perso", type(i).__name__, ""))
+                                              tags=("mobile", j, k, "perso", i.montype, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
                     self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
                                              tags=("", i.id, "artefact", "mobile"))
@@ -565,7 +564,7 @@ class Vue():
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
-                                                      tags=("mobile", j, p, "perso", type(i).__name__, "persochoisi"))
+                                                      tags=("mobile", j, p, "perso",i.montype, "persochoisi"))
                         # tags=(j,k,"artefact","mobile","persochoisi"))
 
                     # dessiner javelot de l'ouvrier
@@ -620,8 +619,7 @@ class Vue():
                 self.btnchat.config(bg="orange")
             self.modele.joueurs[self.parent.monnom].chatneuf = 0
 
-
-        #affichage NPC
+        # affichage NPC
         for j in self.modele.NPCs["NPC1"].keys():
             i = self.modele.NPCs["NPC1"][j]
             # self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
@@ -661,7 +659,7 @@ class Vue():
     def ajouter_selection(self, evt):
         mestags = self.canevas.gettags(CURRENT)
         if self.parent.monnom == mestags[1]:
-            if "Ouvrier" == mestags[4] or "ouvrier" == mestags[4] :
+            if "Ouvrier" == mestags[4] or "ouvrier" == mestags[4]:
                 self.action.persochoisi.append(mestags[2])
                 self.action.afficher_commande_perso()
             ######
@@ -848,7 +846,6 @@ class Vue():
                 else:
                     print("VOUS N'AVEZ PAS ASSEZ DE", k)
 
-
         ###### les ATTAQUES SUR BATIMENT INACTIFS
         # elif self.action.persochoisi:
         #     self.action.ciblechoisi=mestags
@@ -856,9 +853,9 @@ class Vue():
 
     def afficher_nouveau_territoire(self, territoire):
         for i in territoire:
-            self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="", fill="brown", tags=("territoire", ))
+            self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
+                                          fill="brown", tags=("territoire",))
             self.canevas.tag_lower("territoire")
-
 
 
 # Singleton (mais pas automatique) sert a conserver les manipulations du joueur pour demander une action
@@ -888,7 +885,6 @@ class Action():
 
     def mouvementAgressif(self):
         if self.persochoisi:
-
             qui = self.ciblechoisi[1]
             cible = self.ciblechoisi[2]
             sorte = self.ciblechoisi[5]
@@ -896,10 +892,10 @@ class Action():
             action = [self.parent.parent.monnom, "attaquer", [self.persochoisi, [qui, cible, sorte]]]
             self.parent.parent.actionsrequises.append(action)
 
-
     def deplacer(self):
         if len(self.persochoisi) > 1:
-            action = [self.parent.parent.monnom, "deplacerGroupe", [self.position, self.persochoisi, len(self.persochoisi)]]
+            action = [self.parent.parent.monnom, "deplacerGroupe",
+                      [self.position, self.persochoisi, len(self.persochoisi)]]
             self.parent.parent.actionsrequises.append(action)
 
         elif self.persochoisi:

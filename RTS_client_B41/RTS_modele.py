@@ -1244,11 +1244,20 @@ class Joueur():
         nomjoueur, idperso, sorte = attaque
 
 
+        ennemi = None
+        # ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+        if idperso in self.parent.joueurs[nomjoueur].persos[sorte].keys():
+            ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+
         if sorte in self.parent.NPCs.keys():             #a fixer
             ennemi = self.parent.NPCs[sorte][idperso]
 
-        elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
-            ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+
+        # elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
+        #     ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+        #     if idperso in attaque:
+
+
 
         elif sorte in self.parent.joueurs[nomjoueur].batiments.keys():
             ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][idperso]
@@ -1842,6 +1851,34 @@ class Partie:
             self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
 
 
+    class Evenement():
+        def __init__(self, parent, id):
+            self.parent = parent
+            self.id = id
+            self.vitesse = 18
+            self.taille = 20
+            self.force = 10
+            self.x = self.parent.x
+            self.y = self.parent.y
+            self.delai = 5000
+
+        def creer_entite(self):
+            x, y = evt.x, evt.y
+            mestags = self.canevas.gettags(CURRENT)
+            if self.parent.monnom in mestags:
+                for i in 10:
+                    pos = (self.canevas.canvasx(i+500), self.canevas.canvasy(i+600))
+                    action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
+                self.parent.actionsrequises.append(action)
+
+
+
+        def bouger(self):
+            self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
+            dist = Helper.calcDistance(self.x, self.y, self.proie.x, self.proie.y)
+            if dist <= self.taille:
+                rep = self.cibleennemi.recevoircoup(self.force)
+                return self
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
     def make_carte_case(self):
