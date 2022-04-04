@@ -984,6 +984,9 @@ class Ouvrier(Perso):
                 self.parent.parent.calculer_supply()
                 self.parent.parent.parent.afficher_territoire(nouveau_territoire)
 
+                self.x = self.cible.x + 20
+                self.y = self.cible.y - 20
+
             #mise a jour des ouvriers
             if self.cible.sorte == "maison":
                 batiment = self.parent.batiments[self.cible.sorte][self.cible.id]
@@ -1940,7 +1943,7 @@ class Partie:
     def territoitre_initial(self, x, y):
         # territoire = []
         cx = int(x/20)
-        cy= int(y/20)
+        cy = int(y/20)
         for i in self.joueurs.keys():
             for j in range(cx - 10, cx + 10):
                 for k in range(cy - 10, cy + 10):
