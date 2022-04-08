@@ -1703,30 +1703,52 @@ class Partie:
         couleurs = [["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
         # couleurs = [["V", "virus"], ["F", "fungus"], ["W", "worm"], ["B", "bacteria"]]
 
+        quadrantsspawn = [[[0, 0], [int(self.aireX * 0.15), int(self.aireY * 0.15)]],
+                          [[int(self.aireX * 0.85), 0], [self.aireX, int(self.aireY * 0.15)]],
+                          [[0, int(self.aireY * 0.85)], [int(self.aireX * 0.15), self.aireY]],
+                          [[int(self.aireX * 0.85), int(self.aireY * 0.85)], [self.aireX, self.aireY]]]
+        nquadspawn = 4
 
-        quadrants = [[[0, 0], [int(self.aireX / 2), int(self.aireY / 2)]],
-                     [[int(self.aireX / 2), 0], [self.aireX, int(self.aireY / 2)]],
-                     [[0, int(self.aireY / 2)], [int(self.aireX / 2), self.aireY]],
-                     [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]],
-                     [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]]]
-        nquad = 5
-        bord = 50
+        bord = 150
         for i in mondict:
             id = get_prochain_id()
             coul = couleurs.pop()
             # placer les joueurs dans des quandrants differents
-            choixquad = random.choice(range(nquad))
-            nquad -= 1
-            quad = quadrants.pop(choixquad)
+            choixquad = random.choice(range(nquadspawn))
+            nquadspawn -= 1
+            quad = quadrantsspawn.pop(choixquad)
 
-            n = 1
-            while n:
-                x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
-                y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
-                case = self.trouver_case(x, y)
-                if case.montype == "plaine":
-                    self.joueurs[i] = Joueur(self, id, i, coul, x, y)
-                    n = 0
+            x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
+            y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
+            case = self.trouver_case(x, y)
+            self.joueurs[i] = Joueur(self, id, i, coul, x, y)
+
+
+
+        # quadrants = [[[0, 0], [int(self.aireX / 2), int(self.aireY / 2)]],
+        #              [[int(self.aireX / 2), 0], [self.aireX, int(self.aireY / 2)]],
+        #              [[0, int(self.aireY / 2)], [int(self.aireX / 2), self.aireY]],
+        #              [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]],
+        #              [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]]]
+        #
+        # nquad = 5
+        # bord = 50
+        # for i in mondict:
+        #     id = get_prochain_id()
+        #     coul = couleurs.pop()
+        #     # placer les joueurs dans des quandrants differents
+        #     choixquad = random.choice(range(nquad))
+        #     nquad -= 1
+        #     quad = quadrants.pop(choixquad)
+        #
+        #     n = 1
+        #     while n:
+        #         x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
+        #         y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
+        #         case = self.trouver_case(x, y)
+        #         if case.montype == "plaine":
+        #             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
+        #             n = 0
 
     def creer_NPC(self, nbr = 100):
 
@@ -1941,6 +1963,17 @@ class Partie:
 
         return territoire
 
+    # def radar_beacon(self, i, j, territoire):
+    #     for k in self.biotopes["beacon"]:
+    #         case = self.biotopes["beacon"][k].case
+    #         if case.x == i and case.y == j:
+    #             print("beacon!")
+    #             for l in range(case.x - 20, case.x + 20):
+    #                 for m in range(case.y - 20, case.y + 20):
+    #                     if self.cartecase[m][l] not in territoire:
+    #                         if 200 > m >= 0 and 200 > l >= 0:
+    #                             territoire.append(self.cartecase[m][l])
+
     def territoitre_initial(self, x, y):
         # territoire = []
         cx = int(x/20)
@@ -1948,8 +1981,9 @@ class Partie:
         for i in self.joueurs.keys():
             for j in range(cx - 10, cx + 10):
                 for k in range(cy - 10, cy + 10):
-                    self.joueurs[i].territoire.append(self.cartecase[k][j])
-                    # territoire.append(self.cartecase[k][j])
+                    if 200 > j >= 0 and 200 > k >= 0:
+                        self.joueurs[i].territoire.append(self.cartecase[k][j])
+                        # territoire.append(self.cartecase[k][j])
 
         # self.joueurs[i].territoire.append(territoire)
         self.parent.afficher_territoire(self.joueurs[i].territoire)
