@@ -353,20 +353,20 @@ class Beacon(Biotope):
         Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
         self.valeur = 100
         self.case = case
-        n = random.randrange(50)
-        if n == 6:
-            self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
-            self.sprite = "beacon"
-            self.spriteno = random.randrange(self.spritelen)
-            self.valeur = 100
-        else:
-            self.valeur = 10
-
-    def jouer_prochain_coup(self):  #beacongif
-        if self.sprite:
-            self.spriteno += 1
-            if self.spriteno > self.spritelen - 1:
-                self.spriteno = 0
+    #     n = random.randrange(50)
+    #     if n == 6:
+    #         self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
+    #         self.sprite = "beacon"
+    #         self.spriteno = random.randrange(self.spritelen)
+    #         self.valeur = 100
+    #     else:
+    #         self.valeur = 10
+    #
+    # def jouer_prochain_coup(self):  #beacongif
+    #     if self.sprite:
+    #         self.spriteno += 1
+    #         if self.spriteno > self.spritelen - 1:
+    #             self.spriteno = 0
 
 
 # class Baie(Biotope):
@@ -1703,10 +1703,10 @@ class Partie:
         couleurs = [["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
         # couleurs = [["V", "virus"], ["F", "fungus"], ["W", "worm"], ["B", "bacteria"]]
 
-        quadrantsspawn = [[[0, 0], [int(self.aireX * 0.15), int(self.aireY * 0.15)]],
-                          [[int(self.aireX * 0.85), 0], [self.aireX, int(self.aireY * 0.15)]],
-                          [[0, int(self.aireY * 0.85)], [int(self.aireX * 0.15), self.aireY]],
-                          [[int(self.aireX * 0.85), int(self.aireY * 0.85)], [self.aireX, self.aireY]]]
+        quadrantsspawn = [[[0, 0], [int(self.aireX * 0.20), int(self.aireY * 0.20)]],
+                          [[int(self.aireX * 0.80), 0], [self.aireX, int(self.aireY * 0.20)]],
+                          [[0, int(self.aireY * 0.80)], [int(self.aireX * 0.20), self.aireY]],
+                          [[int(self.aireX * 0.80), int(self.aireY * 0.80)], [self.aireX, self.aireY]]]
         nquadspawn = 4
 
         bord = 175
@@ -1721,8 +1721,6 @@ class Partie:
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
-
-
 
         # quadrants = [[[0, 0], [int(self.aireX / 2), int(self.aireY / 2)]],
         #              [[int(self.aireX / 2), 0], [self.aireX, int(self.aireY / 2)]],
@@ -1836,22 +1834,31 @@ class Partie:
 
     def produire_beacon(self):
         typeressource = Beacon.typeressource
-        n = 10
+        n = 12
+        distraisonable = 600
+        coords = []
+
         while n:
-            # x = random.randrange(int(1000 + (self.aireX / 2)))
-            # y = random.randrange(int(1000 + (self.aireY / 2)))
+            x = random.randint(self.aireX / 5, self.aireX / 5 * 4)
+            y = random.randint(self.aireX / 5, self.aireX / 5 * 4)
 
-            x = random.randint(self.aireX / 4, self.aireX / 4 * 3)
-            y = random.randint(self.aireX / 4, self.aireX / 4 * 3)
+            distinvalide = 0
 
+            for i in coords:
+                dist = Helper.calcDistance(x, y, i[0], i[1])
+                if dist < distraisonable:
+                    distinvalide = 1
+            if distinvalide == 0:
+                coords.append([x, y])
+                n -= 1
 
-            case = self.trouver_case(x, y)
-            # if case.montype == "plaine":
-            id = get_prochain_id()
-            img = random.choice(typeressource)
-            beacon = Beacon(self, id, img, x, y, "beacon", case)
+        case = self.trouver_case(x, y)
+        id = get_prochain_id()
+        img = random.choice(typeressource)
+
+        for i in coords:
+            beacon = Beacon(self, id, img, i[0], i[1], "beacon", case)
             self.biotopes["beacon"][id] = beacon
-            n -= 1
             self.parent.afficher_bio(beacon)
 
     def produireDNA(self):
