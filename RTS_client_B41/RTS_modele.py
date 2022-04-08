@@ -1709,7 +1709,7 @@ class Partie:
                           [[int(self.aireX * 0.85), int(self.aireY * 0.85)], [self.aireX, self.aireY]]]
         nquadspawn = 4
 
-        bord = 150
+        bord = 175
         for i in mondict:
             id = get_prochain_id()
             coul = couleurs.pop()
@@ -1720,7 +1720,6 @@ class Partie:
 
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
-            case = self.trouver_case(x, y)
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
 
@@ -1839,16 +1838,21 @@ class Partie:
         typeressource = Beacon.typeressource
         n = 10
         while n:
-            x = random.randrange(int(1000 + (self.aireX / 2)))
-            y = random.randrange(int(1000 + (self.aireY / 2)))
+            # x = random.randrange(int(1000 + (self.aireX / 2)))
+            # y = random.randrange(int(1000 + (self.aireY / 2)))
+
+            x = random.randint(self.aireX / 4, self.aireX / 4 * 3)
+            y = random.randint(self.aireX / 4, self.aireX / 4 * 3)
+
+
             case = self.trouver_case(x, y)
-            if case.montype == "plaine":
-                id = get_prochain_id()
-                img = random.choice(typeressource)
-                beacon = Beacon(self, id, img, x, y, "beacon", case)
-                self.biotopes["beacon"][id] = beacon
-                n -= 1
-                self.parent.afficher_bio(beacon)
+            # if case.montype == "plaine":
+            id = get_prochain_id()
+            img = random.choice(typeressource)
+            beacon = Beacon(self, id, img, x, y, "beacon", case)
+            self.biotopes["beacon"][id] = beacon
+            n -= 1
+            self.parent.afficher_bio(beacon)
 
     def produireDNA(self):
         for i in self.joueurs:
