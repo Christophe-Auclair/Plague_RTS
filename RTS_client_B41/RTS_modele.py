@@ -1571,6 +1571,8 @@ class Partie:
                          "beacon": {}
                          }
 
+        self.evenements = {"spawnNPC": self.creer_NPC}
+
         self.regions = {}
         # self.regionstypes = [["arbre", 50, 20, 5, "forest green"],
         #                      # ["eau", 10, 20, 12, "light blue"],
@@ -1582,7 +1584,6 @@ class Partie:
         self.creer_population(mondict)
         self.produire_beacon()
         # self.produire_organe()
-        self.creer_NPC(20)
 
     def calc_stats(self):
         total = 0
@@ -1753,11 +1754,16 @@ class Partie:
         #             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
         #             n = 0
 
-    def creer_NPC(self, nbr = 100):
-
+    def creer_NPC(self, nbr):
+        x = random.randrange(self.aireX)
+        y = random.randrange(self.aireY)
+        h = 0
         while nbr:
-            x = random.randrange(self.aireX)
-            y = random.randrange(self.aireY)
+            x +=50
+            if h == 10:
+                y += 60
+                x -= 500
+                h = 0
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
@@ -1768,6 +1774,7 @@ class Partie:
                 self.NPCs[sorte][id].image = "npc"
                 #self.NPCs.append(monNPC)
                 nbr -= 1
+                h+=1
 
 
     def deplacer(self):
@@ -1816,12 +1823,22 @@ class Partie:
         self.faire_action_partie()
 
     def faire_action_partie(self):
-        if self.delaiprochaineaction == 0:
-            # self.produire_action() #baies
+
+        if self.delaiprochaineaction % 60 == 0: #le reste
             self.produireDNA()
-            self.delaiprochaineaction = random.randrange(20, 30)
-        else:
-            self.delaiprochaineaction -= 1
+
+        if self.delaiprochaineaction % 3000 == 0: # EVENEMENTS
+            # self.produire_action() #baies
+
+            act = random.choice(list(self.evenements.keys()))
+
+
+            if act == "spawnNPC":
+                action = self.evenements[act]
+                action(30)
+
+
+        self.delaiprochaineaction += 1
 
     # def produire_action(self):  #baies
     #     typeressource = Baie.typeressource
@@ -1907,33 +1924,7 @@ class Partie:
                 self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
             self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
 
-    # class Evenement():
-    #     def __init__(self, parent, id):
-    #         self.parent = parent
-    #         self.id = id
-    #         self.vitesse = 18
-    #         self.taille = 20
-    #         self.force = 10
-    #         self.x = self.parent.x
-    #         self.y = self.parent.y
-    #         self.delai = 5000
-    #
-    #     def creer_entite(self):
-    #         self.x, self.y = evt.x, evt.y
-    #         mestags = self.canevas.gettags(CURRENT)
-    #         if self.parent.monnom in mestags:
-    #             for i in 10:
-    #                 pos = (self.canevas.canvasx(i+500), self.canevas.canvasy(i+600))
-    #                 action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
-    #             self.parent.actionsrequises.append(action)
-    #
-    #     def bouger(self):
-    #         self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
-    #         dist = Helper.calcDistance(self.x, self.y, self.proie.x, self.proie.y)
-    #         if dist <= self.taille:
-    #             rep = self.cibleennemi.recevoircoup(self.force)
-    #             return self
-    #
+
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
     def make_carte_case(self):
