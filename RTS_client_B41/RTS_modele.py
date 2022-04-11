@@ -299,6 +299,7 @@ class Daim():
             # FIN DE TEST POUR SURFACE MARCHEE
             self.x, self.y = x1, y1
             dist = Helper.calcDistance(self.x, self.y, x, y)
+            # dist = Helper.calcDistance(self.x, self.y, x, y)
             if dist <= self.vitesse:
                 self.cible = None
                 self.position_visee = None
@@ -1576,6 +1577,7 @@ class Partie:
         self.creer_biotopes()
         self.creer_population(mondict)
         self.produire_beacon()
+        # self.produire_organe()
         self.creer_NPC(20)
 
     def calc_stats(self):
@@ -1861,6 +1863,21 @@ class Partie:
             self.biotopes["beacon"][id] = beacon
             self.parent.afficher_bio(beacon)
 
+    # def produire_organe(self):
+    #     typeressource = Organes.typeressource
+    #     n = 10
+    #     while n:
+    #         x = random.randrange(int(1000 + (self.aireX / 2)))
+    #         y = random.randrange(int(1000 + (self.aireY / 2)))
+    #         case = self.trouver_case(x, y)
+    #         if case.montype == "plaine":
+    #             id = get_prochain_id()
+    #             img = random.choice(typeressource)
+    #             organe = Organes(self, id, img, x, y, "organe", case)
+    #             self.biotopes["organe"][id] = organe
+    #             n -= 1
+    #             self.parent.afficher_bio(organe)
+
     def produireDNA(self):
         for i in self.joueurs:
             self.joueurs[i].ressources["DNA"] += 1
@@ -1886,35 +1903,33 @@ class Partie:
                 self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
             self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
 
-
-    class Evenement():
-        def __init__(self, parent, id):
-            self.parent = parent
-            self.id = id
-            self.vitesse = 18
-            self.taille = 20
-            self.force = 10
-            self.x = self.parent.x
-            self.y = self.parent.y
-            self.delai = 5000
-
-        def creer_entite(self):
-            x, y = evt.x, evt.y
-            mestags = self.canevas.gettags(CURRENT)
-            if self.parent.monnom in mestags:
-                for i in 10:
-                    pos = (self.canevas.canvasx(i+500), self.canevas.canvasy(i+600))
-                    action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
-                self.parent.actionsrequises.append(action)
-
-
-
-        def bouger(self):
-            self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
-            dist = Helper.calcDistance(self.x, self.y, self.proie.x, self.proie.y)
-            if dist <= self.taille:
-                rep = self.cibleennemi.recevoircoup(self.force)
-                return self
+    # class Evenement():
+    #     def __init__(self, parent, id):
+    #         self.parent = parent
+    #         self.id = id
+    #         self.vitesse = 18
+    #         self.taille = 20
+    #         self.force = 10
+    #         self.x = self.parent.x
+    #         self.y = self.parent.y
+    #         self.delai = 5000
+    #
+    #     def creer_entite(self):
+    #         self.x, self.y = evt.x, evt.y
+    #         mestags = self.canevas.gettags(CURRENT)
+    #         if self.parent.monnom in mestags:
+    #             for i in 10:
+    #                 pos = (self.canevas.canvasx(i+500), self.canevas.canvasy(i+600))
+    #                 action = [self.parent.monnom, "creerperso", ["ouvrier", mestags[4], mestags[2], pos]]
+    #             self.parent.actionsrequises.append(action)
+    #
+    #     def bouger(self):
+    #         self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
+    #         dist = Helper.calcDistance(self.x, self.y, self.proie.x, self.proie.y)
+    #         if dist <= self.taille:
+    #             rep = self.cibleennemi.recevoircoup(self.force)
+    #             return self
+    #
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
 
     def make_carte_case(self):

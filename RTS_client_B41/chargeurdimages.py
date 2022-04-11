@@ -18,6 +18,15 @@ def chargerimages2():
         'bacteria': PhotoImage(file='images/teams/bacteria.png'),
         'worm': PhotoImage(file='images/teams/worm.png'),
 
+        # organes
+        # 'coeur': PhotoImage(file='images/organe/coeur.png'),
+        # 'cerveau': PhotoImage(file='images/organe/cerveau.png'),
+        # 'poumon': PhotoImage(file='images/organe/poumon.png'),
+        # 'reins': PhotoImage(file='images/organe/reins.png'),
+        # 'intestins': PhotoImage(file='images/organe/intestin.png'),
+        # 'foie': PhotoImage(file='images/organe/foie.png'),
+        # 'estomac': PhotoImage(file='images/organe/estomac.png'),
+
         #ennemi
         "globrouges": PhotoImage(file='images/ennemi/globrouges.png'),
         # 'cellanimale': PhotoImage(file='images/ennemi/cellanimal.png'),
@@ -44,6 +53,7 @@ def chargerimages2():
         'EnConstruction': PhotoImage(file='images/divers/EnConstruction.png'), #L
         'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'), #L
 
+        #equipe virus
         'V_monocyte': PhotoImage(file='images/cellblanc/V_monocyte.png'),
         'V_neutrophil': PhotoImage(file='images/cellblanc/V_neutrophil.png'),
         'V_ballistaDH': PhotoImage(file='images/vert/V_ballistaDH.png'),
@@ -63,6 +73,7 @@ def chargerimages2():
         'V_soldatD': PhotoImage(file='images/vert/V_soldatD.png'),
         'V_soldatG': PhotoImage(file='images/vert/V_soldatG.png'),
 
+        #equipe fungus
         'B_monocyte': PhotoImage(file='images/cellblanc/B_monocyte.png'),
         'B_neutrophil': PhotoImage(file='images/cellblanc/B_neutrophil.png'),
         'B_ballistaDH': PhotoImage(file='images/bleu/B_ballistaDH.png'),
@@ -82,6 +93,7 @@ def chargerimages2():
         'B_soldatD': PhotoImage(file='images/bleu/B_soldatD.png'),
         'B_soldatG': PhotoImage(file='images/bleu/B_soldatG.png'),
 
+        #equipe worm
         'R_monocyte': PhotoImage(file='images/cellblanc/R_monocyte.png'),
         'R_neutrophil': PhotoImage(file='images/cellblanc/R_neutrophil.png'),
         'R_ballistaDH': PhotoImage(file='images/rouge/R_ballistaDH.png'),
@@ -101,6 +113,7 @@ def chargerimages2():
         'R_soldatD': PhotoImage(file='images/rouge/R_soldatD.png'),
         'R_soldatG': PhotoImage(file='images/rouge/R_soldatG.png'),
 
+        #equipe bacterie
         'J_monocyte': PhotoImage(file='images/cellblanc/J_monocyte.png'),
         'J_neutrophil': PhotoImage(file='images/cellblanc/J_neutrophil.png'),
         'J_ballistaDH': PhotoImage(file='images/jaune/J_ballistaDH.png'),
@@ -121,7 +134,7 @@ def chargerimages2():
         'J_soldatG': PhotoImage(file='images/jaune/J_soldatG.png'),
 
         ########################## TO BE WORKED ON IMAGES/OBJECTS ##########################
-        ##############weapon
+        ############## weapon
 
         'flecheGH': PhotoImage(file='images/divers/flecheGH.png'),
         'flecheGB': PhotoImage(file='images/divers/flecheGB.png'),
@@ -132,113 +145,12 @@ def chargerimages2():
         'javelotDH': PhotoImage(file='images/divers/javelotDH.png'),
         'javelotDB': PhotoImage(file='images/divers/javelotDB.png'),
 
-        #############animaux
-        'cerfD': PhotoImage(file='images/animal/cerfD.png'),
-        'cerfG': PhotoImage(file='images/animal/cerfG.png'),
-        'cheval': PhotoImage(file='images/animal/cheval.png'),
-        'chevalG': PhotoImage(file='images/animal/chevalG.png'),
+        ############# globule rouge
         'daimMORT': PhotoImage(file='images/animal/daimMORT.png'),
         'daimDB': PhotoImage(file='images/ennemi/bloodcell.png'),
         'daimDH': PhotoImage(file='images/ennemi/bloodcell.png'),
         'daimGB': PhotoImage(file='images/ennemi/bloodcell.png'),
         'daimGH': PhotoImage(file='images/ennemi/bloodcell.png'),
-        'ours60_db': PhotoImage(file='images/animal/ours60_db.png'),
-        'ours60_dh': PhotoImage(file='images/animal/ours60_dh.png'),
-        'ours60_gb': PhotoImage(file='images/animal/ours60_gb.png'),
-        'ours60_gh': PhotoImage(file='images/animal/ours60_gh.png'),
-
-        ##############ressources
-        'arbre0grand': PhotoImage(file='images/arbre/arbre0grand.png'),
-        'arbre0petit': PhotoImage(file='images/arbre/arbre0petit.png'),
-        'arbre1grand': PhotoImage(file='images/arbre/arbre1grand.png'),
-        'arbre2grand': PhotoImage(file='images/arbre/arbre2grand.png'),
-        'arbresapin0grand': PhotoImage(file='images/arbre/arbresapin0grand.png'),
-        'arbresapin0petit': PhotoImage(file='images/arbre/arbresapin0petit.png'),
-        # 'baiegrand': PhotoImage(file='images/arbuste/arbustebaiesgrand.png'),
-        # 'baiepetit': PhotoImage(file='images/arbuste/arbustebaiespetit.png'),
-        # 'baievert': PhotoImage(file='images/arbuste/arbustevert.png'),
-        'aureusbrillant': PhotoImage(file='images/aureus/aureusbrillant.png'),
-        'aureusD_': PhotoImage(file='images/aureus/aureusD_.png'),
-        'aureusG': PhotoImage(file='images/aureus/aureusG.png'),
-        'aureusrocgrand': PhotoImage(file='images/aureus/aureusrocgrand.png'),
-        'aureusrocmoyen': PhotoImage(file='images/aureus/aureusrocmoyen.png'),
-        'aureusrocpetit': PhotoImage(file='images/aureus/aureusrocpetit.png'),
-
-        ##############objet environnant
-        'gazonfond': PhotoImage(file='images/divers/gazonfond.png'),
-        'quaiD': PhotoImage(file='images/divers/quaiD.png'),
-        'quaiG': PhotoImage(file='images/divers/quaiG.png'),
-        'eau': PhotoImage(file='images/eau/eau.png'),
-        'eaugrand': PhotoImage(file='images/eau/eaugrand.png'),
-        'eaugrand1': PhotoImage(file='images/eau/eaugrand1.png'),
-        'eaugrand2': PhotoImage(file='images/eau/eaugrand2.png'),
-        'eaugrand3': PhotoImage(file='images/eau/eaugrand3.png'),
-        'eaujoncD': PhotoImage(file='images/eau/eaujoncD.png'),
-        'eaujoncG': PhotoImage(file='images/eau/eaujoncG.png'),
-        'eaumoyen': PhotoImage(file='images/eau/eaumoyen.png'),
-        'eaupetit': PhotoImage(file='images/eau/eaupetit.png'),
-        'eauquenouillesD': PhotoImage(file='images/eau/eauquenouillesD.png'),
-        'eauquenouillesG': PhotoImage(file='images/eau/eauquenouillesG.png'),
-        'eauquenouillesgrand': PhotoImage(file='images/eau/eauquenouillesgrand.png'),
-        'eautourbillon': PhotoImage(file='images/eau/eautourbillon.png'),
-        'eautroncs': PhotoImage(file='images/eau/eautroncs.png'),
-        'culturegrand': PhotoImage(file='images/ferme/culturegrand.png'),
-        'culturemoyen': PhotoImage(file='images/ferme/culturemoyen.png'),
-        'culturepetit': PhotoImage(file='images/ferme/culturepetit.png'),
-
-        ##############objets environnant
-        'marais1': PhotoImage(file='images/marais/marais1.png'),
-        'marais2': PhotoImage(file='images/marais/marais2.png'),
-        'marais3': PhotoImage(file='images/marais/marais3.png'),
-        'roches1 grand': PhotoImage(file='images/roche/roches1 grand.png'),
-        'roches1petit': PhotoImage(file='images/roche/roches1petit.png'),
-        'roches2grand': PhotoImage(file='images/roche/roches2grand.png'),
-        'roches2petit': PhotoImage(file='images/roche/roches2petit.png'),
-        'roches3grand': PhotoImage(file='images/roche/roches3grand.png'),
-        'roches3petit': PhotoImage(file='images/roche/roches3petit.png'),
-        'roches4grand': PhotoImage(file='images/roche/roches4grand.png'),
-        'roches4petit': PhotoImage(file='images/roche/roches4petit.png'),
-        'roches5grand': PhotoImage(file='images/roche/roches5grand.png'),
-
-        ##############equipe rouge
-        # 'R_abri': PhotoImage(file='images/rouge/R_abri.png'),
-        # 'R_archerD': PhotoImage(file='images/rouge/R_archerD.png'),
-        # 'R_usineballiste': PhotoImage(file='images/rouge/R_usineballiste.png'),
-        # 'R_ballistaDH': PhotoImage(file='images/rouge/R_ballistaDH.png'),
-        # 'R_ballistaDB': PhotoImage(file='images/rouge/R_ballistaDB.png'),
-        # 'R_ballistaGH': PhotoImage(file='images/rouge/R_ballistaGH.png'),
-        # 'R_ballistaGB': PhotoImage(file='images/rouge/R_ballistaGB.png'),
-        # 'R_archerG': PhotoImage(file='images/rouge/R_archerG.png'),
-        # 'R_caserne': PhotoImage(file='images/rouge/R_caserne.png'),
-        # 'R_chevalierD': PhotoImage(file='images/rouge/R_chevalierD.png'),
-        # 'R_chevalierG': PhotoImage(file='images/rouge/R_chevalierG.png'),
-        # 'R_druideD': PhotoImage(file='images/rouge/R_druideD.png'),
-        # 'R_druideG': PhotoImage(file='images/rouge/R_druideG.png'),
-        # 'R_maison': PhotoImage(file='images/rouge/R_maison.png'),
-        # 'R_ouvrierD': PhotoImage(file='images/rouge/R_ouvrierD.png'),
-        # 'R_ouvrierG': PhotoImage(file='images/rouge/R_ouvrierG.png'),
-        # 'R_soldatD': PhotoImage(file='images/rouge/R_soldatD.png'),
-        # 'R_soldatG': PhotoImage(file='images/rouge/R_soldatG.png'),
-
-        ##############equipe vert ---- DEFAULT
-        # 'V_abri': PhotoImage(file='images/vert/V_abri.png'),
-        # 'V_usineballiste': PhotoImage(file='images/vert/V_usineballiste.png'),
-        # 'V_ballistaDH': PhotoImage(file='images/vert/V_ballistaDH.png'),
-        # 'V_ballistaDB': PhotoImage(file='images/vert/V_ballistaDB.png'),
-        # 'V_ballistaGH': PhotoImage(file='images/vert/V_ballistaGH.png'),
-        # 'V_ballistaGB': PhotoImage(file='images/vert/V_ballistaGB.png'),
-        # 'V_archerD': PhotoImage(file='images/vert/V_archerD.png'),
-        # 'V_archerG': PhotoImage(file='images/vert/V_archerG.png'),
-        # 'V_caserne': PhotoImage(file='images/vert/V_caserne.png'),
-        # 'V_chevalierD': PhotoImage(file='images/vert/V_chevalierD.png'),
-        # 'V_chevalierG': PhotoImage(file='images/vert/V_chevalierG.png'),
-        # 'V_druideD': PhotoImage(file='images/vert/V_druideD.png'),
-        # 'V_druideG': PhotoImage(file='images/vert/V_druideG.png'),
-        # 'V_maison': PhotoImage(file='images/vert/V_maison.png'),
-        # 'V_ouvrierD': PhotoImage(file='images/vert/V_ouvrierD.png'),
-        # 'V_ouvrierG': PhotoImage(file='images/vert/V_ouvrierG.png'),
-        # 'V_soldatD': PhotoImage(file='images/vert/V_soldatD.png'),
-        # 'V_soldatG': PhotoImage(file='images/vert/V_soldatG.png')
     }
     return images
 
