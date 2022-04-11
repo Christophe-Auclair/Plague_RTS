@@ -403,7 +403,7 @@ class Vue():
         self.creer_aide()
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
-        # self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
+        self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
         # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
 
         self.creer_chatter()
@@ -423,7 +423,7 @@ class Vue():
         self.cadrebatiment = Frame(self.canevasaction)
 
         for i in artefacts:
-            btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i])
+            btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i + "D"])
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
 
@@ -688,7 +688,7 @@ class Vue():
     def ajouter_selection_batiment(self, evt):
         mestags = self.canevas.gettags(CURRENT)
         if self.parent.monnom == mestags[1]:
-            if "batiment" == mestags[4]:
+            if "batiment" == mestags[3]:
                 self.action.batimentchoisi.append(mestags[2])
                 self.action.afficher_commande_batiment()
 
