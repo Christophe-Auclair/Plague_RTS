@@ -333,6 +333,10 @@ class Daim():
         self.img = self.nomimg + self.dir
 
 
+# class Organes():
+#     def __init__(self, parent, id, monimg, x, y, montype, case):
+
+
 class Biotope():
     def __init__(self, parent, id, monimg, x, y, montype, idregion=0, posid="0"):
         self.parent = parent

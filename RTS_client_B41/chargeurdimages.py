@@ -19,13 +19,14 @@ def chargerimages2():
         'worm': PhotoImage(file='images/teams/worm.png'),
 
         # organes
-        # 'coeur': PhotoImage(file='images/organe/coeur.png'),
-        # 'cerveau': PhotoImage(file='images/organe/cerveau.png'),
-        # 'poumon': PhotoImage(file='images/organe/poumon.png'),
-        # 'reins': PhotoImage(file='images/organe/reins.png'),
-        # 'intestins': PhotoImage(file='images/organe/intestin.png'),
-        # 'foie': PhotoImage(file='images/organe/foie.png'),
-        # 'estomac': PhotoImage(file='images/organe/estomac.png'),
+        'coeur': PhotoImage(file='images/organe/coeur.png'),
+        'cerveau': PhotoImage(file='images/organe/cerveau.png'),
+        'poumon': PhotoImage(file='images/organe/poumon.png'),
+        'reins': PhotoImage(file='images/organe/reins.png'),
+        'intestins': PhotoImage(file='images/organe/intestin.png'),
+        'foie': PhotoImage(file='images/organe/foie.png'),
+        'estomac': PhotoImage(file='images/organe/estomac.png'),
+        'oeil': PhotoImage(file='images/organe/oeil.png'),
 
         #ennemi
         "globrouges": PhotoImage(file='images/ennemi/globrouges.png'),
