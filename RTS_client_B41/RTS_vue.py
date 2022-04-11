@@ -274,6 +274,7 @@ class Vue():
 
         # acgtions liées aux objets dessinés par tag
         self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
+        # self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
         self.canevas.tag_bind("perso", "<Button-1>", self.ajouter_selection)
         self.canevas.tag_bind("arbre", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("aureus", "<Button-1>", self.ramasser_ressource)
@@ -402,6 +403,7 @@ class Vue():
         self.creer_aide()
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
+        # self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
         # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
 
         self.creer_chatter()
@@ -414,6 +416,14 @@ class Vue():
         self.cadreouvrier = Frame(self.canevasaction)
         for i in artefacts:
             btn = Button(self.cadreouvrier, text=i, image=self.images[coul + i])
+            btn.bind("<Button>", self.batir_artefact)
+            btn.pack()
+
+    def creer_cadre_batiment(self, coul, artefacts):
+        self.cadrebatiment = Frame(self.canevasaction)
+
+        for i in artefacts:
+            btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i])
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
 
@@ -675,6 +685,13 @@ class Vue():
         #     self.action.ciblechoisi=mestags
         #     self.action.attaquer()
 
+    def ajouter_selection_batiment(self, evt):
+        mestags = self.canevas.gettags(CURRENT)
+        if self.parent.monnom == mestags[1]:
+            if "batiment" == mestags[4]:
+                self.action.batimentchoisi.append(mestags[2])
+                self.action.afficher_commande_batiment()
+
     # Methodes pour multiselect
     def debuter_multiselection(self, evt):
         self.debutselect = (self.canevas.canvasx(evt.x), self.canevas.canvasy(evt.y))
@@ -875,6 +892,7 @@ class Action():
     def __init__(self, parent):
         self.parent = parent
         self.persochoisi = []
+        self.batimentchoisi = []
         self.ciblechoisi = None
         self.position = []
         self.btnactif = None  # le bouton choisi pour creer un batiment
@@ -935,6 +953,17 @@ class Action():
                                                                      anchor=N)
         self.parent.root.update()
         fh = self.parent.cadreouvrier.winfo_height()
+        ch = int(self.parent.canevasaction.cget("height"))
+        if fh + 60 > ch:
+            cl = int(self.parent.canevasaction.cget("width"))
+            self.parent.canevasaction.config(scrollregion=(0, 0, cl, fh + 60))
+
+    def afficher_commande_batiment(self):
+        self.widgetsactifs = self.parent.canevasaction.create_window(100, 60,
+                                                                     window=self.parent.cadrebatiment,
+                                                                     anchor=N)
+        self.parent.root.update()
+        fh = self.parent.cadrebatiment.winfo_height()
         ch = int(self.parent.canevasaction.cget("height"))
         if fh + 60 > ch:
             cl = int(self.parent.canevasaction.cget("width"))
