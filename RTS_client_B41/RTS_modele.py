@@ -1754,6 +1754,9 @@ class Partie:
         #             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
         #             n = 0
 
+
+   ############################# ZONE EVENEMENTS #########################
+
     def creer_NPC(self, nbr):
         x = random.randrange(self.aireX)
         y = random.randrange(self.aireY)
@@ -1775,6 +1778,11 @@ class Partie:
                 #self.NPCs.append(monNPC)
                 nbr -= 1
                 h+=1
+
+
+
+
+
 
 
     def deplacer(self):
