@@ -333,8 +333,12 @@ class Daim():
         self.img = self.nomimg + self.dir
 
 
-# class Organes():
-#     def __init__(self, parent, id, monimg, x, y, montype, case):
+class Organes():
+    typeressource = ['organe','coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
+    def __init__(self, parent, id, monimg, x, y, montype, case):
+        Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
+        self.valeur = 100
+        self.case = case
 
 
 class Biotope():
@@ -1568,10 +1572,13 @@ class Partie:
                          # "eau": {},
                          # "marais": {},
                          # "baie": {},
-                         "beacon": {}
+                         "beacon": {},
+                         "organe": {}
                          }
 
-        self.evenements = {"spawnNPC": self.creer_NPC}
+        self.evenements = {"spawnNPC": self.creer_NPC,
+                           "spawnOrgane": self.produire_organe
+                           }
         self.evenementsActif = False
         self.delaiEvenement = 0
 
@@ -1781,6 +1788,36 @@ class Partie:
                 nbr -= 1
                 h+=1
 
+    # def creer_Organe(self):
+    #     x = random.randrange(self.aireX)
+    #     y = random.randrange(self.aireY)
+    #     case = self.trouver_case(x, y)
+    #     if case.montype == "plaine":
+    #         id = get_prochain_id()
+    #         sorte = "NPC1"
+    #         # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
+    #         # monNPC.image = None
+    #         self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
+    #         self.NPCs[sorte][id].image = "npc"
+    #         # self.NPCs.append(monNPC)
+    #         nbr -= 1
+    #         h += 1
+
+    def produire_organe(self):
+        typeressource = Organes.typeressource
+        # x = random.randrange(int(1000 + (self.aireX / 2)))
+        # y = random.randrange(int(1000 + (self.aireY / 2)))
+        x = random.randrange(self.aireX)
+        y = random.randrange(self.aireY)
+        case = self.trouver_case(x, y)
+        if case.montype == "plaine":
+            id = get_prochain_id()
+            img = random.choice(typeressource)
+            organe = Organes(self, id, img, x, y, "organe", case)
+            self.biotopes["organe"][id] = organe
+            self.parent.afficher_bio(organe)
+
+
 
 
 
@@ -1843,7 +1880,7 @@ class Partie:
             self.NPCs["NPC1"] = {}
 
 
-        if self.delaiprochaineaction % 3000 == 0: # EVENEMENTS
+        if self.delaiprochaineaction % 60 == 0: # EVENEMENTS
             if self.evenementsActif == False:
 
                 act = random.choice(list(self.evenements.keys()))
@@ -1853,6 +1890,11 @@ class Partie:
                     action = self.evenements[act]
                     action(30)
                     self.evenementsActif = True
+                elif act == "spawnOrgane":
+                    action = self.evenements[act]
+                    action()
+                    self.evenementsActif = True
+
 
 
         if self.evenementsActif == True:
