@@ -1572,6 +1572,8 @@ class Partie:
                          }
 
         self.evenements = {"spawnNPC": self.creer_NPC}
+        self.evenementsActif = False
+        self.delaiEvenement = 0
 
         self.regions = {}
         # self.regionstypes = [["arbre", 50, 20, 5, "forest green"],
@@ -1835,17 +1837,26 @@ class Partie:
         if self.delaiprochaineaction % 60 == 0: #le reste
             self.produireDNA()
 
+        if self.delaiEvenement % 180 == 0: #sert a donner un temp limite aux évenements
+            self.evenementsActif = False
+            self.NPCs.pop("NPC1")
+            self.NPCs["NPC1"] = {}
+
+
         if self.delaiprochaineaction % 3000 == 0: # EVENEMENTS
-            # self.produire_action() #baies
+            if self.evenementsActif == False:
 
-            act = random.choice(list(self.evenements.keys()))
-
-
-            if act == "spawnNPC":
-                action = self.evenements[act]
-                action(30)
+                act = random.choice(list(self.evenements.keys()))
 
 
+                if act == "spawnNPC":
+                    action = self.evenements[act]
+                    action(30)
+                    self.evenementsActif = True
+
+
+        if self.evenementsActif == True:
+            self.delaiEvenement += 1
         self.delaiprochaineaction += 1
 
     # def produire_action(self):  #baies
