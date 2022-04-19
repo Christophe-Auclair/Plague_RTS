@@ -18,7 +18,7 @@ def chargerimages2():
         'bacteria': PhotoImage(file='images/teams/bacteria.png'),
         'worm': PhotoImage(file='images/teams/worm.png'),
 
-        # organes
+        #organes
         'coeur': PhotoImage(file='images/organe/coeur.png'),
         'cerveau': PhotoImage(file='images/organe/cerveau.png'),
         'poumon': PhotoImage(file='images/organe/poumon.png'),
@@ -50,9 +50,12 @@ def chargerimages2():
         'beacon': PhotoImage(file='images/beacon/beacon.png'),
 
         #constructions
+        'bacteriophage': PhotoImage(file='images/misc/bacteriophage.png'), #watchtowers
+        'barracks': PhotoImage(file='images/misc/barracks.png'),
+        'turrets': PhotoImage(file='images/misc/turrets.png'),
         'siteX': PhotoImage(file='images/divers/siteX.png'),
-        'EnConstruction': PhotoImage(file='images/divers/EnConstruction.png'), #L
-        'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'), #L
+        'EnConstruction': PhotoImage(file='images/divers/EnConstruction.png'),
+        'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'),
 
         #equipe virus
         'V_monocyte': PhotoImage(file='images/cellblanc/V_monocyte.png'),
