@@ -273,8 +273,8 @@ class Vue():
         self.canevas.bind("<Control-MouseWheel>", self.defiler_horizon)
 
         # acgtions liées aux objets dessinés par tag
-        self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
-        # self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
+        # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
+        self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
         self.canevas.tag_bind("perso", "<Button-1>", self.ajouter_selection)
         self.canevas.tag_bind("arbre", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("aureus", "<Button-1>", self.ramasser_ressource)
@@ -404,6 +404,8 @@ class Vue():
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
         self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
+        self.creer_cadre_maison(coul[0] + "_", "ouvrier")
+
         # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
 
         self.creer_chatter()
@@ -426,6 +428,13 @@ class Vue():
             btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i + "D"])
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
+
+    def creer_cadre_maison(self, coul, artefact):
+        self.cadremaison = Frame(self.canevasaction)
+
+        btn = Button(self.cadremaison, text=artefact, image=self.images[coul + artefact + "D"])
+        btn.bind("<Button>", self.creer_entite)
+        btn.pack()
 
     # def creer_cadre_cellules(self, coul, artefacts):
     #     self.cadrecellules = Frame(self.canevasaction)
@@ -687,10 +696,16 @@ class Vue():
 
     def ajouter_selection_batiment(self, evt):
         mestags = self.canevas.gettags(CURRENT)
+        self.action.derniertagchoisi = mestags
+        self.action.posbatiment = [evt.x, evt.y]
         if self.parent.monnom == mestags[1]:
             if "batiment" == mestags[3]:
-                self.action.batimentchoisi.append(mestags[2])
-                self.action.afficher_commande_batiment()
+                if "maison" == mestags[4]:
+                    self.action.batimentchoisi.append(mestags[2])
+                    self.action.afficher_commande_maison()
+                else:
+                    self.action.batimentchoisi.append(mestags[2])
+                    self.action.afficher_commande_batiment()
 
     # Methodes pour multiselect
     def debuter_multiselection(self, evt):
@@ -791,6 +806,74 @@ class Vue():
             self.action.construire_batiment(pos)
 
     def creer_entite(self, evt):
+        type_batiment = self.action.derniertagchoisi[4]
+        posbatiment = self.action.posbatiment
+
+        if type_batiment == "maison":
+            type_unite = "ouvrier"
+        elif type_batiment == "monocyte":
+            type_unite = "druide"
+        elif type_batiment == "lymphocyte":
+            type_unite = "soldat"
+        elif type_batiment == "neutrophil":
+            type_unite = "ballista"
+
+        vals = self.parent.trouver_valeurs()
+        ok = 1
+
+        if self.parent.monnom in self.action.derniertagchoisi:
+            if "batiment" in self.action.derniertagchoisi:
+                if "maison" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+                # if "caserne" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "abri" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "usineballiste" in mestags:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+
+                if "cellanimal" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+                if "lymphocyte" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+                if "monocyte" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+                if "neutrophil" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+
+                if ok:
+                    pos = (posbatiment[0], posbatiment[1])
+                    action = [self.parent.monnom, "creerperso", [type_unite, self.action.derniertagchoisi[4], self.action.derniertagchoisi[2], pos]]
+                    self.parent.actionsrequises.append(action)
+                else:
+                    print("VOUS N'AVEZ PAS ASSEZ DE", k)
+
+
+    def creer_entite1(self, evt):
         mestags = self.canevas.gettags(CURRENT)
         type_batiment = mestags[4]
 
@@ -901,6 +984,8 @@ class Action():
         self.chaton = 0
         self.aideon = 0
         self.skillon = 0
+        self.derniertagchoisi = None
+        self.posbatiment = None
 
     def attaquer(self, evt):
         tag = self.parent.canevas.gettags(CURRENT)
@@ -964,6 +1049,17 @@ class Action():
                                                                      anchor=N)
         self.parent.root.update()
         fh = self.parent.cadrebatiment.winfo_height()
+        ch = int(self.parent.canevasaction.cget("height"))
+        if fh + 60 > ch:
+            cl = int(self.parent.canevasaction.cget("width"))
+            self.parent.canevasaction.config(scrollregion=(0, 0, cl, fh + 60))
+
+    def afficher_commande_maison(self):
+        self.widgetsactifs = self.parent.canevasaction.create_window(100, 60,
+                                                                     window=self.parent.cadremaison,
+                                                                     anchor=N)
+        self.parent.root.update()
+        fh = self.parent.cadremaison.winfo_height()
         ch = int(self.parent.canevasaction.cget("height"))
         if fh + 60 > ch:
             cl = int(self.parent.canevasaction.cget("width"))
