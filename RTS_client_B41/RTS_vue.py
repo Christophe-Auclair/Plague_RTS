@@ -402,7 +402,8 @@ class Vue():
         self.cadrejeuinfo.config(bg=coul[1])
         self.creer_aide()
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
-        self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
+        # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
+        self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "watchtower", "barracks", "turrets"])
         self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
         self.creer_cadre_maison(coul[0] + "_", "ouvrier")
 
@@ -818,11 +819,11 @@ class Vue():
 
         if type_batiment == "maison":
             type_unite = "ouvrier"
-        elif type_batiment == "monocyte":
+        elif type_batiment == "watchtower":
             type_unite = "druide"
-        elif type_batiment == "lymphocyte":
+        elif type_batiment == "barracks":
             type_unite = "soldat"
-        elif type_batiment == "neutrophil":
+        elif type_batiment == "turrets":
             type_unite = "ballista"
 
         vals = self.parent.trouver_valeurs()
@@ -856,17 +857,17 @@ class Vue():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "lymphocyte" in self.action.derniertagchoisi:
+                if "watchtower" in self.action.derniertagchoisi:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "monocyte" in self.action.derniertagchoisi:
+                if "barracks" in self.action.derniertagchoisi:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "neutrophil" in self.action.derniertagchoisi:
+                if "turrets" in self.action.derniertagchoisi:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
@@ -895,11 +896,11 @@ class Vue():
 
         if type_batiment == "maison":
             type_unite = "ouvrier"
-        elif type_batiment == "monocyte":
+        elif type_batiment == "watchtower":
             type_unite = "druide"
-        elif type_batiment == "lymphocyte":
+        elif type_batiment == "barracks":
             type_unite = "soldat"
-        elif type_batiment == "neutrophil":
+        elif type_batiment == "turrets":
             type_unite = "ballista"
 
         vals = self.parent.trouver_valeurs()
@@ -934,17 +935,17 @@ class Vue():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "lymphocyte" in mestags:
+                if "watchtower" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "monocyte" in mestags:
+                if "barracks" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                if "neutrophil" in mestags:
+                if "turrets" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
                             ok = 0

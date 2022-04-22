@@ -50,7 +50,7 @@ def chargerimages2():
         'beacon': PhotoImage(file='images/beacon/beacon.png'),
 
         #constructions
-        'bacteriophage': PhotoImage(file='images/misc/bacteriophage.png'), #watchtowers
+        'watchtower': PhotoImage(file='images/misc/watchtower.png'),
         'barracks': PhotoImage(file='images/misc/barracks.png'),
         'turrets': PhotoImage(file='images/misc/turrets.png'),
         'siteX': PhotoImage(file='images/divers/siteX.png'),
@@ -58,15 +58,17 @@ def chargerimages2():
         'EnConstruction2': PhotoImage(file='images/divers/EnConstruction2.png'),
 
         #equipe virus
-        'V_monocyte': PhotoImage(file='images/cellblanc/V_monocyte.png'),
-        'V_neutrophil': PhotoImage(file='images/cellblanc/V_neutrophil.png'),
+        #batiments
+        'V_watchtower': PhotoImage(file='images/vert/V_watchtower.png'),
+        'V_barracks': PhotoImage(file='images/vert/V_barracks.png'),
+        'V_turrets': PhotoImage(file='images/vert/V_turrets.png'),
+
         'V_ballistaDH': PhotoImage(file='images/vert/V_ballistaDH.png'),
         'V_ballistaDB': PhotoImage(file='images/vert/V_ballistaDB.png'),
         'V_ballistaGH': PhotoImage(file='images/vert/V_ballistaGH.png'),
         'V_ballistaGB': PhotoImage(file='images/vert/V_ballistaGB.png'),
         'V_archerD': PhotoImage(file='images/vert/V_archerD.png'),
         'V_archerG': PhotoImage(file='images/vert/V_archerG.png'),
-        'V_lymphocyte': PhotoImage(file='images/cellblanc/V_lymphocyte.png'),
         'V_chevalierD': PhotoImage(file='images/vert/V_chevalierD.png'),
         'V_chevalierG': PhotoImage(file='images/vert/V_chevalierG.png'),
         'V_druideD': PhotoImage(file='images/vert/V_druideD.png'),
@@ -78,15 +80,17 @@ def chargerimages2():
         'V_soldatG': PhotoImage(file='images/vert/V_soldatG.png'),
 
         #equipe fungus
-        'B_monocyte': PhotoImage(file='images/cellblanc/B_monocyte.png'),
-        'B_neutrophil': PhotoImage(file='images/cellblanc/B_neutrophil.png'),
+        #batiments
+        'B_watchtower': PhotoImage(file='images/bleu/B_watchtower.png'),
+        'B_barracks': PhotoImage(file='images/bleu/B_barracks.png'),
+        'B_turrets': PhotoImage(file='images/bleu/B_turrets.png'),
+
         'B_ballistaDH': PhotoImage(file='images/bleu/B_ballistaDH.png'),
         'B_ballistaDB': PhotoImage(file='images/bleu/B_ballistaDB.png'),
         'B_ballistaGH': PhotoImage(file='images/bleu/B_ballistaGH.png'),
         'B_ballistaGB': PhotoImage(file='images/bleu/B_ballistaGB.png'),
         'B_archerD': PhotoImage(file='images/bleu/B_archerD.png'),
         'B_archerG': PhotoImage(file='images/bleu/B_archerG.png'),
-        'B_lymphocyte': PhotoImage(file='images/cellblanc/B_lymphocyte.png'),
         'B_chevalierD': PhotoImage(file='images/bleu/B_chevalierD.png'),
         'B_chevalierG': PhotoImage(file='images/bleu/B_chevalierG.png'),
         'B_druideD': PhotoImage(file='images/bleu/B_druideD.png'),
@@ -98,15 +102,17 @@ def chargerimages2():
         'B_soldatG': PhotoImage(file='images/bleu/B_soldatG.png'),
 
         #equipe worm
-        'R_monocyte': PhotoImage(file='images/cellblanc/R_monocyte.png'),
-        'R_neutrophil': PhotoImage(file='images/cellblanc/R_neutrophil.png'),
+        #batiments
+        'R_watchtower': PhotoImage(file='images/rouge/R_watchtower.png'),
+        'R_barracks': PhotoImage(file='images/rouge/R_barracks.png'),
+        'R_turrets': PhotoImage(file='images/rouge/R_turrets.png'),
+
         'R_ballistaDH': PhotoImage(file='images/rouge/R_ballistaDH.png'),
         'R_ballistaDB': PhotoImage(file='images/rouge/R_ballistaDB.png'),
         'R_ballistaGH': PhotoImage(file='images/rouge/R_ballistaGH.png'),
         'R_ballistaGB': PhotoImage(file='images/rouge/R_ballistaGB.png'),
         'R_archerD': PhotoImage(file='images/rouge/R_archerD.png'),
         'R_archerG': PhotoImage(file='images/rouge/R_archerG.png'),
-        'R_lymphocyte': PhotoImage(file='images/cellblanc/R_lymphocyte.png'),
         'R_chevalierD': PhotoImage(file='images/rouge/R_chevalierD.png'),
         'R_chevalierG': PhotoImage(file='images/rouge/R_chevalierG.png'),
         'R_druideD': PhotoImage(file='images/rouge/R_druideD.png'),
@@ -118,15 +124,17 @@ def chargerimages2():
         'R_soldatG': PhotoImage(file='images/rouge/R_soldatG.png'),
 
         #equipe bacterie
-        'J_monocyte': PhotoImage(file='images/cellblanc/J_monocyte.png'),
-        'J_neutrophil': PhotoImage(file='images/cellblanc/J_neutrophil.png'),
+        #batiments
+        'J_watchtower': PhotoImage(file='images/jaune/J_watchtower.png'),
+        'J_barracks': PhotoImage(file='images/jaune/J_barracks.png'),
+        'J_turrets': PhotoImage(file='images/jaune/J_turrets.png'),
+
         'J_ballistaDH': PhotoImage(file='images/jaune/J_ballistaDH.png'),
         'J_ballistaDB': PhotoImage(file='images/jaune/J_ballistaDB.png'),
         'J_ballistaGH': PhotoImage(file='images/jaune/J_ballistaGH.png'),
         'J_ballistaGB': PhotoImage(file='images/jaune/J_ballistaGB.png'),
         'J_archeG': PhotoImage(file='images/jaune/J_archeG.png'),
         'J_archerD': PhotoImage(file='images/jaune/J_archerD.png'),
-        'J_lymphocyte': PhotoImage(file='images/cellblanc/W_lymphocyte.png'),
         'J_chevalierD': PhotoImage(file='images/jaune/J_chevalierD.png'),
         'J_chevalierG': PhotoImage(file='images/jaune/J_chevalierG.png'),
         'J_druideD': PhotoImage(file='images/jaune/J_druideD.png'),

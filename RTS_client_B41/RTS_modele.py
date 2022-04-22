@@ -1211,17 +1211,17 @@ class Joueur():
                        "ingenieur": {},
                        "ballista": {}}
 
-        # self.batiments = {"maison": {},
-        #                   "abri": {},
-        #                   "caserne": {},
-        #                   "usineballiste": {},
-        #                   "siteconstruction": {}}
-
         self.batiments = {"maison": {},
-                          "lymphocyte": {},
-                          "monocyte": {},
-                          "neutrophil": {},
+                          "watchtowers": {},
+                          "barracks": {},
+                          "turrets": {},
                           "siteconstruction": {}}
+
+        # self.batiments = {"maison": {},
+        #                   "lymphocyte": {},
+        #                   "monocyte": {},
+        #                   "neutrophil": {},
+        #                   "siteconstruction": {}}
 
         self.actions = {"creerperso": self.creer_perso,
                         "deplacer": self.deplacer,
@@ -1453,21 +1453,21 @@ class Partie:
                #                   "Supply": 0,
                #                   "delai": 80},
 
-               "lymphocyte": {"nourriture": 10,
+               "watchtower": {"nourriture": 10,
                         "arbre": 10,
                         "roche": 5,
                         "aureus": 1,
                         "DNA": 0,
                         "Supply": 0,
                         "delai": 30},
-               "monocyte": {"nourriture": 10,
+               "barracks": {"nourriture": 10,
                            "arbre": 10,
                            "roche": 5,
                            "aureus": 1,
                            "DNA": 0,
                            "Supply": 0,
                            "delai": 60},
-               "neutrophil": {"nourriture": 10,
+               "turrets": {"nourriture": 10,
                                  "arbre": 10,
                                  "roche": 5,
                                  "aureus": 1,
@@ -1552,9 +1552,9 @@ class Partie:
         #                          "usineballiste": Usineballiste}
 
         self.classesbatiments = {"maison": Maison,
-                                 "lymphocyte": Caserne,
-                                 "monocyte": Abri,
-                                 "neutrophil": Usineballiste}
+                                 "watchtower": Caserne,
+                                 "barracks": Abri,
+                                 "turrets": Usineballiste}
 
         self.classespersos = {"ouvrier": Ouvrier,
                               "soldat": Soldat,
