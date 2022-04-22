@@ -196,10 +196,8 @@ class Vue():
     def creer_HUD(self):
         self.cadrejeuinfo = Frame(self.cadrecanevas, bg="blue")
         # des etiquettes d'info
-        self.infohud = {"Nourriture": None,
-                        "Bois": None,
-                        "Roche": None,
-                        "Aureus": None,
+        self.infohud = {"sang": None,
+                        "matiere organique": None,
                         "DNA": None,
                         "Supply": None, }
 
@@ -276,9 +274,7 @@ class Vue():
         # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
         self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
         self.canevas.tag_bind("perso", "<Button-1>", self.ajouter_selection)
-        self.canevas.tag_bind("arbre", "<Button-1>", self.ramasser_ressource)
-        self.canevas.tag_bind("aureus", "<Button-1>", self.ramasser_ressource)
-        self.canevas.tag_bind("roche", "<Button-1>", self.ramasser_ressource)
+        self.canevas.tag_bind("matiere organique", "<Button-1>", self.ramasser_ressource)
         # self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("eau", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("daim", "<Button-1>", self.chasser_ressource)
@@ -469,8 +465,6 @@ class Vue():
         couleurs = {0: "",
                     "arbre": "light green",
                     "eau": "light blue",
-                    "aureus": "tan",
-                    "roche": "gray30",
                     "marais": "orange"}
         for i, t in enumerate(self.modele.regions):
             if t != "plaine":
@@ -560,10 +554,8 @@ class Vue():
         for j in self.modele.joueurs.keys():
             # ajuster les infos du HUD
             if j == self.parent.monnom:
-                self.infohud["Nourriture"][0].set(self.modele.joueurs[j].ressources["nourriture"])
-                self.infohud["Bois"][0].set(self.modele.joueurs[j].ressources["arbre"])
-                self.infohud["Roche"][0].set(self.modele.joueurs[j].ressources["roche"])
-                self.infohud["Aureus"][0].set(self.modele.joueurs[j].ressources["aureus"])
+                self.infohud["sang"][0].set(self.modele.joueurs[j].ressources["sang"])
+                self.infohud["matiere organique"][0].set(self.modele.joueurs[j].ressources["matiere organique"])
                 self.infohud["DNA"][0].set(self.modele.joueurs[j].ressources["DNA"])
                 self.infohud["Supply"][0].set(
                     str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))

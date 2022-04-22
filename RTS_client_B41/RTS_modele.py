@@ -333,14 +333,6 @@ class Daim():
         self.img = self.nomimg + self.dir
 
 
-class Organes():
-    typeressource = ['organe','coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
-    def __init__(self, parent, id, monimg, x, y, montype, case):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
-        self.valeur = 100
-        self.case = case
-
-
 class Biotope():
     def __init__(self, parent, id, monimg, x, y, montype, idregion=0, posid="0"):
         self.parent = parent
@@ -376,6 +368,14 @@ class Beacon(Biotope):
     #         self.spriteno += 1
     #         if self.spriteno > self.spritelen - 1:
     #             self.spriteno = 0
+
+class Organes(Biotope):
+    typeressource = ['organe','coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
+    def __init__(self, parent, id, monimg, x, y, montype, case):
+        Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
+        self.valeur = 100
+        self.case = case
+
 
 
 # class Baie(Biotope):
@@ -428,17 +428,6 @@ class Beacon(Biotope):
 #                 self.spriteno = 0
 
 
-# class Aureus(Biotope):
-#     typeressource = ['aureusbrillant',
-#                      'aureusD_',
-#                      'aureusG',
-#                      'aureusrocgrand',
-#                      'aureusrocmoyen',
-#                      'aureusrocpetit']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-#         self.valeur = 100
 
 #
 # class Roche(Biotope):
@@ -793,23 +782,12 @@ class Archer(Perso):
         self.hp = 2
         self.size = 2
 
-class Chevalier(Perso):
-    def __init__(self, parent, id, maison, couleur, x, y, montype):
-        Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-        self.hp = 2
-        self.size = 2
-
 class Druide(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
 
-class Ingenieur(Perso):
-    def __init__(self, parent, id, maison, couleur, x, y, montype):
-        Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-        self.hp = 2
-        self.size = 2
 
 class Ballista(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
@@ -906,7 +884,7 @@ class Ouvrier(Perso):
         if reponse == "rendu":
             if self.cible:
                 if self.typeressource == "daim" or self.typeressource == "eau":  # or self.typeressource == "baie"
-                    self.parent.ressources["nourriture"] += self.ramassage
+                    self.parent.ressources["sang"] += self.ramassage
                 else:
                     self.parent.ressources[self.typeressource] += self.ramassage
                 self.ramassage = 0
@@ -1170,18 +1148,13 @@ class Joueur():
     classespersos = {"ouvrier": Ouvrier,
                      "soldat": Soldat,
                      "archer": Archer,
-                     "chevalier": Chevalier,
                      "druide": Druide,
-                     "ballista": Ballista,
-                     "ingenieur": Ingenieur}
-    ressources = {"Azteque": {"nourriture": 999,
-                              "arbre": 200,
-                              "roche": 200,
-                              "aureus": 200},
-                  "Congolaise": {"nourriture": 10,
-                                 "arbre": 200,
-                                 "roche": 200,
-                                 "aureus": 888888888},
+                     "ballista": Ballista
+                     }
+    ressources = {"Azteque": {"sang": 999,
+                              "matiere organique": 200},
+                  "Congolaise": {"sang": 10,
+                                 "matiere organique": 200},
                   }
 
     def __init__(self, parent, id, nom, couleur, x, y):
@@ -1197,10 +1170,8 @@ class Joueur():
         self.total_supply = 0
         self.current_supply = 0
         self.ressourcemorte = []
-        self.ressources = {"nourriture": 200,
-                           "arbre": 200,
-                           "roche": 200,
-                           "aureus": 200,
+        self.ressources = {"sang": 200,
+                           "matiere organique": 200,
                            "DNA": 50,
                            "Supply": self.total_supply - self.current_supply,}
         self.persos = {"ouvrier": {},
@@ -1212,7 +1183,7 @@ class Joueur():
                        "ballista": {}}
 
         self.batiments = {"maison": {},
-                          "watchtowers": {},
+                          "watchtower": {},
                           "barracks": {},
                           "turrets": {},
                           "siteconstruction": {}}
@@ -1424,10 +1395,8 @@ class Partie:
 
         ### CRAFTING COSTS BATIMENTS
 
-               "maison": {"nourriture": 10,
-                          "arbre": 20,
-                          "roche": 20,
-                          "aureus": 2,
+               "maison": {"sang": 10,
+                          "matiere organique": 20,
                           "DNA": 0,
                           "Supply": 0,
                           "delai": 50},
@@ -1453,76 +1422,45 @@ class Partie:
                #                   "Supply": 0,
                #                   "delai": 80},
 
-               "watchtower": {"nourriture": 10,
-                        "arbre": 10,
-                        "roche": 5,
-                        "aureus": 1,
+               "watchtower": {"sang": 10,
+                        "matiere organique": 10,
                         "DNA": 0,
                         "Supply": 0,
                         "delai": 30},
-               "barracks": {"nourriture": 10,
-                           "arbre": 10,
-                           "roche": 5,
-                           "aureus": 1,
+               "barracks": {"sang": 10,
+                           "matiere organique": 10,
                            "DNA": 0,
                            "Supply": 0,
                            "delai": 60},
-               "turrets": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 5,
-                                 "aureus": 1,
+               "turrets": {"sang": 10,
+                                 "matiere organique": 10,
                                  "DNA": 0,
                                  "Supply": 0,
                                  "delai": 80},
 
         ### CRAFTING COSTS UNITS
 
-               "soldat": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
+               "soldat": {"sang": 10,
+                                 "matiere organique": 10,
                                  "DNA": 0,
                                  "Supply": 10,
                                  "delai": 50},
-               "archer": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
+               "archer": {"sang": 10,
+                                 "matiere organique": 10,
                                  "DNA": 0,
                                  "Supply": 10,
                                  "delai": 50},
-               "chevalier": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
+               "druide": {"sang": 10,
+                                 "matiere organique": 10,
                                  "DNA": 0,
                                  "Supply": 10,
                                  "delai": 50},
-               "druide": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
-                                 "DNA": 0,
+               "ballista": {"sang": 10,
+                                 "matiere organique": 10,
                                  "Supply": 10,
                                  "delai": 50},
-               "ingenieur": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "ballista": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 10,
-                                 "aureus": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "ouvrier": {"nourriture": 10,
-                                 "arbre": 10,
-                                 "roche": 0,
-                                 "aureus": 0,
+               "ouvrier": {"sang": 10,
+                                 "matiere organique": 10,
                                  "DNA": 0,
                                  "Supply": 10,
                                  "delai": 50},
@@ -1559,7 +1497,6 @@ class Partie:
         self.classespersos = {"ouvrier": Ouvrier,
                               "soldat": Soldat,
                               "archer": Archer,
-                              "chevalier": Chevalier,
                               "druide": Druide,
                               "NPC1": NPC1}
         self.ressourcemorte = []
@@ -1882,7 +1819,7 @@ class Partie:
             self.NPCs["NPC1"] = {}
 
 
-        if self.delaiprochaineaction % 60 == 0: # EVENEMENTS
+        if self.delaiprochaineaction % 600 == 0: # EVENEMENTS
             if self.evenementsActif == False:
 
                 act = random.choice(list(self.evenements.keys()))
