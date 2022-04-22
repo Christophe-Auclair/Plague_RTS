@@ -436,6 +436,13 @@ class Vue():
         btn.bind("<Button>", self.creer_entite)
         btn.pack()
 
+    def creer_cadre_barrack(self, coul, artefact):
+        self.cadrewatchtower = Frame(self.canevasaction)
+
+        btn = Button(self.cadrewatchtower, text=artefact, image=self.images[coul + artefact + "D"])
+        btn.bind("<Button>", self.creer_entite)
+        btn.pack()
+
     # def creer_cadre_cellules(self, coul, artefacts):
     #     self.cadrecellules = Frame(self.canevasaction)
     #     for i in artefacts:
@@ -958,13 +965,13 @@ class Vue():
     def afficher_nouveau_territoire(self, territoire):
         for i in territoire:
             self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
-                                          fill="brown", tags=("territoire",))
+                                          fill="brown", tags=("territoire", "statique"))
 
             x1 = int((i.x * 20 / self.modele.aireX) * self.tailleminicarte)
             y1 = int((i.y * 20 / self.modele.aireY) * self.tailleminicarte)
 
             self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, outline="",
-                                            fill="brown", tags=("territoire",))
+                                            fill="brown", tags=("territoire", "statique"))
             self.canevas.tag_lower("territoire")
             self.minicarte.tag_lower("territoire")
 

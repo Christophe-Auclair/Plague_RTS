@@ -985,13 +985,15 @@ class Ouvrier(Perso):
                 self.parent.installer_batiment(batiment)
 
                 nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
+                territoire_a_dessiner = []
 
                 for i in nouveau_territoire:
                     if i not in self.parent.territoire:
                         self.parent.territoire.append(i)
+                        territoire_a_dessiner.append(i)
 
                 self.parent.parent.calculer_supply()
-                self.parent.parent.parent.afficher_territoire(nouveau_territoire)
+                self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
 
                 self.x = self.cible.x + 20
                 self.y = self.cible.y - 20
@@ -1890,10 +1892,10 @@ class Partie:
                     action = self.evenements[act]
                     action(30)
                     self.evenementsActif = True
-                elif act == "spawnOrgane":
-                    action = self.evenements[act]
-                    action()
-                    self.evenementsActif = True
+                # elif act == "spawnOrgane":
+                #     action = self.evenements[act]
+                #     action()
+                #     self.evenementsActif = True
 
 
 
@@ -1936,11 +1938,13 @@ class Partie:
                 coords.append([x, y])
                 n -= 1
 
-        case = self.trouver_case(x, y)
-        id = get_prochain_id()
+
+
         img = random.choice(typeressource)
 
         for i in coords:
+            case = self.trouver_case(i[0], i[1])
+            id = get_prochain_id()
             beacon = Beacon(self, id, img, i[0], i[1], "beacon", case)
             self.biotopes["beacon"][id] = beacon
             self.parent.afficher_bio(beacon)
