@@ -843,39 +843,6 @@ class Vue():
                             ok = 0
                             break
 
-                # if "caserne" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-                # if "abri" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-                # if "usineballiste" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-
-                # if "cellanimal" in self.action.derniertagchoisi:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-                # if "watchtower" in self.action.derniertagchoisi:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-
-                # if "turrets" in self.action.derniertagchoisi:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-
                 if ok:
                     pos = (posbatiment[0], posbatiment[1])
                     action = [self.parent.monnom, "creerperso", [type_unite, self.action.derniertagchoisi[4], self.action.derniertagchoisi[2], pos]]
@@ -966,19 +933,36 @@ class Vue():
         #     self.action.ciblechoisi=mestags
         #     self.action.attaquer()
 
+    # def afficher_nouveau_territoire(self, territoire):
+    #     for i in territoire:
+    #         self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
+    #                                       fill="brown", tags=("territoire", "statique"))
+    #
+    #         x1 = int((i.x * 20 / self.modele.aireX) * self.tailleminicarte)
+    #         y1 = int((i.y * 20 / self.modele.aireY) * self.tailleminicarte)
+    #
+    #         self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, outline="",
+    #                                         fill="brown", tags=("territoire", "statique"))
+    #         self.canevas.tag_lower("territoire")
+    #         self.minicarte.tag_lower("territoire")
+
     def afficher_nouveau_territoire(self, territoire):
-        for i in territoire:
-            self.canevas.create_rectangle(i.x * 20 - 10, i.y * 20 - 10, i.x * 20 + 10, i.y * 20 + 10, outline="",
-                                          fill="brown", tags=("territoire", "statique"))
 
-            x1 = int((i.x * 20 / self.modele.aireX) * self.tailleminicarte)
-            y1 = int((i.y * 20 / self.modele.aireY) * self.tailleminicarte)
+        topleft = territoire[0]
+        bottomright = territoire[-1]
 
-            self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, outline="",
-                                            fill="brown", tags=("territoire", "statique"))
-            self.canevas.tag_lower("territoire")
-            self.minicarte.tag_lower("territoire")
+        self.canevas.create_rectangle(topleft.x * 20 - 10, topleft.y * 20 - 10, bottomright.x * 20 + 10, bottomright.y * 20 + 10, outline="",
+                                      fill="brown", tags=("territoire", "statique"))
 
+        x1 = int((topleft.x * 20 / self.modele.aireX) * self.tailleminicarte)
+        y1 = int((topleft.y * 20 / self.modele.aireY) * self.tailleminicarte)
+        x2 = int((bottomright.x * 20 / self.modele.aireX) * self.tailleminicarte)
+        y2 = int((bottomright.y * 20 / self.modele.aireY) * self.tailleminicarte)
+
+        self.minicarte.create_rectangle(x1 - 2, y1 - 2, x2 + 2, y2 + 2, outline="",
+                                        fill="brown", tags=("territoire", "statique"))
+        self.canevas.tag_lower("territoire")
+        self.minicarte.tag_lower("territoire")
 
 # Singleton (mais pas automatique) sert a conserver les manipulations du joueur pour demander une action
 ######   CET OBJET SERVIRA À CONSERVER LES GESTES ET INFOS REQUISES POUR PRODUIRE UNE ACTION DE JEU

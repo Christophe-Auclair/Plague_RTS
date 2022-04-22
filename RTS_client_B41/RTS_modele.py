@@ -961,7 +961,13 @@ class Ouvrier(Perso):
                 print(sitecons)
                 self.parent.installer_batiment(batiment)
 
-                nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
+                # if batiment.montype == "watchtower":
+                #     nouveau_territoire = self.parent.parent.aggrandir_territoire_watchtower(self.cible.x, self.cible.y)
+                # else:
+                #     nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
+
+                nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y, batiment.montype)
+
                 territoire_a_dessiner = []
 
                 for i in nouveau_territoire:
@@ -970,7 +976,9 @@ class Ouvrier(Perso):
                         territoire_a_dessiner.append(i)
 
                 self.parent.parent.calculer_supply()
-                self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
+                # self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
+                self.parent.parent.parent.afficher_territoire(nouveau_territoire)
+
 
                 self.x = self.cible.x + 20
                 self.y = self.cible.y - 20
@@ -1871,9 +1879,10 @@ class Partie:
                 t1.append(Caseregion(None, id, j, i))
             self.cartecase.append(t1)
 
-    def aggrandir_territoire(self, x, y):
+    def aggrandir_territoire(self, x, y, type):
 
         territoire = []
+        beacon_territoire = []
 
         if x < 0:
             x = 0
@@ -1898,23 +1907,46 @@ class Partie:
         if cy == self.taillecarte:
             cy -= 1
 
-        for i in range(cx - 10, cx + 10):
-            for j in range(cy - 10, cy + 10):
+        if type == "watchtower":
+            for i in range(cx - 15, cx + 15):
+                for j in range(cy - 15, cy + 15):
 
-                for k in self.biotopes["beacon"]:
-                    case = self.biotopes["beacon"][k].case
-                    if case.x == i and case.y == j:
-                        print("beacon!")
-                        for l in range(case.x - 20, case.x + 20):
-                            for m in range(case.y - 20, case.y + 20):
-                                if self.cartecase[m][l] not in territoire:
-                                    if 200 > m >= 0 and 200 > l >= 0:
-                                        territoire.append(self.cartecase[m][l])
+                    for k in self.biotopes["beacon"]:
+                        case = self.biotopes["beacon"][k].case
+                        if case.x == i and case.y == j:
+                            print("beacon!")
+                            for l in range(case.x - 20, case.x + 20):
+                                for m in range(case.y - 20, case.y + 20):
+                                    if self.cartecase[m][l] not in territoire:
+                                        if 200 > m >= 0 and 200 > l >= 0:
+                                            territoire.append(self.cartecase[m][l])
+                                            beacon_territoire.append(self.cartecase[m][l])
 
-                if 200 > j >= 0 and 200 > i >= 0:
-                    if self.cartecase[j][i] not in territoire:
-                        territoire.append(self.cartecase[j][i])
+                    if 200 > j >= 0 and 200 > i >= 0:
+                        if self.cartecase[j][i] not in territoire:
+                            territoire.append(self.cartecase[j][i])
 
+        else:
+            for i in range(cx - 10, cx + 10):
+                for j in range(cy - 10, cy + 10):
+
+                    for k in self.biotopes["beacon"]:
+                        case = self.biotopes["beacon"][k].case
+                        if case.x == i and case.y == j:
+                            print("beacon!")
+                            for l in range(case.x - 20, case.x + 20):
+                                for m in range(case.y - 20, case.y + 20):
+                                    if self.cartecase[m][l] not in territoire:
+                                        if 200 > m >= 0 and 200 > l >= 0:
+                                            territoire.append(self.cartecase[m][l])
+
+                    if 200 > j >= 0 and 200 > i >= 0:
+                        if self.cartecase[j][i] not in territoire:
+                            territoire.append(self.cartecase[j][i])
+
+        if beacon_territoire:
+            self.parent.afficher_territoire(beacon_territoire)
+            beacon_territoire = []
         return territoire
 
     # def radar_beacon(self, i, j, territoire):
