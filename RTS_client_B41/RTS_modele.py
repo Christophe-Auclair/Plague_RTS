@@ -1817,8 +1817,6 @@ class Partie:
                 coords.append([x, y])
                 n -= 1
 
-
-
         img = random.choice(typeressource)
 
         for i in coords:
@@ -1830,15 +1828,27 @@ class Partie:
 
     def produire_organe(self):
         typeressource = Organe.typeressource
+
         x = random.randrange(int(1000 + (self.aireX / 2)))
         y = random.randrange(int(1000 + (self.aireY / 2)))
-        case = self.trouver_case(x, y)
-        if case.montype == "plaine":
-            id = get_prochain_id()
-            img = random.choice(typeressource)
-            organe = Organe(self, id, img, x, y, "organe")
-            self.biotopes["organe"][id] = organe
-            self.parent.afficher_bio(organe)
+
+        # x = random.randint(0 + 20, self.aireX / 5)
+        # y = random.randint(0 + 20, self.aireX / 5)
+        # x1 = random.randint(self.aireX / 5 * 4, self.aireX - 20)
+        # y1 = random.randint(self.aireX / 5 * 4, self.aireX - 20)
+        #
+        # rand = random.randint(1, 3)
+        # if rand == 1:
+        #     case = self.trouver_case(x, y)
+        # else:
+        #     case = self.trouver_case(x1, y1)
+
+
+        id = get_prochain_id()
+        img = random.choice(typeressource)
+        organe = Organe(self, id, img, x, y, "organe")
+        self.biotopes["organe"][id] = organe
+        self.parent.afficher_bio(organe)
 
     def produireDNA(self):
         for i in self.joueurs:

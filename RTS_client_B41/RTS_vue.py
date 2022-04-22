@@ -822,8 +822,7 @@ class Vue():
             if self.action.btnactif:  # si un autre bouton etait deja choisi
                 if self.action.btnactif != obj:  # et qu'il est different du nouveau
                     self.action.btnactif.config(bg="SystemButtonFace")  # change couleur pour deselection du precedent
-            # test de cout a cet endroit
-            type_unite = obj.cget("text")  # on utilise pour identifier la sorte de batiment à produire
+            type_unite = obj.cget("text")
             self.action.btnactif = obj
 
         vals = self.parent.trouver_valeurs()
