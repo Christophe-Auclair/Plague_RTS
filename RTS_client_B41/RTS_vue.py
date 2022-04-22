@@ -400,8 +400,10 @@ class Vue():
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "watchtower", "barracks", "turrets"])
-        self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
+        # self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
         self.creer_cadre_maison(coul[0] + "_", "ouvrier")
+        self.creer_cadre_barracks(coul[0] + "_", ["druide", "soldat", "ballista"])
+
 
         # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
 
@@ -418,13 +420,13 @@ class Vue():
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
 
-    def creer_cadre_batiment(self, coul, artefacts):
-        self.cadrebatiment = Frame(self.canevasaction)
-
-        for i in artefacts:
-            btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i + "D"])
-            btn.bind("<Button>", self.batir_artefact)
-            btn.pack()
+    # def creer_cadre_batiment(self, coul, artefacts):
+    #     self.cadrebatiment = Frame(self.canevasaction)
+    #
+    #     for i in artefacts:
+    #         btn = Button(self.cadrebatiment, text=i, image=self.images[coul + i + "D"])
+    #         btn.bind("<Button>", self.batir_artefact)
+    #         btn.pack()
 
     def creer_cadre_maison(self, coul, artefact):
         self.cadremaison = Frame(self.canevasaction)
@@ -433,12 +435,14 @@ class Vue():
         btn.bind("<Button>", self.creer_entite)
         btn.pack()
 
-    def creer_cadre_barrack(self, coul, artefact):
-        self.cadrewatchtower = Frame(self.canevasaction)
+    def creer_cadre_barracks(self, coul, artefacts):
+        self.cadrebarracks = Frame(self.canevasaction)
 
-        btn = Button(self.cadrewatchtower, text=artefact, image=self.images[coul + artefact + "D"])
-        btn.bind("<Button>", self.creer_entite)
-        btn.pack()
+        for i in artefacts:
+            btn = Button(self.cadrebarracks, text=i, image=self.images[coul + i + "D"])
+            btn.bind("<Button>", self.creer_entite)
+            btn.pack()
+
 
     # def creer_cadre_cellules(self, coul, artefacts):
     #     self.cadrecellules = Frame(self.canevasaction)
@@ -705,9 +709,9 @@ class Vue():
                 if "maison" == mestags[4]:
                     self.action.batimentchoisi.append(mestags[2])
                     self.action.afficher_commande_maison()
-                else:
+                elif "barracks" == mestags[4]:
                     self.action.batimentchoisi.append(mestags[2])
-                    self.action.afficher_commande_batiment()
+                    self.action.afficher_commande_barracks()
 
     # Methodes pour multiselect
     def debuter_multiselection(self, evt):
@@ -813,12 +817,14 @@ class Vue():
 
         if type_batiment == "maison":
             type_unite = "ouvrier"
-        elif type_batiment == "watchtower":
-            type_unite = "druide"
         elif type_batiment == "barracks":
-            type_unite = "soldat"
-        elif type_batiment == "turrets":
-            type_unite = "ballista"
+            obj = evt.widget
+            if self.action.btnactif:  # si un autre bouton etait deja choisi
+                if self.action.btnactif != obj:  # et qu'il est different du nouveau
+                    self.action.btnactif.config(bg="SystemButtonFace")  # change couleur pour deselection du precedent
+            # test de cout a cet endroit
+            type_unite = obj.cget("text")  # on utilise pour identifier la sorte de batiment à produire
+            self.action.btnactif = obj
 
         vals = self.parent.trouver_valeurs()
         ok = 1
@@ -830,6 +836,13 @@ class Vue():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
+
+                if "barracks" in self.action.derniertagchoisi:
+                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                        if val < vals[type_unite][k]:
+                            ok = 0
+                            break
+
                 # if "caserne" in mestags:
                 #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                 #         if val < vals[type_unite][k]:
@@ -846,26 +859,22 @@ class Vue():
                 #             ok = 0
                 #             break
 
-                if "cellanimal" in self.action.derniertagchoisi:
-                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val < vals[type_unite][k]:
-                            ok = 0
-                            break
-                if "watchtower" in self.action.derniertagchoisi:
-                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val < vals[type_unite][k]:
-                            ok = 0
-                            break
-                if "barracks" in self.action.derniertagchoisi:
-                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val < vals[type_unite][k]:
-                            ok = 0
-                            break
-                if "turrets" in self.action.derniertagchoisi:
-                    for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                        if val < vals[type_unite][k]:
-                            ok = 0
-                            break
+                # if "cellanimal" in self.action.derniertagchoisi:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+                # if "watchtower" in self.action.derniertagchoisi:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
+
+                # if "turrets" in self.action.derniertagchoisi:
+                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
+                #         if val < vals[type_unite][k]:
+                #             ok = 0
+                #             break
 
                 if ok:
                     pos = (posbatiment[0], posbatiment[1])
@@ -1045,12 +1054,23 @@ class Action():
             cl = int(self.parent.canevasaction.cget("width"))
             self.parent.canevasaction.config(scrollregion=(0, 0, cl, fh + 60))
 
-    def afficher_commande_batiment(self):
+    # def afficher_commande_batiment(self):
+    #     self.widgetsactifs = self.parent.canevasaction.create_window(100, 60,
+    #                                                                  window=self.parent.cadrebatiment,
+    #                                                                  anchor=N)
+    #     self.parent.root.update()
+    #     fh = self.parent.cadrebatiment.winfo_height()
+    #     ch = int(self.parent.canevasaction.cget("height"))
+    #     if fh + 60 > ch:
+    #         cl = int(self.parent.canevasaction.cget("width"))
+    #         self.parent.canevasaction.config(scrollregion=(0, 0, cl, fh + 60))
+
+    def afficher_commande_barracks(self):
         self.widgetsactifs = self.parent.canevasaction.create_window(100, 60,
-                                                                     window=self.parent.cadrebatiment,
+                                                                     window=self.parent.cadrebarracks,
                                                                      anchor=N)
         self.parent.root.update()
-        fh = self.parent.cadrebatiment.winfo_height()
+        fh = self.parent.cadrebarracks.winfo_height()
         ch = int(self.parent.canevasaction.cget("height"))
         if fh + 60 > ch:
             cl = int(self.parent.canevasaction.cget("width"))

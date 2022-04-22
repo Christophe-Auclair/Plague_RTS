@@ -1457,6 +1457,7 @@ class Partie:
                                  "delai": 50},
                "ballista": {"sang": 10,
                                  "matiere organique": 10,
+                                 "DNA": 0,
                                  "Supply": 10,
                                  "delai": 50},
                "ouvrier": {"sang": 10,
