@@ -274,7 +274,7 @@ class Vue():
         # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
         self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
         self.canevas.tag_bind("perso", "<Button-1>", self.ajouter_selection)
-        self.canevas.tag_bind("matiere organique", "<Button-1>", self.ramasser_ressource)
+        self.canevas.tag_bind("organe", "<Button-1>", self.ramasser_ressource)
         # self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("eau", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("daim", "<Button-1>", self.chasser_ressource)

@@ -369,12 +369,11 @@ class Beacon(Biotope):
     #         if self.spriteno > self.spritelen - 1:
     #             self.spriteno = 0
 
-class Organes(Biotope):
-    typeressource = ['organe','coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
-    def __init__(self, parent, id, monimg, x, y, montype, case):
-        Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
+class Organe(Biotope):
+    typeressource = ['coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
+    def __init__(self, parent, id, monimg, x, y, montype):
+        Biotope.__init__(self, parent, id, monimg, x, y, montype)
         self.valeur = 100
-        self.case = case
 
 
 
@@ -883,13 +882,13 @@ class Ouvrier(Perso):
         reponse = self.bouger()
         if reponse == "rendu":
             if self.cible:
-                if self.typeressource == "daim" or self.typeressource == "eau":  # or self.typeressource == "baie"
+                if self.typeressource == "daim":
                     self.parent.ressources["sang"] += self.ramassage
-                else:
-                    self.parent.ressources[self.typeressource] += self.ramassage
+                elif self.typeressource == "organe":
+                    self.parent.ressources["matiere organique"] += self.ramassage
                 self.ramassage = 0
                 if self.cible.valeur < 1:
-                    rep = self.chercher_nouvelle_ressource(self.cible.montype, self.cible.idregion)
+                    rep = self.chercher_nouvelle_ressource(self.cible.montype, self.cible.idregion)           # a fixer
                     self.cibler(rep)
                 if self.cible:
                     self.cibler(self.cible)
@@ -921,7 +920,7 @@ class Ouvrier(Perso):
         self.position_visee = [self.cible.x, self.cible.y]
         reponse = self.bouger()
         if reponse == "rendu":
-            if self.typeressource == "daim" or self.typeressource == "eau":
+            if self.typeressource == "daim":
                 self.actioncourante = "ramasserressource"
         elif reponse <= self.champchasse and self.cible.etat == "vivant":
             self.actioncourante = "validerjavelot"
@@ -999,7 +998,7 @@ class Ouvrier(Perso):
 
     def chercher_nouvelle_ressource(self, typ, idreg):
         print("Je cherche nouvelle ressource")
-        if typ != "daim":  # and typ != "baie"
+        if typ != "daim" and typ != "organe":  # and typ != "baie"
             reg = self.parent.parent.regions[typ]
             if idreg in reg:
                 regspec = self.parent.parent.regions[typ][idreg]
@@ -1400,27 +1399,6 @@ class Partie:
                           "DNA": 0,
                           "Supply": 0,
                           "delai": 50},
-               # "abri": {"nourriture": 10,
-               #          "arbre": 10,
-               #          "roche": 5,
-               #          "aureus": 1,
-               #          "DNA": 0,
-               #          "Supply": 0,
-               #          "delai": 30},
-               # "caserne": {"nourriture": 10,
-               #             "arbre": 10,
-               #             "roche": 5,
-               #             "aureus": 1,
-               #             "DNA": 0,
-               #             "Supply": 0,
-               #             "delai": 60},
-               # "usineballiste": {"nourriture": 10,
-               #                   "arbre": 10,
-               #                   "roche": 5,
-               #                   "aureus": 1,
-               #                   "DNA": 0,
-               #                   "Supply": 0,
-               #                   "delai": 80},
 
                "watchtower": {"sang": 10,
                         "matiere organique": 10,
@@ -1506,12 +1484,6 @@ class Partie:
         self.msggeneralcompteur = 0
         self.listebiotopes = []
         self.biotopes = {"daim": {},
-                         # "arbre": {},
-                         # "roche": {},
-                         # "aureus": {},
-                         # "eau": {},
-                         # "marais": {},
-                         # "baie": {},
                          "beacon": {},
                          "organe": {}
                          }
@@ -1532,7 +1504,6 @@ class Partie:
         self.creer_biotopes()
         self.creer_population(mondict)
         self.produire_beacon()
-        # self.produire_organe()
 
     def calc_stats(self):
         total = 0
@@ -1570,11 +1541,6 @@ class Partie:
                 self.biotopes["daim"][id] = mondaim
                 self.listebiotopes.append(mondaim)
                 n -= 1
-        # self.creer_biotope("arbre", "arbre", Arbre)
-        # self.creer_biotope("roche", "roche", Roche)
-        # self.creer_biotope("eau", "eau", Eau)
-        # self.creer_biotope("marais", "marais", Marais)
-        # self.creer_biotope("aureus", "aureus", Aureus)
 
     def creer_biotope(self, region, ressource, typeclasse):  # creation des forets
         typeressource = typeclasse.typeressource
@@ -1728,42 +1694,6 @@ class Partie:
                 nbr -= 1
                 h+=1
 
-    # def creer_Organe(self):
-    #     x = random.randrange(self.aireX)
-    #     y = random.randrange(self.aireY)
-    #     case = self.trouver_case(x, y)
-    #     if case.montype == "plaine":
-    #         id = get_prochain_id()
-    #         sorte = "NPC1"
-    #         # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
-    #         # monNPC.image = None
-    #         self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
-    #         self.NPCs[sorte][id].image = "npc"
-    #         # self.NPCs.append(monNPC)
-    #         nbr -= 1
-    #         h += 1
-
-    def produire_organe(self):
-        typeressource = Organes.typeressource
-        # x = random.randrange(int(1000 + (self.aireX / 2)))
-        # y = random.randrange(int(1000 + (self.aireY / 2)))
-        x = random.randrange(self.aireX)
-        y = random.randrange(self.aireY)
-        case = self.trouver_case(x, y)
-        if case.montype == "plaine":
-            id = get_prochain_id()
-            img = random.choice(typeressource)
-            organe = Organes(self, id, img, x, y, "organe", case)
-            self.biotopes["organe"][id] = organe
-            self.parent.afficher_bio(organe)
-
-
-
-
-
-
-
-
     def deplacer(self):
         for i in self.joueurs:
             self.joueurs[i].deplacer()
@@ -1818,6 +1748,9 @@ class Partie:
             self.evenementsActif = False
             self.NPCs.pop("NPC1")
             self.NPCs["NPC1"] = {}
+
+        if self.delaiprochaineaction % 60 == 0:
+            self.produire_organe()
 
 
         if self.delaiprochaineaction % 600 == 0: # EVENEMENTS
@@ -1887,20 +1820,17 @@ class Partie:
             self.biotopes["beacon"][id] = beacon
             self.parent.afficher_bio(beacon)
 
-    # def produire_organe(self):
-    #     typeressource = Organes.typeressource
-    #     n = 10
-    #     while n:
-    #         x = random.randrange(int(1000 + (self.aireX / 2)))
-    #         y = random.randrange(int(1000 + (self.aireY / 2)))
-    #         case = self.trouver_case(x, y)
-    #         if case.montype == "plaine":
-    #             id = get_prochain_id()
-    #             img = random.choice(typeressource)
-    #             organe = Organes(self, id, img, x, y, "organe", case)
-    #             self.biotopes["organe"][id] = organe
-    #             n -= 1
-    #             self.parent.afficher_bio(organe)
+    def produire_organe(self):
+        typeressource = Organe.typeressource
+        x = random.randrange(int(1000 + (self.aireX / 2)))
+        y = random.randrange(int(1000 + (self.aireY / 2)))
+        case = self.trouver_case(x, y)
+        if case.montype == "plaine":
+            id = get_prochain_id()
+            img = random.choice(typeressource)
+            organe = Organe(self, id, img, x, y, "organe")
+            self.biotopes["organe"][id] = organe
+            self.parent.afficher_bio(organe)
 
     def produireDNA(self):
         for i in self.joueurs:
