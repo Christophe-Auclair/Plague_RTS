@@ -680,6 +680,7 @@ class Vue():
         self.fenchat.destroy()
 
     def ajouter_selection(self, evt):
+        self.canevasaction.delete(self.action.widgetsactifs)
         mestags = self.canevas.gettags(CURRENT)
         if self.parent.monnom == mestags[1]:
             if "Ouvrier" == mestags[4] or "ouvrier" == mestags[4]:
@@ -695,6 +696,7 @@ class Vue():
         #     self.action.attaquer()
 
     def ajouter_selection_batiment(self, evt):
+        self.canevasaction.delete(self.action.widgetsactifs)
         mestags = self.canevas.gettags(CURRENT)
         self.action.derniertagchoisi = mestags
         self.action.posbatiment = [evt.x, evt.y]
