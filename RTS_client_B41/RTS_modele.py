@@ -369,8 +369,10 @@ class Beacon(Biotope):
     #         if self.spriteno > self.spritelen - 1:
     #             self.spriteno = 0
 
+
 class Organe(Biotope):
     typeressource = ['coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
+
     def __init__(self, parent, id, monimg, x, y, montype):
         Biotope.__init__(self, parent, id, monimg, x, y, montype)
         self.valeur = 100
@@ -456,7 +458,6 @@ class Organe(Biotope):
 #     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
 #         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
 #         self.valeur = 30
-
 
 class DNAObjet(Biotope):  # version physique du DNA pour les events entre autres
     typeressource = ['arbre0grand',
@@ -620,7 +621,6 @@ class Perso():
         else:
             self.actioncourante = None
 
-
     def recevoir_coup(self, force):
         self.mana -= force
         print("Ouch")
@@ -633,7 +633,6 @@ class Perso():
         reponse = self.bouger()
         if reponse == "rendu":
             self.actioncourante = "attaquerennemi"
-
 
     def jouer_prochain_coup(self):
         if self.actioncourante:
@@ -648,7 +647,6 @@ class Perso():
         self.actioncourante = "bougerGroupe"
         self.movX = self.position_visee[0] + random.randrange(-15 + (-5 * len), 15 + (5 * len))
         self.movY = self.position_visee[1] + random.randrange(-15 + (-5 * len), 15 + (5 * len))
-
 
     def bougerGroupe(self):
         if self.position_visee:
@@ -1399,6 +1397,7 @@ class Joueur():
 #######################  LE MODELE est la partie #######################
 class Partie:
     valeurs = {
+        ### CRAFTING COSTS BATIMENTS
         "maison": {"sang": 10,
                           "matiere organique": 20,
                           "DNA": 0,
@@ -1421,7 +1420,6 @@ class Partie:
                           "delai": 80},
 
         ### CRAFTING COSTS UNITS
-
         "soldat": {"sang": 10,
                           "matiere organique": 10,
                           "DNA": 0,
