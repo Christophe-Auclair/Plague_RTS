@@ -1751,8 +1751,9 @@ class Partie:
             self.NPCs.pop("NPC1")
             self.NPCs["NPC1"] = {}
 
-        if self.delaiprochaineaction % 150 == 0:
-            self.produire_organe()
+        if self.delaiprochaineaction % 120 == 0:
+            if len(self.biotopes["organe"].keys()) < 12:
+                self.produire_organe()
 
 
         if self.delaiprochaineaction % 600 == 0: # EVENEMENTS
@@ -1820,26 +1821,46 @@ class Partie:
     def produire_organe(self):
         typeressource = Organe.typeressource
 
-        x = random.randrange(int(1000 + (self.aireX / 2)))
-        y = random.randrange(int(1000 + (self.aireY / 2)))
+        distraisonable = 600
+        position_trouvee = False
 
-        # x = random.randint(0 + 20, self.aireX / 5)
-        # y = random.randint(0 + 20, self.aireX / 5)
-        # x1 = random.randint(self.aireX / 5 * 4, self.aireX - 20)
-        # y1 = random.randint(self.aireX / 5 * 4, self.aireX - 20)
-        #
-        # rand = random.randint(1, 3)
-        # if rand == 1:
-        #     case = self.trouver_case(x, y)
-        # else:
-        #     case = self.trouver_case(x1, y1)
+        while position_trouvee == False:
 
+            x = random.randrange(self.aireX / 5 + 20, self.aireX / 5 * 4 - 20)
+            y = random.randrange(20, self.aireY / 5 - 20)
+            x1 = random.randrange(20, self.aireX / 5 - 20)
+            y1 = random.randrange(self.aireY / 5 * 4 + 20, self.aireY - 20)
+            x2 = random.randrange(self.aireX / 5 * 4 + 20, self.aireX - 20)
+            y2 = random.randrange(self.aireY / 5 + 20, self.aireY / 5 * 4 - 20)
 
-        id = get_prochain_id()
-        img = random.choice(typeressource)
-        organe = Organe(self, id, img, x, y, "organe")
-        self.biotopes["organe"][id] = organe
-        self.parent.afficher_bio(organe)
+            rand = random.randrange(1, 5)
+
+            if rand == 1:
+                case = self.trouver_case(x, y)
+            elif rand == 2:
+                case = self.trouver_case(x1, y2)
+            elif rand == 3:
+                case = self.trouver_case(x2, y2)
+            else:
+                case = self.trouver_case(x, y1)
+
+            distinvalide = 0
+
+            if len(self.biotopes["organe"].keys()) > 0:
+                for i in self.biotopes["organe"].keys():
+                    j = self.biotopes["organe"][i]
+                    dist = Helper.calcDistance(case.x * 20, case.y * 20, j.x, j.y)
+                    if dist < distraisonable:
+                        distinvalide = 1
+                        break
+
+            if distinvalide == 0:
+                id = get_prochain_id()
+                img = random.choice(typeressource)
+                organe = Organe(self, id, img, case.x * 20, case.y * 20, "organe")
+                self.biotopes["organe"][id] = organe
+                self.parent.afficher_bio(organe)
+                position_trouvee = True
 
     def produireDNA(self):
         for i in self.joueurs:

@@ -512,8 +512,13 @@ class Vue():
                                   tags=("statique", "", bio.id, "biotope", bio.montype, ""))
         x1 = int((bio.x / 4000) * self.tailleminicarte)
         y1 = int((bio.y / 4000) * self.tailleminicarte)
-        self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill="black",
-                                        tags=(self.parent.monnom, bio.id, "beacon", bio.montype))
+        if bio.montype == "beacon":
+            self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill="black",
+                                            tags=(self.parent.monnom, bio.id, "biotope", bio.montype))
+        else:
+            self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill="red",
+                                            tags=(self.parent.monnom, bio.id, "biotope", bio.montype))
+
 
     def afficher_batiment(self, joueur, batiment):
         coul = self.modele.joueurs[joueur].couleur[0]
