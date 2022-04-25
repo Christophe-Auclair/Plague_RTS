@@ -196,10 +196,10 @@ class Vue():
     def creer_HUD(self):
         self.cadrejeuinfo = Frame(self.cadrecanevas, bg="blue")
         # des etiquettes d'info
-        self.infohud = {"sang": None,
-                        "matiere organique": None,
-                        "DNA": None,
-                        "Supply": None, }
+        self.infohud = {"Sang:": None,
+                        "Matiere organique:": None,
+                        "DNA:": None,
+                        "Supply:": None, }
 
         # fonction interne uniquement pour reproduire chaque info de ressource
         def creer_champ_interne(listechamp):
@@ -558,10 +558,10 @@ class Vue():
         for j in self.modele.joueurs.keys():
             # ajuster les infos du HUD
             if j == self.parent.monnom:
-                self.infohud["sang"][0].set(self.modele.joueurs[j].ressources["sang"])
-                self.infohud["matiere organique"][0].set(self.modele.joueurs[j].ressources["matiere organique"])
-                self.infohud["DNA"][0].set(self.modele.joueurs[j].ressources["DNA"])
-                self.infohud["Supply"][0].set(
+                self.infohud["Sang:"][0].set(self.modele.joueurs[j].ressources["sang"])
+                self.infohud["Matiere organique:"][0].set(self.modele.joueurs[j].ressources["matiere organique"])
+                self.infohud["DNA:"][0].set(self.modele.joueurs[j].ressources["DNA"])
+                self.infohud["Supply:"][0].set(
                     str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))
                 self.infohud["msggeneral"][0].config(text=self.modele.msggeneral)
 

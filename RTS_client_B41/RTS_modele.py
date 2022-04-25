@@ -1399,59 +1399,55 @@ class Joueur():
 #######################  LE MODELE est la partie #######################
 class Partie:
     valeurs = {
-
-        ### CRAFTING COSTS BATIMENTS
-
-               "maison": {"sang": 10,
+        "maison": {"sang": 10,
                           "matiere organique": 20,
                           "DNA": 0,
                           "Supply": 0,
                           "delai": 50},
-
-               "watchtower": {"sang": 10,
-                        "matiere organique": 10,
-                        "DNA": 0,
-                        "Supply": 0,
-                        "delai": 30},
-               "barracks": {"sang": 10,
-                           "matiere organique": 10,
-                           "DNA": 0,
-                           "Supply": 0,
-                           "delai": 60},
-               "turrets": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 0,
-                                 "delai": 80},
+        "watchtower": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 0,
+                          "delai": 30},
+        "barracks": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 0,
+                          "delai": 60},
+        "turrets": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 0,
+                          "delai": 80},
 
         ### CRAFTING COSTS UNITS
 
-               "soldat": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "archer": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "druide": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "ballista": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               "ouvrier": {"sang": 10,
-                                 "matiere organique": 10,
-                                 "DNA": 0,
-                                 "Supply": 10,
-                                 "delai": 50},
-               }
+        "soldat": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 10,
+                          "delai": 50},
+        "archer": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 10,
+                          "delai": 50},
+        "druide": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 10,
+                          "delai": 50},
+        "ballista": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 10,
+                          "delai": 50},
+        "ouvrier": {"sang": 10,
+                          "matiere organique": 10,
+                          "DNA": 0,
+                          "Supply": 10,
+                          "delai": 50},
+        }
 
     def __init__(self, parent, mondict):
         self.parent = parent
@@ -1757,7 +1753,7 @@ class Partie:
             self.NPCs.pop("NPC1")
             self.NPCs["NPC1"] = {}
 
-        if self.delaiprochaineaction % 60 == 0:
+        if self.delaiprochaineaction % 150 == 0:
             self.produire_organe()
 
 
@@ -1765,7 +1761,6 @@ class Partie:
             if self.evenementsActif == False:
 
                 act = random.choice(list(self.evenements.keys()))
-
 
                 if act == "spawnNPC":
                     action = self.evenements[act]
@@ -1775,8 +1770,6 @@ class Partie:
                 #     action = self.evenements[act]
                 #     action()
                 #     self.evenementsActif = True
-
-
 
         if self.evenementsActif == True:
             self.delaiEvenement += 1
@@ -1877,7 +1870,6 @@ class Partie:
 
 
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
-
     def make_carte_case(self):
         # NOTE: cette carte est carre
         taille = self.taillecarte
