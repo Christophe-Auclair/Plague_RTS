@@ -416,7 +416,10 @@ class Vue():
     def creer_cadre_ouvrier(self, coul, artefacts):
         self.cadreouvrier = Frame(self.canevasaction)
         for i in artefacts:
-            btn = Button(self.cadreouvrier, text=i, image=self.images[coul + i])
+            if i == "watchtower":
+                btn = Button(self.cadreouvrier, text=i, image=self.images[coul + "icon_" + i])
+            else:
+                btn = Button(self.cadreouvrier, text=i, image=self.images[coul + i])
             btn.bind("<Button>", self.batir_artefact)
             btn.pack()
 
