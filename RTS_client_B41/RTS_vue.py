@@ -592,9 +592,9 @@ class Vue():
                     self.canevas.create_image(i.x, i.y, anchor=S, image=self.images[i.image],
                                               tags=("mobile", j, k, "perso", i.montype, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
-                    self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
+                    self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + 30, i.y - 60, width=10, fill="black",
                                              tags=("", i.id, "artefact", "mobile"))
-                    self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 15), i.y - 50, width=10,
+                    self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + (i.hp * 15), i.y - 60, width=10,
                                              fill="green", tags=("", i.id, "artefact", "mobile"))
 
                     if k in self.action.persochoisi:
@@ -693,6 +693,9 @@ class Vue():
 
     def ajouter_selection(self, evt):
         self.canevasaction.delete(self.action.widgetsactifs)
+        if self.action.btnactif:
+            self.action.btnactif.config(bg="SystemButtonFace")
+        self.action = Action(self)
         mestags = self.canevas.gettags(CURRENT)
         if self.parent.monnom == mestags[1]:
             if "Ouvrier" == mestags[4] or "ouvrier" == mestags[4]:
@@ -709,6 +712,9 @@ class Vue():
 
     def ajouter_selection_batiment(self, evt):
         self.canevasaction.delete(self.action.widgetsactifs)
+        if self.action.btnactif:
+            self.action.btnactif.config(bg="SystemButtonFace")
+        self.action = Action(self)
         mestags = self.canevas.gettags(CURRENT)
         self.action.derniertagchoisi = mestags
         self.action.posbatiment = [evt.x, evt.y]
