@@ -59,6 +59,7 @@ def chargerimages2():
 
         #equipe virus
         #batiments
+        'V_icon_watchtower': PhotoImage(file='images/vert/V_icon_watchtower.png'),
         'V_watchtower': PhotoImage(file='images/vert/V_watchtower.png'),
         'V_barracks': PhotoImage(file='images/vert/V_barracks.png'),
         'V_turrets': PhotoImage(file='images/vert/V_turrets.png'),
@@ -79,6 +80,7 @@ def chargerimages2():
 
         #equipe fungus
         #batiments
+        'B_icon_watchtower': PhotoImage(file='images/bleu/B_icon_watchtower.png'),
         'B_watchtower': PhotoImage(file='images/bleu/B_watchtower.png'),
         'B_barracks': PhotoImage(file='images/bleu/B_barracks.png'),
         'B_turrets': PhotoImage(file='images/bleu/B_turrets.png'),
@@ -99,6 +101,7 @@ def chargerimages2():
 
         #equipe worm
         #batiments
+        'R_icon_watchtower': PhotoImage(file='images/rouge/R_icon_watchtower.png'),
         'R_watchtower': PhotoImage(file='images/rouge/R_watchtower.png'),
         'R_barracks': PhotoImage(file='images/rouge/R_barracks.png'),
         'R_turrets': PhotoImage(file='images/rouge/R_turrets.png'),
@@ -119,9 +122,11 @@ def chargerimages2():
 
         #equipe bacterie
         #batiments
+        'J_icon_watchtower': PhotoImage(file='images/jaune/J_icon_watchtower.png'),
         'J_watchtower': PhotoImage(file='images/jaune/J_watchtower.png'),
         'J_barracks': PhotoImage(file='images/jaune/J_barracks.png'),
         'J_turrets': PhotoImage(file='images/jaune/J_turrets.png'),
+
         'J_ballistaDH': PhotoImage(file='images/jaune/J_ballistaDH.png'),
         'J_ballistaDB': PhotoImage(file='images/jaune/J_ballistaDB.png'),
         'J_ballistaGH': PhotoImage(file='images/jaune/J_ballistaGH.png'),
