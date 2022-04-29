@@ -516,9 +516,10 @@ class Vue():
             for i in self.modele.joueurs[j].batiments["maison"].keys():
                 m = self.modele.joueurs[j].batiments["maison"][i]
                 coul = self.modele.joueurs[j].couleur[0]
+                couleur = self.modele.joueurs[j].couleur[1]
                 self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
                                           tags=("statique", j, m.id, "batiment", m.montype, ""))
-                self.parent.territoitre_initial(m.x, m.y)
+                self.parent.territoire_initial(m.x, m.y, couleur)
                 self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75,
                                          width=10,
                                          fill="green")
@@ -982,13 +983,13 @@ class Vue():
     #         self.canevas.tag_lower("territoire")
     #         self.minicarte.tag_lower("territoire")
 
-    def afficher_nouveau_territoire(self, territoire):
+    def afficher_nouveau_territoire(self, territoire, coul):
 
         topleft = territoire[0]
         bottomright = territoire[-1]
 
         self.canevas.create_rectangle(topleft.x * 20 - 10, topleft.y * 20 - 10, bottomright.x * 20 + 10, bottomright.y * 20 + 10, outline="",
-                                      fill="brown", tags=("territoire", "statique"))
+                                      fill=coul, tags=("territoire", "statique"))
 
         x1 = int((topleft.x * 20 / self.modele.aireX) * self.tailleminicarte)
         y1 = int((topleft.y * 20 / self.modele.aireY) * self.tailleminicarte)
@@ -996,7 +997,7 @@ class Vue():
         y2 = int((bottomright.y * 20 / self.modele.aireY) * self.tailleminicarte)
 
         self.minicarte.create_rectangle(x1 - 2, y1 - 2, x2 + 2, y2 + 2, outline="",
-                                        fill="brown", tags=("territoire", "statique"))
+                                        fill=coul, tags=("territoire", "statique"))
         self.canevas.tag_lower("territoire")
         self.minicarte.tag_lower("territoire")
 
