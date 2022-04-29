@@ -63,8 +63,8 @@ class Controleur():
         self.vue.changer_cadre("lobby")
         self.boucler_sur_lobby()
 
-    def territoitre_initial(self, x, y):
-        self.modele.territoitre_initial(x, y)
+    def territoire_initial(self, x, y, coul):
+        self.modele.territoire_initial(x, y, coul)
 
     # un joueur s'inscrit à la partie, similaire à creer_partie
     def inscrire_joueur(self, nom, urljeu):
@@ -223,11 +223,12 @@ class Controleur():
 
     def installer_batiment(self, nomjoueur, batiment, territoire):
         x1, y1, x2, y2 = self.vue.afficher_batiment(nomjoueur, batiment)
-        self.vue.afficher_nouveau_territoire(territoire)
+        coul = self.modele.joueurs[nomjoueur].couleur[1]
+        self.vue.afficher_nouveau_territoire(territoire, coul)
         return [x1, y1, x2, y2]
 
-    def afficher_territoire(self, territoire):
-        self.vue.afficher_nouveau_territoire(territoire)
+    def afficher_territoire(self, territoire, coul):
+        self.vue.afficher_nouveau_territoire(territoire, coul)
 
     def trouver_valeurs(self):
         vals = self.modele.trouver_valeurs()

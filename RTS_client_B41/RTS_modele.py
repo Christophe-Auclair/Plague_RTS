@@ -964,18 +964,18 @@ class Ouvrier(Perso):
                 # else:
                 #     nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
 
-                nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y, batiment.montype)
+                nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y, batiment.montype, self.parent.couleur[1])
 
-                territoire_a_dessiner = []
+                # territoire_a_dessiner = []
 
                 for i in nouveau_territoire:
                     if i not in self.parent.territoire:
                         self.parent.territoire.append(i)
-                        territoire_a_dessiner.append(i)
+                        # territoire_a_dessiner.append(i)
 
                 self.parent.parent.calculer_supply()
                 # self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
-                self.parent.parent.parent.afficher_territoire(nouveau_territoire)
+                self.parent.parent.parent.afficher_territoire(nouveau_territoire, self.parent.couleur[1])
 
 
                 self.x = self.cible.x + 20
@@ -1332,8 +1332,6 @@ class Joueur():
 
         case = self.parent.cartecase[int(param[2][1] / 20)][int(param[2][0] / 20)]
 
-        # case = self.parent.trouver_case(int(param[2][1] / 20), int(param[2][0] / 20))
-
         if case in self.territoire:
             id = get_prochain_id()
             vals = Partie.valeurs
@@ -1346,13 +1344,6 @@ class Joueur():
                 self.persos["ouvrier"][i].construire_site_construction(siteconstruction)
                 # self.persos["ouvrier"][i].construire_batiment(siteconstruction)
 
-            # nouveau_territoire = self.parent.aggrandir_territoire(pos[0], pos[1])
-            #
-            # for i in nouveau_territoire:
-            #     if i not in self.territoire:
-            #         self.territoire.append(i)
-            #
-            # self.parent.calculer_supply()
         else:
             print("Doit construire les nouveaux batiments à l'intérieur de son territoire")
 
@@ -1900,7 +1891,7 @@ class Partie:
                 t1.append(Caseregion(None, id, j, i))
             self.cartecase.append(t1)
 
-    def aggrandir_territoire(self, x, y, type):
+    def aggrandir_territoire(self, x, y, type, coul):
 
         territoire = []
         beacon_territoire = []
@@ -1966,8 +1957,8 @@ class Partie:
                             territoire.append(self.cartecase[j][i])
 
         if beacon_territoire:
-            self.parent.afficher_territoire(beacon_territoire)
-            beacon_territoire = []
+            self.parent.afficher_territoire(beacon_territoire, coul)
+
         return territoire
 
     # def radar_beacon(self, i, j, territoire):
@@ -1981,53 +1972,19 @@ class Partie:
     #                         if 200 > m >= 0 and 200 > l >= 0:
     #                             territoire.append(self.cartecase[m][l])
 
-    def territoitre_initial(self, x, y):
-        # territoire = []
+    def territoire_initial(self, x, y, coul):
         cx = int(x/20)
         cy = int(y/20)
         for i in self.joueurs.keys():
-            for j in range(cx - 10, cx + 10):
-                for k in range(cy - 10, cy + 10):
-                    if 200 > j >= 0 and 200 > k >= 0:
-                        self.joueurs[i].territoire.append(self.cartecase[k][j])
-                        # territoire.append(self.cartecase[k][j])
-
-        # self.joueurs[i].territoire.append(territoire)
-        self.parent.afficher_territoire(self.joueurs[i].territoire)
-        # self.calculer_total_supply()
-        self.calculer_supply()
-
-    # def mirror_points_8(self, x, y):
-    #     """ Return 8-way symmetry of points. """
-    #     return [(x, y),
-    #             (y, x),
-    #             (-x, y),
-    #             (-y, x),
-    #             (x, -y),
-    #             (y, -x),
-    #             (-x, -y),
-    #             (-y, -x)]
-    #
-    # def generer_cercle_pixel(self, r, x, y):
-    #     points = []
-    #     x = x
-    #     y = y
-    #     F_M = 1 - r
-    #     d_e = 3
-    #     d_ne = -(r << 1) + 5
-    #     points.extend(self.mirror_points_8(x, y))
-    #     while x < -y:
-    #         if F_M <= 0:
-    #             F_M += d_e
-    #         else:
-    #             F_M += d_ne
-    #             d_ne += 2
-    #             y += 1
-    #         d_e += 2
-    #         d_ne += 2
-    #         x += 1
-    #         points.extend(self.mirror_points_8(x, y))
-    #     return points
+            if coul != self.joueurs[i].couleur[1]:
+                continue
+            else:
+                for j in range(cx - 10, cx + 10):
+                    for k in range(cy - 10, cy + 10):
+                        if 200 > j >= 0 and 200 > k >= 0:
+                            self.joueurs[i].territoire.append(self.cartecase[k][j])
+                self.parent.afficher_territoire(self.joueurs[i].territoire, coul)
+                self.calculer_supply()
 
     def trouver_case(self, x, y):
 
