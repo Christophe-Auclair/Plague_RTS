@@ -11,6 +11,8 @@ import os,os.path
 
 def chargerimages2():
     images = {
+        #logo splash
+        'logo': PhotoImage(file='images/misc/logo.png'),
 
         #teams
         'virus': PhotoImage(file='images/teams/virus.png'),

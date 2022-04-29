@@ -20,6 +20,11 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 - Shift-LeftClick pour selectionner plusieurs troupeau de travailleur pour ensuite leur faire faire une tache 
 - Ctrl-MiddleClick pour attaquer les joueurs
 
+### CAMERA
+- Mousewheel pour bouger la camera de haut en bas
+- Ctrl-Mousewheel pour bouger la camera de droite a gauche
+- Ctrl-MouseMotion pour bouger en liberté
+
 ### VERSION 0.3:
 - A VENIR!
 
