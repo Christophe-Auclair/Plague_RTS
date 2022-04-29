@@ -35,6 +35,7 @@ def chargerimages2():
         # 'cellanimale': PhotoImage(file='images/ennemi/cellanimal.png'),
         "npc": PhotoImage(file="images/ennemi/npc.png"),
 
+
         #cellules blanches
         "monocyte": PhotoImage(file='images/cellblanc/monocyte.png'),
         'neutrophil': PhotoImage(file='images/cellblanc/neutrophil.png'),

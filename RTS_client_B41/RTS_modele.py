@@ -1114,6 +1114,7 @@ class NPC1(Perso):
         self.supply_cost = 10
         self.delai_action = 40
         self.delai_action_max = 40
+        self.image = "npc"
 
 
     def deplacer(self):
@@ -1180,6 +1181,17 @@ class NPC1(Perso):
                 self.actioncourante = "ciblerennemi"
         else:
             self.actioncourante = None
+
+    def cibler(self, obj):
+        self.cible = obj
+        if obj:
+            self.position_visee = [self.cible.x, self.cible.y]
+            if self.x < self.position_visee[0]:
+                self.dir = "D"
+            else:
+                self.dir = "G"
+        else:
+            self.position_visee = None
 
 
 class Region():
@@ -1771,7 +1783,7 @@ class Partie:
             self.biotopes["daim"][i].deplacer()
 
         for i in self.NPCs["NPC1"].keys():
-         #   self.NPCs["NPC1"][i].trouverennemi()
+            self.NPCs["NPC1"][i].trouverennemi()
             if self.NPCs["NPC1"][i].actioncourante == None:                      #a fixer
                 self.NPCs["NPC1"][i].deplacer()
           #  i.jouer_prochain_coup()
