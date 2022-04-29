@@ -269,7 +269,7 @@ class Vue():
         # scroll avec roulette
         self.canevas.bind("<MouseWheel>", self.defiler_vertical)
         self.canevas.bind("<Control-MouseWheel>", self.defiler_horizon)
-        self.canevas.bind("<Motion>", self.defiler)
+        self.canevas.bind("<Control-Motion>", self.defiler)
 
         # acgtions liées aux objets dessinés par tag
         # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
