@@ -16,7 +16,7 @@ class Vue():
     def __init__(self, parent, urlserveur, monnom, testdispo):
         self.parent = parent
         self.root = Tk()
-        self.root.title("Je suis " + monnom)
+        self.root.title("PLAGUE RTS - Je suis " + monnom)
         self.root.iconbitmap('images/teams/virus.ico')
         self.monnom = monnom
         # attributs
@@ -33,6 +33,8 @@ class Vue():
         self.cadreapp = Frame(self.root, width=500, height=400, bg="red")
         self.cadreapp.pack(expand=1, fill=BOTH)
 
+        self.images = chargerimages()
+        self.gifs = chargergifs()
         # # un dictionnaire pour conserver les divers cadres du jeu, creer plus bas
         self.cadres = {}
         self.creer_cadres(urlserveur, monnom, testdispo)
@@ -45,8 +47,7 @@ class Vue():
         self.debut_selection = []
         self.selecteuractif = None
         # # images des assets, definies dans le modue loadeurimages
-        self.images = chargerimages()
-        self.gifs = chargergifs()
+
 
     ####### INTERFACES GRAPHIQUES
     def changer_cadre(self, nomcadre: str):
@@ -67,10 +68,11 @@ class Vue():
     def creer_cadre_splash(self, urlserveur: str, monnom: str, testdispo: str) -> Frame:
         self.cadresplash = Frame(self.cadreapp)
         # un canvas est utilisé pour 'dessiner' les widgets de cette fenêtre voir 'create_window' plus bas
-        self.canevassplash = Canvas(self.cadresplash, width=600, height=480, bg="pink")
+        self.canevassplash = Canvas(self.cadresplash, width=600, height=480, bg="DarkOliveGreen1")
         self.canevassplash.pack()
 
         # creation ds divers widgets (champ de texte 'Entry' et boutons cliquables (Button)
+        # self.logo = Label(image=self.images["logo"])
         self.etatdujeu = Label(text=testdispo, font=("Arial", 18), borderwidth=2, relief=RIDGE)
         self.nomsplash = Entry(font=("Arial", 14))
         self.urlsplash = Entry(font=("Arial", 14))
@@ -79,21 +81,22 @@ class Vue():
         self.nomsplash.insert(0, monnom)
         self.urlsplash.insert(0, urlserveur)
         # on les place sur le canevassplash
-        self.canevassplash.create_window(320, 100, window=self.etatdujeu, width=400, height=30)
-        self.canevassplash.create_window(320, 200, window=self.nomsplash, width=400, height=30)
-        self.canevassplash.create_window(240, 250, window=self.urlsplash, width=200, height=30)
-        self.canevassplash.create_window(420, 250, window=self.btnurlconnect, width=100, height=30)
+        self.canevassplash.create_image(320, 10, image=self.images["logo"])
+        self.canevassplash.create_window(320, 200, window=self.etatdujeu, width=400, height=30)
+        self.canevassplash.create_window(320, 250, window=self.nomsplash, width=400, height=30)
+        self.canevassplash.create_window(240, 300, window=self.urlsplash, width=200, height=30)
+        self.canevassplash.create_window(420, 300, window=self.btnurlconnect, width=100, height=30)
         # les boutons d'actions
         self.btncreerpartie = Button(text="Creer partie", font=("Arial", 12), state=DISABLED, command=self.creer_partie)
         self.btninscrirejoueur = Button(text="Inscrire joueur", font=("Arial", 12), state=DISABLED,
                                         command=self.inscrire_joueur)
-        self.btnreset = Button(text="Reinitialiser partie", font=("Arial", 9), state=DISABLED,
+        self.btnreset = Button(text="Reinitialiser partie", font=("Arial", 11), state=DISABLED,
                                command=self.reset_partie)
 
         # on place les autres boutons
-        self.canevassplash.create_window(420, 350, window=self.btncreerpartie, width=200, height=30)
-        self.canevassplash.create_window(420, 400, window=self.btninscrirejoueur, width=200, height=30)
-        self.canevassplash.create_window(420, 450, window=self.btnreset, width=200, height=30)
+        self.canevassplash.create_window(320, 350, window=self.btncreerpartie, width=200, height=30)
+        self.canevassplash.create_window(320, 400, window=self.btninscrirejoueur, width=200, height=30)
+        self.canevassplash.create_window(320, 450, window=self.btnreset, width=200, height=30)
 
         ############ ## NOTES : ceci est un exemple pour ajouter des options au cadresplash
         # ## POUR CHOIX CIVILISATION, 4 OPTIONS
