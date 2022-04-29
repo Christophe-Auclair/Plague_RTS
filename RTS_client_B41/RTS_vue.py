@@ -269,6 +269,7 @@ class Vue():
         # scroll avec roulette
         self.canevas.bind("<MouseWheel>", self.defiler_vertical)
         self.canevas.bind("<Control-MouseWheel>", self.defiler_horizon)
+        self.canevas.bind("<Motion>", self.defiler)
 
         # acgtions liées aux objets dessinés par tag
         # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
@@ -302,6 +303,25 @@ class Vue():
         else:
             rep = rep - 0.02
         self.canevas.xview_moveto(rep)
+
+    def defiler(self, evt):
+        x, y = evt.x, evt.y
+
+        if x < 20:
+            delta = -1
+            self.canevas.xview('scroll', delta, 'units')
+
+        if x > (self.canevas.winfo_width() - 20):
+            delta = 1
+            self.canevas.xview('scroll', delta, 'units')
+
+        if y < 20:
+            delta = -1
+            self.canevas.yview('scroll', delta, 'units')
+
+        if y > (self.canevas.winfo_height() - 20):
+            delta = 1
+            self.canevas.yview('scroll', delta, 'units')
 
     ### cadre qui s'Affichera par-dessus le canevas de jeu pour l'aide
     def creer_aide(self):
