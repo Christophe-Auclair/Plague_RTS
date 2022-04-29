@@ -579,6 +579,7 @@ class Perso():
                                  }
 
     def attaquer(self, ennemi):
+        print("aaa")
         self.cibleennemi = ennemi
         x = self.cibleennemi.x
         y = self.cibleennemi.y
@@ -600,7 +601,6 @@ class Perso():
     def trouverennemi(self):
 
         for i in self.parent.parent.joueurs:
-           # if self.parent.parent.joueurs[]
             for j in self.parent.parent.joueurs[i].persos:
                 for k in self.parent.parent.joueurs[i].persos[j]:
                     ennemi = self.parent.parent.joueurs[i].persos[j][k]
@@ -1115,16 +1115,71 @@ class NPC1(Perso):
         self.delai_action = 40
         self.delai_action_max = 40
 
-    def jouer_tour(self): #bouge pas encore
-        if not self.actioncourante:
-            self.delai_action -= 1
-            if self.delai_action == 0:
-               # self.trouverennemi()
-                if not self.actioncourante:
-                    pos = [self.x + random.randrange(-20, 20), self.y + random.randrange(-20,20)]
-                    self.deplacer(pos)
-                self.delai_action = self.delai_action_max
 
+    def deplacer(self):
+        if self.position_visee:
+            x = self.position_visee[0]
+            y = self.position_visee[1]
+            x1, y1 = Helper.getAngledPoint(self.angle, self.vitesse, self.x, self.y)
+            # probleme potentiel de depasser la bordure et de ne pas trouver la case suivante
+            case = self.parent.trouver_case(x1, y1)
+            # if case[0]>self.parent.taillecarte or case[0]<0:
+            #    self.cible=None
+            # elif case[1]>self.parent.taillecarte or case[1]<0:
+            #    self.cible=None
+            # else:
+            if case.montype != "plaine":
+                pass
+                # print("marche dans ",self.parent.regionstypes[self.parent.cartecase[case[1]][case[0]]])
+            # changer la vitesse tant qu'il est sur un terrain irregulier
+            # FIN DE TEST POUR SURFACE MARCHEE
+            self.x, self.y = x1, y1
+            dist = Helper.calcDistance(self.x, self.y, x, y)
+            # dist = Helper.calcDistance(self.x, self.y, x, y)
+            if dist <= self.vitesse:
+                self.cible = None
+                self.position_visee = None
+        else:
+            self.trouver_cible()
+
+    def trouver_cible(self):
+        n = 1
+        while n:
+            x = (random.randrange(100) - 50) + self.x
+            y = (random.randrange(100) - 50) + self.y
+            case = self.parent.trouver_case(x, y)
+            # if case[0]>self.parent.taillecarte or case[0]<0:
+            #    continue
+            # if case[1]>self.parent.taillecarte or case[1]<0:
+            #    continue
+
+            if case.montype == "plaine":
+                self.position_visee = [x, y]
+                n = 0
+        self.angle = Helper.calcAngle(self.x, self.y, self.position_visee[0], self.position_visee[1])
+
+    def trouverennemi(self):
+
+        for i in self.parent.joueurs:
+            for j in self.parent.joueurs[i].persos:
+                for k in self.parent.joueurs[i].persos[j]:
+                    ennemi = self.parent.joueurs[i].persos[j][k]
+                    if self.id != ennemi.id:
+                        distance = Helper.calcDistance(self.x, self.y, ennemi.x, ennemi.y)
+                        if distance <= self.champvision:
+                            self.cibleennemi = ennemi
+
+        if self.cibleennemi:
+            x = self.cibleennemi.x
+            y = self.cibleennemi.y
+            self.cibler(ennemi)
+            dist = Helper.calcDistance(self.x, self.y, x, y)
+            if dist <= self.vitesse:
+                self.actioncourante = "attaquerennemi"
+            else:
+                self.actioncourante = "ciblerennemi"
+        else:
+            self.actioncourante = None
 
 
 class Region():
@@ -1715,8 +1770,10 @@ class Partie:
         for i in self.biotopes["daim"].keys():
             self.biotopes["daim"][i].deplacer()
 
-        for i in self.NPCs["NPC1"].keys():                #a fixer
-            self.NPCs["NPC1"][i].jouer_tour()
+        for i in self.NPCs["NPC1"].keys():
+         #   self.NPCs["NPC1"][i].trouverennemi()
+            if self.NPCs["NPC1"][i].actioncourante == None:                      #a fixer
+                self.NPCs["NPC1"][i].deplacer()
           #  i.jouer_prochain_coup()
 
         # for i in self.biotopes["eau"].keys():
@@ -1746,24 +1803,24 @@ class Partie:
         if self.delaiprochaineaction % 60 == 0: #le reste
             self.produireDNA()
 
-        if self.delaiEvenement % 180 == 0: #sert a donner un temp limite aux évenements
-            self.evenementsActif = False
-            self.NPCs.pop("NPC1")
-            self.NPCs["NPC1"] = {}
+      #  if self.delaiEvenement % 180 == 0: #sert a donner un temp limite aux évenements
+       #     self.evenementsActif = False
+       #     self.NPCs.pop("NPC1")
+       #     self.NPCs["NPC1"] = {}
 
         if self.delaiprochaineaction % 120 == 0:
             if len(self.biotopes["organe"].keys()) < 12:
                 self.produire_organe()
 
 
-        if self.delaiprochaineaction % 600 == 0: # EVENEMENTS
-            if self.evenementsActif == False:
+        if self.delaiprochaineaction % 100 == 0: # EVENEMENTS
+           # if self.evenementsActif == False:
 
-                act = random.choice(list(self.evenements.keys()))
-
+            act = random.choice(list(self.evenements.keys()))
+            if len(self.NPCs["NPC1"].keys()) < 21:
                 if act == "spawnNPC":
                     action = self.evenements[act]
-                    action(30)
+                    action(3)
                     self.evenementsActif = True
                 # elif act == "spawnOrgane":
                 #     action = self.evenements[act]
