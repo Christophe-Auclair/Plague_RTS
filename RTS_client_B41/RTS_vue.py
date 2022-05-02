@@ -177,7 +177,7 @@ class Vue():
         # on crée les scrollbar AVANT le canevas de jeu car le canevas est dépendant de leur
         self.scrollV = Scrollbar(self.cadrecanevas, orient=VERTICAL)
         self.scrollH = Scrollbar(self.cadrecanevas, orient=HORIZONTAL)
-        self.canevas = Canvas(self.cadrecanevas, width=400, height=400, bg="#d36060",
+        self.canevas = Canvas(self.cadrecanevas, width=400, height=400, bg="salmon",
                               yscrollcommand=self.scrollV.set,
                               xscrollcommand=self.scrollH.set)
         self.scrollV.config(command=self.canevas.yview)
@@ -251,7 +251,7 @@ class Vue():
                                        tags=("nom"))
 
         # minicarte
-        self.minicarte = Canvas(self.cadreaction, width=self.tailleminicarte, height=self.tailleminicarte, bg="tan1",
+        self.minicarte = Canvas(self.cadreaction, width=self.tailleminicarte, height=self.tailleminicarte, bg="salmon",
                                 highlightthickness=0)
         self.minicarte.grid(row=2, column=0, columnspan=2)
         self.minicarte.bind("<Button-1>", self.deplacer_carte)

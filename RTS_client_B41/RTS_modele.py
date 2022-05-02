@@ -1682,7 +1682,7 @@ class Partie:
     #             self.regions[nomregion][id] = newregion
 
     def creer_population(self, mondict):
-        couleurs = [["R", "red"], ["B", "blue"], ["J", "yellow"], ["V", "lightgreen"]]
+        couleurs = [["R", "indianred"], ["B", "deepskyblue3"], ["J", "lightgoldenrod2"], ["V", "lightgreen"]]
         # couleurs = [["V", "virus"], ["F", "fungus"], ["W", "worm"], ["B", "bacteria"]]
 
         quadrantsspawn = [[[0, 0], [int(self.aireX * 0.20), int(self.aireY * 0.20)]],
