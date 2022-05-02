@@ -11,7 +11,8 @@ Un tout nouveau RTS avec un thême artistique jamais vu qui est sûre de vous é
 Ce jeu ce passe dans le systeme immunitaire d'un humain.
 Kidnappé par un scientifique, ce dernier est injecté avec des super virus intelligents, 
 ils observent les virus pour voir lequel gagne. 
-Ils doivent contaminer la plus grosse partie du corps pour être le virus dominant qui sera capable de contrôler son hôte pour ensuite aller conquérir le monde!!! 
+Ils doivent contaminer la plus grosse partie du corps pour être le virus dominant qui sera capable de contrôler son hôte pour ensuite aller conquérir le monde!!!
+Ce jeu se limite à quatre joueur 
 Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 
 ### CONTROLES: 
@@ -25,8 +26,24 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 - Ctrl-Mousewheel pour bouger la camera de droite a gauche
 - Ctrl-MouseMotion pour bouger en liberté
 
+### VERSION 0.4 
+#### À VENIR
+
 ### VERSION 0.3:
-- A VENIR!
+- Toutes les entitées sont mis dans leur place spécifié sur la map
+- Toutes les entitées ont leur propres couleurs sur la mini-map
+- Les joueurs sont aléatoirement mis dans un des quatre coin du jeu
+- Les territoires des différents joueurs sont definis par leur couleurs
+- Les terriroires sont maintenant fonctionnels à plusieurs joueurs
+- Les bâtiments peuvent seulement être construit par les ouvriers
+- Les bâtiments on leurs propres fonctions
+  - Les watchtowers donnent plus de terrioires que les autres bâtiments
+  - Les barracks font spawn les autres sortes de bibites
+  - Les turrets font rien pour l'instant (ils vont être utiles plus tard)
+- Les NPCs détectent les joueurs et se figent
+- La majorité des assets sont présent
+- L'interface du splash a été revamped avec le nom de notre jeu
+- Ajout de la fonctionalité de mouvement de la caméra en liberté (avec CTRL+MouseMotion)
 
 
 ### VERSION 0.2:
