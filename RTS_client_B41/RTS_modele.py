@@ -87,183 +87,13 @@ class Caserne():
         self.size = 20
 
 
-class CelluleBlanche():
+class GlobuleRouge():
     def __init__(self, parent, id, x, y, notyperegion=-1, idregion=None):
         self.parent = parent
         self.id = id
         self.etat = "vivant"
         self.nomimg = "daim"
-        self.montype = "daim"
-        self.idregion = idregion
-        self.img = ""
-        self.x = x
-        self.y = y
-        self.hp = 1
-        self.champvision = 200
-        self.valeur = 40
-        self.position_visee = None
-        self.angle = None
-        self.dir = "GB"
-        self.img = self.nomimg + self.dir
-        self.cibleennemi = None
-        self.mana = 100
-        self.force = 5
-        self.vitesse = 3
-
-    def mourir(self):
-        self.etat = "mort"
-        self.position_visee = None
-
-    def deplacer(self):
-        if self.position_visee:
-            x = self.position_visee[0]
-            y = self.position_visee[1]
-            x1, y1 = Helper.getAngledPoint(self.angle, self.vitesse, self.x, self.y)
-            # probleme potentiel de depasser la bordure et de ne pas trouver la case suivante
-            case = self.parent.trouver_case(x1, y1)
-            # if case[0]>self.parent.taillecarte or case[0]<0:
-            #    self.cible=None
-            # elif case[1]>self.parent.taillecarte or case[1]<0:
-            #    self.cible=None
-            # else:
-            if case.montype != "plaine":
-                pass
-                # print("marche dans ",self.parent.regionstypes[self.parent.cartecase[case[1]][case[0]]])
-            # changer la vitesse tant qu'il est sur un terrain irregulier
-            # FIN DE TEST POUR SURFACE MARCHEE
-            self.x, self.y = x1, y1
-            dist = Helper.calcDistance(self.x, self.y, x, y)
-            if dist <= self.vitesse:
-                self.cible = None
-                self.position_visee = None
-        else:
-            if self.etat == "vivant":
-                self.trouver_cible()
-
-    def trouver_cible(self):
-        n = 1
-        while n:
-            x = (random.randrange(100) - 50) + self.x
-            y = (random.randrange(100) - 50) + self.y
-            case = self.parent.trouver_case(x, y)
-            # if case[0]>self.parent.taillecarte or case[0]<0:
-            #    continue
-            # if case[1]>self.parent.taillecarte or case[1]<0:
-            #    continue
-
-            if case.montype == "plaine":
-                self.position_visee = [x, y]
-                n = 0
-        self.angle = Helper.calcAngle(self.x, self.y, self.position_visee[0], self.position_visee[1])
-        if self.x < self.position_visee[0]:
-            self.dir = "D"
-        else:
-            self.dir = "G"
-        if self.y < self.position_visee[1]:
-            self.dir = self.dir + "B"
-        else:
-            self.dir = self.dir + "H"
-        self.img = self.nomimg + self.dir
-
-
-    def attaquer(self, ennemi):
-        self.cibleennemi = ennemi
-        x = self.cibleennemi.x
-        y = self.cibleennemi.y
-        self.cibler(ennemi)
-        dist = Helper.calcDistance(self.x, self.y, x, y)
-        if dist <= self.vitesse:
-            self.attaquerennemi()
-        else:
-            self.cibleennemi()
-
-    def attaquerennemi(self):
-        rep = self.cibleennemi.recevoir_coup(self.force)
-        if rep == 1:
-            self.cibleennemi = None
-            self.cible = None
-
-            self.trouverennemi()
-
-    def trouverennemi(self):
-
-        for i in self.parent.parent.joueurs:
-           # if self.parent.parent.joueurs[]
-            for j in self.parent.parent.joueurs[i].persos:
-                for k in self.parent.parent.joueurs[i].persos[j]:
-                    ennemi = self.parent.parent.joueurs[i].persos[j][k]
-                    if self.id != ennemi.id:
-                        distance = Helper.calcDistance(self.x, self.y, ennemi.x, ennemi.y)
-                        if distance <= self.champvision:
-                            self.cibleennemi = ennemi
-
-        if self.cibleennemi:
-            x = self.cibleennemi.x
-            y = self.cibleennemi.y
-            self.cibler(ennemi)
-            dist = Helper.calcDistance(self.x, self.y, x, y)
-            if dist <= self.vitesse:
-                self.attaquer(ennemi)
-            else:
-                self.deplacer()
-        else:
-            self.trouver_cible()
-
-
-    def recevoir_coup(self, force):
-        self.mana -= force
-        print("Ouch")
-        if self.mana < 1:
-            print("MORTS")
-            self.parent.annoncer_mort(self)
-            return 1
-
-    def cibler_ennemi(self):
-        reponse = self.bouger()
-        if reponse == "rendu":
-            self.actioncourante = "attaquerennemi"
-
-    def cibler(self, obj):
-        self.cible = obj
-        if obj:
-            self.position_visee = [self.cible.x, self.cible.y]
-            if self.x < self.position_visee[0]:
-                self.dir = "D"
-            else:
-                self.dir = "G"
-            self.image = self.image[:-1] + self.dir
-        else:
-
-            self.position_visee = None
-
-    def testCollisionUnite(self, x1, y1):
-        for i in self.parent.parent.joueurs:
-            for j in self.parent.parent.joueurs[i].persos:
-                for k in self.parent.parent.joueurs[i].persos[j]:
-                    obj = self.parent.parent.joueurs[i].persos[j][k]
-                    if len(self.parent.parent.joueurs[i].persos["ouvrier"]) > 1:
-                        if self.id != obj.id:
-                            if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
-                                return False
-
-
-    def testCollisionBatiment(self, x1, y1):
-        for i in self.parent.parent.joueurs:
-            for j in self.parent.parent.joueurs[i].batiments:
-                for k in self.parent.parent.joueurs[i].batiments[j]:
-                    obj = self.parent.parent.joueurs[i].batiments[j][k]
-                    if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
-                        return False
-
-
-
-class Daim():
-    def __init__(self, parent, id, x, y, notyperegion=-1, idregion=None):
-        self.parent = parent
-        self.id = id
-        self.etat = "vivant"
-        self.nomimg = "daim"
-        self.montype = "daim"
+        self.montype = "globuleRouge"
         self.idregion = idregion
         self.img = ""
         self.x = x
@@ -377,87 +207,6 @@ class Organe(Biotope):
         Biotope.__init__(self, parent, id, monimg, x, y, montype)
         self.valeur = 100
 
-
-
-# class Baie(Biotope):
-#     typeressource = ['arbustebaiesgrand',
-#                      'arbustebaiespetit',
-#                      'arbustevert']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype)
-#         self.valeur = 30
-
-
-# class Marais(Biotope):
-#     typeressource = ['marais1',
-#                      'marais2',
-#                      'marais3']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-#         self.valeur = 100
-
-
-# class Eau(Biotope):
-#     typeressource = ['eaugrand1',
-#                      'eaugrand2',
-#                      'eaugrand3',
-#                      'eaujoncD',
-#                      'eaujoncG',
-#                      'eauquenouillesD',
-#                      'eauquenouillesG',
-#                      'eauquenouillesgrand',
-#                      'eautourbillon',
-#                      'eautroncs']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-#         n = random.randrange(50) #beacongif
-#         if n == 6:
-#             self.spritelen = 6  # len(self.parent.parent.vue.gifs["poissons"])
-#             self.sprite = "poissons"
-#             self.spriteno = random.randrange(self.spritelen)
-#             self.valeur = 100
-#         else:
-#             self.valeur = 10
-#
-#     def jouer_prochain_coup(self):
-#         if self.sprite:
-#             self.spriteno += 1
-#             if self.spriteno > self.spritelen - 1:
-#                 self.spriteno = 0
-
-
-
-#
-# class Roche(Biotope):
-#     typeressource = ['roches1 grand',
-#                      'roches1petit',
-#                      'roches2grand',
-#                      'roches2petit',
-#                      'roches3grand',
-#                      'roches3petit',
-#                      'roches4grand',
-#                      'roches4petit',
-#                      'roches5grand']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-#         self.valeur = 100
-
-
-# class Arbre(Biotope):
-#     typeressource = ['arbre0grand',
-#                      'arbre0petit',
-#                      'arbre1grand',
-#                      'arbre2grand',
-#                      'arbresapin0grand',
-#                      'arbresapin0petit']
-#
-#     def __init__(self, parent, id, monimg, x, y, montype, cleregion, posid):
-#         Biotope.__init__(self, parent, id, monimg, x, y, montype, cleregion, posid)
-#         self.valeur = 30
 
 class DNAObjet(Biotope):  # version physique du DNA pour les events entre autres
     typeressource = ['arbre0grand',
@@ -650,8 +399,6 @@ class Perso():
 
     def bougerGroupe(self):
         if self.position_visee:
-            # le if sert à savoir si on doit repositionner notre visee pour un objet
-            # dynamique comme le daim
             x = self.movX
             y = self.movY
             ang = Helper.calcAngle(self.x, self.y, x, y)
@@ -880,7 +627,7 @@ class Ouvrier(Perso):
         reponse = self.bouger()
         if reponse == "rendu":
             if self.cible:
-                if self.typeressource == "daim":
+                if self.typeressource == "globuleRouge":
                     self.parent.ressources["sang"] += self.ramassage
                 elif self.typeressource == "organe":
                     self.parent.ressources["matiere organique"] += self.ramassage
@@ -890,7 +637,7 @@ class Ouvrier(Perso):
                     self.cibler(rep)
                 if self.cible:
                     self.cibler(self.cible)
-                    if self.cible.montype == "daim":
+                    if self.cible.montype == "globuleRouge":
                         self.actioncourante = "ciblerproie"
                     else:
                         self.actioncourante = "ciblerressource"
@@ -918,7 +665,7 @@ class Ouvrier(Perso):
         self.position_visee = [self.cible.x, self.cible.y]
         reponse = self.bouger()
         if reponse == "rendu":
-            if self.typeressource == "daim":
+            if self.typeressource == "globuleRouge":
                 self.actioncourante = "ramasserressource"
         elif reponse <= self.champchasse and self.cible.etat == "vivant":
             self.actioncourante = "validerjavelot"
@@ -1000,7 +747,7 @@ class Ouvrier(Perso):
 
     def chercher_nouvelle_ressource(self, typ, idreg):
         print("Je cherche nouvelle ressource")
-        if typ != "daim" and typ != "organe":  # and typ != "baie"
+        if typ != "globuleRouge" and typ != "organe":  # and typ != "baie"
             reg = self.parent.parent.regions[typ]
             if idreg in reg:
                 regspec = self.parent.parent.regions[typ][idreg]
@@ -1025,50 +772,6 @@ class Ouvrier(Perso):
                     if distance <= self.champvision:
                         return obj
             return None
-
-    # def deplacer(self,pos):
-    #     self.position_visee = pos
-    #     self.actioncourante = "bouger"
-    #
-    # def bouger(self):
-    #     if self.position_visee:
-    #         # le if sert à savoir si on doit repositionner notre visee pour un objet
-    #         # dynamique comme le daim
-    #         x = self.position_visee[0]
-    #         y = self.position_visee[1]
-    #         ang = Helper.calcAngle(self.x, self.y, x, y)
-    #         x1, y1 = Helper.getAngledPoint(ang, self.vitesse, self.x, self.y)
-    #         ######## ICI METTRE TEST PROCHAIN PAS POUR VOIR SI ON PEUT AVANCER
-    #         self.test_etat_du_sol(x1, y1)
-    #         ######## FIN DE TEST POUR SURFACE MARCHEE
-    #         # si tout ba bien on continue avec la nouvelle valeur
-    #         self.x, self.y = x1, y1
-    #         # ici on test pour vori si nous rendu a la cible (en deca de la longueur de notre pas)
-    #         dist = Helper.calcDistance(self.x, self.y, x, y)
-    #         if dist <= self.vitesse:
-    #             if self.actioncourante=="bouger":
-    #                 self.actioncourante=None
-    #             return "rendu"
-    #         else:
-    #             return dist
-
-    # def test_etat_du_sol(self,x1, y1):
-    #     ######## SINON TROUVER VOIE DE CONTOURNEMENT
-    #     # ici oncalcule sur quelle case on circule
-    #     casex = x1 / self.parent.parent.taillecase
-    #     if casex != int(casex):
-    #         casex = int(casex) + 1
-    #     casey = y1 / self.parent.parent.taillecase
-    #     if casey != int(casey):
-    #         casey = int(casey) + 1
-    #     #####AJOUTER TEST DE LIMITE
-    #     # test si different de 0 (0=plaine), voir Partie pour attribution des valeurs
-    #     if self.parent.parent.cartecase[int(casey)][int(casex)].montype != "plaine":
-    #         # test pour être sur que de n'est 9 (9=batiment)
-    #         if self.parent.parent.cartecase[int(casey)][int(casex)].montype != "batiment":
-    #             print("marche dans ", )
-    #         else:
-    #             print("marche dans batiment")
 
     def abandonner_ressource(self, ressource):
         if ressource == self.cible:
@@ -1101,7 +804,7 @@ class Ouvrier(Perso):
     #             c = None
     #     self.angle = Helper.calcAngle(self.x, self.y, self.cible.x, self.cible.y)
 
-class NPC1(Perso):
+class GlobuleBlanche(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.force = 20
@@ -1513,16 +1216,11 @@ class Partie:
         self.taillecarte = int(self.aireX / self.taillecase)
         self.cartecase = []
         self.make_carte_case()
-        self.NPCs = {"NPC1": {}}
+        self.NPCs = {"globuleBlanche": {}}
 
         self.delaiprochaineaction = 20
 
         self.joueurs = {}
-        ###  reference vers les classes appropriées
-        # self.classesbatiments = {"maison": Maison,
-        #                          "caserne": Caserne,
-        #                          "abri": Abri,
-        #                          "usineballiste": Usineballiste}
 
         self.classesbatiments = {"maison": Maison,
                                  "watchtower": Caserne,
@@ -1533,13 +1231,13 @@ class Partie:
                               "soldat": Soldat,
                               "archer": Archer,
                               "druide": Druide,
-                              "NPC1": NPC1}
+                              "globuleBlanche": GlobuleBlanche}
         self.ressourcemorte = []
         self.msggeneral = None
         self.msggeneraldelai = 30
         self.msggeneralcompteur = 0
         self.listebiotopes = []
-        self.biotopes = {"daim": {},
+        self.biotopes = {"globuleRouge": {},
                          "beacon": {},
                          "organe": {}
                          }
@@ -1551,11 +1249,7 @@ class Partie:
         self.delaiEvenement = 0
 
         self.regions = {}
-        # self.regionstypes = [["arbre", 50, 20, 5, "forest green"],
-        #                      # ["eau", 10, 20, 12, "light blue"],
-        #                      # ["marais", 3, 8, 8, "DarkSeaGreen3"],
-        #                      # ["roche", 8, 3, 6, "gray60"],
-        #                      ["aureus", 12, 3, 4, "gold2"],]
+
         # self.creer_regions()
         self.creer_biotopes()
         self.creer_population(mondict)
@@ -1593,9 +1287,9 @@ class Partie:
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
-                mondaim = Daim(self, id, x, y)
-                self.biotopes["daim"][id] = mondaim
-                self.listebiotopes.append(mondaim)
+                maGlobule= GlobuleRouge(self, id, x, y)
+                self.biotopes["globuleRouge"][id] = maGlobule
+                self.listebiotopes.append(maGlobule)
                 n -= 1
 
     def creer_biotope(self, region, ressource, typeclasse):  # creation des forets
@@ -1622,60 +1316,6 @@ class Partie:
                 self.biotopes[ressource][id] = (objet)
                 self.listebiotopes.append(objet)
                 nressource -= 1
-
-    # def creer_regions(self):
-    #     for reg in self.regionstypes:
-    #         nomregion = reg[0]
-    #         nbrreg = reg[1]
-    #         minreg = reg[2]
-    #         rndreg = reg[3]
-    #         coulreg = reg[4]
-    #         self.regions[nomregion] = {}
-    #         for i in range(nbrreg):
-    #             listecasereg = []
-    #             # trouve une case dans la carte
-    #             x = random.randrange(self.taillecarte)
-    #             y = random.randrange(self.taillecarte)
-    #             # calcule la largeur (x) et hauteur(y) de la regtion
-    #             taillex = random.randrange(reg[3]) + reg[2]
-    #             tailley = random.randrange(reg[3]) + reg[2]
-    #             # verifie que la region de deborde pas vers l'exterieur du jeu
-    #             # (ex: si le centre de la region est case 1,1
-    #             # et on la veut 10 case de large, cette region debuterait a la case -5, qui n'existe pas
-    #             x0 = x - int(taillex / 2)
-    #             if x0 < 0:
-    #                 x0 = 0
-    #
-    #             x1 = x + int(taillex / 2)
-    #             if x1 > self.taillecarte - 1:
-    #                 x1 = self.taillecarte - 1
-    #
-    #             y0 = y - int(tailley / 2)
-    #             if y0 < 0:
-    #                 y0 = 0
-    #
-    #             y1 = y + int(tailley / 2)
-    #             if y1 > self.taillecarte - 1:
-    #                 y1 = self.taillecarte - 1
-    #
-    #             taillex = x1 - x0
-    #             tailley = y1 - y0
-    #
-    #             id = get_prochain_id()
-    #             newregion = Region(self, id, x0, y0, taillex, tailley, nomregion)
-    #
-    #             dicoreg = {}
-    #             for i in range(tailley):
-    #                 for j in range(taillex):
-    #                     self.cartecase[y0 + i][x0 + j].parent = newregion
-    #                     self.cartecase[y0 + i][x0 + j].montype = nomregion
-    #                     # listereg.append(self.cartecase[y0+i][x0+j])
-    #                     casereg = self.cartecase[y0 + i][x0 + j]
-    #                     casereg.parent = newregion
-    #                     dicoreg[casereg.id] = casereg
-    #
-    #             newregion.dicocases = dicoreg
-    #             self.regions[nomregion][id] = newregion
 
     def creer_population(self, mondict):
         couleurs = [["R", "indianred"], ["B", "deepskyblue3"], ["J", "lightgoldenrod2"], ["V", "lightgreen"]]
@@ -1723,7 +1363,7 @@ class Partie:
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
-                sorte = "NPC1"
+                sorte = "globuleBlanche"
                # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
                # monNPC.image = None
                 self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
@@ -1748,13 +1388,13 @@ class Partie:
         ##################################################################
 
         # demander aux objets de s'activer
-        for i in self.biotopes["daim"].keys():
-            self.biotopes["daim"][i].deplacer()
+        for i in self.biotopes["globuleRouge"].keys():
+            self.biotopes["globuleRouge"][i].deplacer()
 
-        for i in self.NPCs["NPC1"].keys():
-            self.NPCs["NPC1"][i].trouverennemi()
-            if self.NPCs["NPC1"][i].actioncourante == None:                      #a fixer
-                self.NPCs["NPC1"][i].deplacer()
+        for i in self.NPCs["globuleBlanche"].keys():
+            self.NPCs["globuleBlanche"][i].trouverennemi()
+            if self.NPCs["globuleBlanche"][i].actioncourante == None:                      #a fixer
+                self.NPCs["globuleBlanche"][i].deplacer()
           #  i.jouer_prochain_coup()
 
         # for i in self.biotopes["eau"].keys():
@@ -1798,7 +1438,7 @@ class Partie:
            # if self.evenementsActif == False:
 
             act = random.choice(list(self.evenements.keys()))
-            if len(self.NPCs["NPC1"].keys()) < 21:
+            if len(self.NPCs["globuleBlanche"].keys()) < 21:
                 if act == "spawnNPC":
                     action = self.evenements[act]
                     action(3)

@@ -281,7 +281,7 @@ class Vue():
         self.canevas.tag_bind("organe", "<Button-1>", self.ramasser_ressource)
         # self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("eau", "<Button-1>", self.ramasser_ressource)
-        self.canevas.tag_bind("daim", "<Button-1>", self.chasser_ressource)
+        self.canevas.tag_bind("globuleRouge", "<Button-1>", self.chasser_ressource)
 
         self.canevas.bind("<Control-Button-1>", self.parent.montrer_stats)
 
@@ -482,7 +482,7 @@ class Vue():
     def afficher_depart(self):
         self.modele.listebiotopes.sort(key=lambda c: c.y)
         for i in self.modele.listebiotopes:
-            if i.montype == "daim":
+            if i.montype == "globuleRouge":
                 monitem = self.canevas.create_image(i.x, i.y, image=self.images[i.img], anchor=S,
                                                     tags=("mobile", "", i.id, "biotope", i.montype, ""))
                 # tags=("mobile","",i.id,)
@@ -635,8 +635,8 @@ class Vue():
                             # tags=(j,b.id,"artefact","mobile","javelot"))
 
         # ajuster les choses vivantes dependantes de la partie (mais pas des joueurs)
-        for j in self.modele.biotopes["daim"].keys():
-            i = self.modele.biotopes["daim"][j]
+        for j in self.modele.biotopes["globuleRouge"].keys():
+            i = self.modele.biotopes["globuleRouge"][j]
             if i.etat == "mort":
                 self.canevas.create_image(i.x, i.y, image=self.images["daimMORT"],
                                           tags=("mobile", "", i.id, "biotope", i.montype, ""))
@@ -680,10 +680,8 @@ class Vue():
             self.modele.joueurs[self.parent.monnom].chatneuf = 0
 
         # affichage NPC
-        for j in self.modele.NPCs["NPC1"].keys():
-            i = self.modele.NPCs["NPC1"][j]
-            # self.canevas.create_rectangle(i.x, i.y, i.x + 20, i.y + 40, fill="purple",
-            #                           tags=("mobile", "", i.id, "NPC", "NPC", ""))
+        for j in self.modele.NPCs["globuleBlanche"].keys():
+            i = self.modele.NPCs["globuleBlanche"][j]
             self.canevas.create_image(i.x, i.y, image=self.images[i.image],
                                       tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
 
@@ -792,7 +790,7 @@ class Vue():
 
     def chasser_ressource(self, evt):
         tag = self.canevas.gettags(CURRENT)
-        if tag[1] == "" and self.action.persochoisi and tag[4] == "daim":
+        if tag[1] == "" and self.action.persochoisi and tag[4] == "globuleRouge":
             self.action.chasser_ressource(tag)
         else:
             print(tag[3])
