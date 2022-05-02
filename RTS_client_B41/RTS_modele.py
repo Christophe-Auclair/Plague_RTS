@@ -959,11 +959,6 @@ class Ouvrier(Perso):
                 print(sitecons)
                 self.parent.installer_batiment(batiment)
 
-                # if batiment.montype == "watchtower":
-                #     nouveau_territoire = self.parent.parent.aggrandir_territoire_watchtower(self.cible.x, self.cible.y)
-                # else:
-                #     nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y)
-
                 nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y, batiment.montype, self.parent.couleur[1])
 
                 # territoire_a_dessiner = []
@@ -971,6 +966,7 @@ class Ouvrier(Perso):
                 for i in nouveau_territoire:
                     if i not in self.parent.territoire:
                         self.parent.territoire.append(i)
+
                         # territoire_a_dessiner.append(i)
 
                 self.parent.parent.calculer_supply()
@@ -1683,7 +1679,6 @@ class Partie:
 
     def creer_population(self, mondict):
         couleurs = [["R", "indianred"], ["B", "deepskyblue3"], ["J", "lightgoldenrod2"], ["V", "lightgreen"]]
-        # couleurs = [["V", "virus"], ["F", "fungus"], ["W", "worm"], ["B", "bacteria"]]
 
         quadrantsspawn = [[[0, 0], [int(self.aireX * 0.20), int(self.aireY * 0.20)]],
                           [[int(self.aireX * 0.80), 0], [self.aireX, int(self.aireY * 0.20)]],
@@ -1702,32 +1697,15 @@ class Partie:
 
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
-            self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
-        # quadrants = [[[0, 0], [int(self.aireX / 2), int(self.aireY / 2)]],
-        #              [[int(self.aireX / 2), 0], [self.aireX, int(self.aireY / 2)]],
-        #              [[0, int(self.aireY / 2)], [int(self.aireX / 2), self.aireY]],
-        #              [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]],
-        #              [[int(self.aireX / 2), int(self.aireY / 2)], [self.aireX, self.aireY]]]
-        #
-        # nquad = 5
-        # bord = 50
-        # for i in mondict:
-        #     id = get_prochain_id()
-        #     coul = couleurs.pop()
-        #     # placer les joueurs dans des quandrants differents
-        #     choixquad = random.choice(range(nquad))
-        #     nquad -= 1
-        #     quad = quadrants.pop(choixquad)
-        #
-        #     n = 1
-        #     while n:
-        #         x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
-        #         y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
-        #         case = self.trouver_case(x, y)
-        #         if case.montype == "plaine":
-        #             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
-        #             n = 0
+            if i == mondict[0]:
+                x = 3000
+                y = 200
+            if i == mondict[1]:
+                x = 3500
+                y = 200
+
+            self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
 
    ############################# ZONE EVENEMENTS #########################
@@ -1989,44 +1967,41 @@ class Partie:
             cy -= 1
 
         if type == "watchtower":
-            for i in range(cx - 15, cx + 15):
-                for j in range(cy - 15, cy + 15):
-
-                    for k in self.biotopes["beacon"]:
-                        case = self.biotopes["beacon"][k].case
-                        if case.x == i and case.y == j:
-                            print("beacon!")
-                            for l in range(case.x - 20, case.x + 20):
-                                for m in range(case.y - 20, case.y + 20):
-                                    if self.cartecase[m][l] not in territoire:
-                                        if 200 > m >= 0 and 200 > l >= 0:
-                                            territoire.append(self.cartecase[m][l])
-                                            beacon_territoire.append(self.cartecase[m][l])
-
-                    if 200 > j >= 0 and 200 > i >= 0:
-                        if self.cartecase[j][i] not in territoire:
-                            territoire.append(self.cartecase[j][i])
-
+            radius = 15
         else:
-            for i in range(cx - 10, cx + 10):
-                for j in range(cy - 10, cy + 10):
+            radius = 10
 
-                    for k in self.biotopes["beacon"]:
-                        case = self.biotopes["beacon"][k].case
-                        if case.x == i and case.y == j:
-                            print("beacon!")
-                            for l in range(case.x - 20, case.x + 20):
-                                for m in range(case.y - 20, case.y + 20):
-                                    if self.cartecase[m][l] not in territoire:
-                                        if 200 > m >= 0 and 200 > l >= 0:
-                                            territoire.append(self.cartecase[m][l])
+        for i in range(cx - radius, cx + radius):
+            for j in range(cy - radius, cy + radius):
 
-                    if 200 > j >= 0 and 200 > i >= 0:
-                        if self.cartecase[j][i] not in territoire:
-                            territoire.append(self.cartecase[j][i])
+                for k in self.biotopes["beacon"]:
+                    case = self.biotopes["beacon"][k].case
+                    if case.x == i and case.y == j:
+                        print("beacon!")
+                        for l in range(case.x - 20, case.x + 20):
+                            for m in range(case.y - 20, case.y + 20):
+                                if self.cartecase[m][l] not in territoire:
+                                    if 200 > m >= 0 and 200 > l >= 0:
+                                        territoire.append(self.cartecase[m][l])
+                                        beacon_territoire.append(self.cartecase[m][l])
+
+                if 200 > j >= 0 and 200 > i >= 0:
+                    if self.cartecase[j][i] not in territoire:
+                        territoire.append(self.cartecase[j][i])
 
         if beacon_territoire:
             self.parent.afficher_territoire(beacon_territoire, coul)
+
+        for i in self.joueurs.keys():
+            territoire_overwrite = []
+            if self.joueurs[i].couleur[1] == coul:
+                continue
+            for j in self.joueurs[i].territoire:
+                if j in territoire or beacon_territoire:
+                    territoire_overwrite.append(j)
+            if territoire_overwrite:
+                for k in territoire_overwrite:
+                    self.joueurs[i].territoire.remove(k)
 
         return territoire
 

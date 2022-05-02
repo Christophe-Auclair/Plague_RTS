@@ -418,6 +418,7 @@ class Vue():
         # on cree les cadres affichant les items d'actions du joueur
         # cadre apparaissant si on selectionne un ouvrier
         coul = self.modele.joueurs[self.parent.monnom].couleur
+        coul = self.modele.joueurs[self.parent.monnom].couleur
         self.cadrejeuinfo.config(bg=coul[1])
         self.creer_aide()
         # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
@@ -988,7 +989,11 @@ class Vue():
         topleft = territoire[0]
         bottomright = territoire[-1]
 
-        self.canevas.create_rectangle(topleft.x * 20 - 10, topleft.y * 20 - 10, bottomright.x * 20 + 10, bottomright.y * 20 + 10, outline="",
+        # self.canevas.create_rectangle(topleft.x * 20 - 10, topleft.y * 20 - 10, bottomright.x * 20 + 10, bottomright.y * 20 + 10, outline="",
+        #                               fill=coul, tags=("territoire", "statique"))
+
+        self.canevas.create_rectangle(topleft.x * 20, topleft.y * 20, bottomright.x * 20,
+                                      bottomright.y * 20, outline="",
                                       fill=coul, tags=("territoire", "statique"))
 
         x1 = int((topleft.x * 20 / self.modele.aireX) * self.tailleminicarte)
