@@ -458,7 +458,7 @@ class Vue():
     def creer_cadre_maison(self, coul, artefact):
         self.cadremaison = Frame(self.canevasaction)
 
-        btn = Button(self.cadremaison, text=artefact, image=self.images[coul + artefact + "D"])
+        btn = Button(self.cadremaison, text=artefact, image=self.images[coul + artefact])
         btn.bind("<Button>", self.creer_entite)
         btn.pack()
 
@@ -466,7 +466,7 @@ class Vue():
         self.cadrebarracks = Frame(self.canevasaction)
 
         for i in artefacts:
-            btn = Button(self.cadrebarracks, text=i, image=self.images[coul + i + "D"])
+            btn = Button(self.cadrebarracks, text=i, image=self.images[coul + i])
             btn.bind("<Button>", self.creer_entite)
             btn.pack()
 
@@ -638,7 +638,7 @@ class Vue():
         for j in self.modele.biotopes["globuleRouge"].keys():
             i = self.modele.biotopes["globuleRouge"][j]
             if i.etat == "mort":
-                self.canevas.create_image(i.x, i.y, image=self.images["daimMORT"],
+                self.canevas.create_image(i.x, i.y, image=self.images["globulerougeMORT"],
                                           tags=("mobile", "", i.id, "biotope", i.montype, ""))
                 self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
                                          tags=("", i.id, "artefact", "mobile"))

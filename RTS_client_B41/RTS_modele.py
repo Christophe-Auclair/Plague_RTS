@@ -92,7 +92,7 @@ class GlobuleRouge():
         self.parent = parent
         self.id = id
         self.etat = "vivant"
-        self.nomimg = "daim"
+        self.nomimg = "globulerouge"
         self.montype = "globuleRouge"
         self.idregion = idregion
         self.img = ""
@@ -102,8 +102,7 @@ class GlobuleRouge():
         self.valeur = 40
         self.position_visee = None
         self.angle = None
-        self.dir = "GB"
-        self.img = self.nomimg + self.dir
+        self.img = self.nomimg
         self.vitesse = random.randrange(3) + 3
 
     def mourir(self):
@@ -152,15 +151,15 @@ class GlobuleRouge():
                 self.position_visee = [x, y]
                 n = 0
         self.angle = Helper.calcAngle(self.x, self.y, self.position_visee[0], self.position_visee[1])
-        if self.x < self.position_visee[0]:
-            self.dir = "D"
-        else:
-            self.dir = "G"
-        if self.y < self.position_visee[1]:
-            self.dir = self.dir + "B"
-        else:
-            self.dir = self.dir + "H"
-        self.img = self.nomimg + self.dir
+        # if self.x < self.position_visee[0]:
+        #     self.dir = "D"
+        # else:
+        #     self.dir = "G"
+        # if self.y < self.position_visee[1]:
+        #     self.dir = self.dir + "B"
+        # else:
+        #     self.dir = self.dir + "H"
+        # self.img = self.nomimg + self.dir
 
 
 class Biotope():
@@ -201,7 +200,7 @@ class Beacon(Biotope):
 
 
 class Organe(Biotope):
-    typeressource = ['coeur','cerveau','poumon','reins','intestins','foie','estomac','oeil']
+    typeressource = ['coeur', 'cerveau', 'poumon', 'reins', 'intestins', 'foie', 'estomac', 'oeil']
 
     def __init__(self, parent, id, monimg, x, y, montype):
         Biotope.__init__(self, parent, id, monimg, x, y, montype)
@@ -234,17 +233,7 @@ class Fleche():
         self.x = self.parent.x
         self.y = self.parent.y
         self.ang = Helper.calcAngle(self.x, self.y, self.proiex, self.proiey)
-        angquad = math.degrees(self.ang)
-        dir = "DB"
-        if 0 <= angquad <= 89:
-            dir = "DB"
-        elif -90 <= angquad <= -1:
-            dir = "DH"
-        if 90 <= angquad <= 179:
-            dir = "GB"
-        elif -180 <= angquad <= -91:
-            dir = "GH"
-        self.image = "javelot" + dir
+        self.image = "morve"
 
     def bouger(self):
         self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
@@ -268,17 +257,7 @@ class Javelot():
         self.x = self.parent.x
         self.y = self.parent.y
         self.ang = Helper.calcAngle(self.x, self.y, self.proiex, self.proiey)
-        angquad = math.degrees(self.ang)
-        dir = "DB"
-        if 0 <= angquad <= 89:
-            dir = "DB"
-        elif -90 <= angquad <= -1:
-            dir = "DH"
-        if 90 <= angquad <= 179:
-            dir = "GB"
-        elif -180 <= angquad <= -91:
-            dir = "GH"
-        self.image = "javelot" + dir
+        self.image = "morve"
 
     def bouger(self):
         self.x, self.y, = Helper.getAngledPoint(self.ang, self.vitesse, self.x, self.y)
@@ -304,8 +283,10 @@ class Perso():
         self.id = id
         self.actioncourante = None
         self.batimentmere = batiment
-        self.dir = "D"
-        self.image = couleur[0] + "_" + montype + self.dir
+        # self.dir = "D"
+        # self.image = couleur[0] + "_" + montype + self.dir
+        self.image = couleur[0] + "_" + montype
+
         self.x = x
         self.y = y
         self.movX = 0
@@ -461,11 +442,6 @@ class Perso():
         self.cible = obj
         if obj:
             self.position_visee = [self.cible.x, self.cible.y]
-            if self.x < self.position_visee[0]:
-                self.dir = "D"
-            else:
-                self.dir = "G"
-            self.image = self.image[:-1] + self.dir
         else:
             self.position_visee = None
 
@@ -493,7 +469,6 @@ class Perso():
         else:
             return True
 
-
     def testCollisionUnite(self, x1, y1):
         for i in self.parent.parent.joueurs:
             for j in self.parent.parent.joueurs[i].persos:
@@ -504,7 +479,6 @@ class Perso():
                             if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
                                 return False
 
-
     def testCollisionBatiment(self, x1, y1):
         for i in self.parent.parent.joueurs:
             for j in self.parent.parent.joueurs[i].batiments:
@@ -513,6 +487,7 @@ class Perso():
                     if Helper.calcDistance(obj.x, obj.y, x1, y1) < obj.size:
                         return False
 
+
 class Soldat(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
@@ -520,11 +495,13 @@ class Soldat(Perso):
         self.hp = 2
         self.size = 10  # nombre à ajuster
 
+
 class Archer(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
         self.hp = 2
         self.size = 2
+
 
 class Druide(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
@@ -536,9 +513,7 @@ class Druide(Perso):
 class Ballista(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-
-        self.dir = "DH"
-        self.image = couleur[0] + "_" + montype + self.dir
+        self.image = couleur[0] + "_" + montype
         self.cible = None
         self.angle = None
         self.distancefeumax = 30
@@ -547,23 +522,6 @@ class Ballista(Perso):
         self.size = 2
         self.fleches = []
         self.cibleennemi = None
-
-        # self.nomimg="ballista"
-
-    def cibler(self, pos):
-        self.position_visee = pos
-
-        self.angle = Helper.calcAngle(self.x, self.y, self.position_visee[0], self.position_visee[1])
-        if self.x < self.position_visee[0]:
-            self.dir = "D"
-        else:
-            self.dir = "G"
-        if self.y < self.position_visee[1]:
-            self.dir = self.dir + "B"
-        else:
-            self.dir = self.dir + "H"
-
-        self.image = self.image[:-2] + self.dir
 
     def attaquer(self, ennemi):
         self.cibleennemi = ennemi
