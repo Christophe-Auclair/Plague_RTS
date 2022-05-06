@@ -192,7 +192,7 @@ def boucler_sur_jeu():
             db.ajouteractionaujoueur(i[0], sautdecadre, actionsrequises)
 
 
-    if (cadrejeu-_min[1] ) >10:
+    if (cadrejeu-_min[1] ) > 12:
         # on envoi attention
         maliste=["ATTENTION"]
     else:
