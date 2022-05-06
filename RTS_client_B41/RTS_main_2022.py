@@ -223,8 +223,8 @@ class Controleur():
 
     def installer_batiment(self, nomjoueur, batiment, territoire):
         x1, y1, x2, y2 = self.vue.afficher_batiment(nomjoueur, batiment)
-        coul = self.modele.joueurs[nomjoueur].couleur[1]
-        self.vue.afficher_nouveau_territoire(territoire, coul)
+        # coul = self.modele.joueurs[nomjoueur].couleur[1]
+        # self.vue.afficher_nouveau_territoire(territoire, coul)
         return [x1, y1, x2, y2]
 
     def afficher_territoire(self, territoire, coul):

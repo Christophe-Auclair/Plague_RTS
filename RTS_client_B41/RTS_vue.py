@@ -990,16 +990,16 @@ class Vue():
         # self.canevas.create_rectangle(topleft.x * 20 - 10, topleft.y * 20 - 10, bottomright.x * 20 + 10, bottomright.y * 20 + 10, outline="",
         #                               fill=coul, tags=("territoire", "statique"))
 
-        self.canevas.create_rectangle(topleft.x * 20, topleft.y * 20, bottomright.x * 20,
-                                      bottomright.y * 20, outline="",
+        self.canevas.create_rectangle(topleft.x * 20, topleft.y * 20, bottomright.x * 20 + 20,
+                                      bottomright.y * 20 + 20, outline="",
                                       fill=coul, tags=("territoire", "statique"))
 
         x1 = int((topleft.x * 20 / self.modele.aireX) * self.tailleminicarte)
         y1 = int((topleft.y * 20 / self.modele.aireY) * self.tailleminicarte)
-        x2 = int((bottomright.x * 20 / self.modele.aireX) * self.tailleminicarte)
-        y2 = int((bottomright.y * 20 / self.modele.aireY) * self.tailleminicarte)
+        x2 = int(((bottomright.x * 20 + 20) / self.modele.aireX) * self.tailleminicarte)
+        y2 = int(((bottomright.y * 20 + 20) / self.modele.aireY) * self.tailleminicarte)
 
-        self.minicarte.create_rectangle(x1 - 2, y1 - 2, x2 + 2, y2 + 2, outline="",
+        self.minicarte.create_rectangle(x1, y1, x2, y2, outline="",
                                         fill=coul, tags=("territoire", "statique"))
         self.canevas.tag_lower("territoire")
         self.minicarte.tag_lower("territoire")
