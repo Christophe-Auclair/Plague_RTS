@@ -562,9 +562,9 @@ class Ouvrier(Perso):
         if reponse == "rendu":
             if self.cible:
                 if self.typeressource == "globuleRouge":
-                    self.parent.ressources["sang"] += self.ramassage
+                    self.parent.ressources["Sang"] += self.ramassage
                 elif self.typeressource == "organe":
-                    self.parent.ressources["matiere organique"] += self.ramassage
+                    self.parent.ressources["Matière Organique"] += self.ramassage
                 self.ramassage = 0
                 if self.cible.valeur < 1:
                     rep = self.chercher_nouvelle_ressource(self.cible.montype, self.cible.idregion)           # a fixer
@@ -1545,7 +1545,6 @@ class Partie:
                             if d.x == cx and d.y == cy:
                                 self.joueurs[i].batiments[a][b].hp = 0
                                 print("batiment a tuer")
-
 
             if territoire_overwrite:
                 for k in territoire_overwrite:
