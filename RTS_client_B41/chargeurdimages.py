@@ -6,15 +6,15 @@
 from tkinter import PhotoImage
 # toutes les images devraient �tre ins�r�es ici
 
-import os,os.path
+import os, os.path
 
 
 def chargerimages2():
     images = {
-        #logo splash
+        # logo splash
         'logo': PhotoImage(file='images/misc/logo.png'),
 
-        #organes
+        # organes
         'coeur': PhotoImage(file='images/organe/coeur.png'),
         'cerveau': PhotoImage(file='images/organe/cerveau.png'),
         'poumon': PhotoImage(file='images/organe/poumon.png'),
@@ -24,25 +24,25 @@ def chargerimages2():
         'estomac': PhotoImage(file='images/organe/estomac.png'),
         'oeil': PhotoImage(file='images/organe/oeil.png'),
 
-        #ennemi
-        "npc": PhotoImage(file="images/cellblanc/monocyte.png"),
+        # ennemi
+        'npc': PhotoImage(file="images/ennemi/npc.png"),
         'globulerougeMORT': PhotoImage(file='images/ennemi/globulerougeMORT.png'),
         'globulerouge': PhotoImage(file='images/ennemi/globulerouge.png'),
 
-        #cellules blanches
+        # cellules blanches
         "monocyte": PhotoImage(file='images/cellblanc/monocyte.png'),
         'neutrophil': PhotoImage(file='images/cellblanc/neutrophil.png'),
         'lymphocyte': PhotoImage(file='images/cellblanc/lymphocyte.png'),
 
-        #misc
+        # misc
         'seringue': PhotoImage(file='images/misc/seringe.png'),
         'dna': PhotoImage(file='images/misc/dna.png'),
         'beacon': PhotoImage(file='images/misc/beacon.png'),
         'morve': PhotoImage(file='images/misc/test.png'),
         'siteX': PhotoImage(file='images/misc/siteX.png'),
 
-        #equipe virus
-        #batiments
+        # equipe verte
+        # batiments
         'V_icon_watchtower': PhotoImage(file='images/vert/V_icon_watchtower.png'),
         'V_watchtower': PhotoImage(file='images/vert/V_watchtower.png'),
         'V_barracks': PhotoImage(file='images/vert/V_barracks.png'),
@@ -53,8 +53,8 @@ def chargerimages2():
         'V_soldat': PhotoImage(file='images/vert/V_soldat.png'),
         'V_druide': PhotoImage(file='images/vert/V_druide.png'),
 
-        #equipe fungus
-        #batiments
+        # equipe bleu
+        # batiments
         'B_icon_watchtower': PhotoImage(file='images/bleu/B_icon_watchtower.png'),
         'B_watchtower': PhotoImage(file='images/bleu/B_watchtower.png'),
         'B_barracks': PhotoImage(file='images/bleu/B_barracks.png'),
@@ -65,8 +65,8 @@ def chargerimages2():
         'B_soldat': PhotoImage(file='images/bleu/B_soldat.png'),
         'B_druide': PhotoImage(file='images/bleu/B_druide.png'),
 
-        #equipe worm
-        #batiments
+        # equipe rouge
+        # batiments
         'R_icon_watchtower': PhotoImage(file='images/rouge/R_icon_watchtower.png'),
         'R_watchtower': PhotoImage(file='images/rouge/R_watchtower.png'),
         'R_barracks': PhotoImage(file='images/rouge/R_barracks.png'),
@@ -77,8 +77,8 @@ def chargerimages2():
         'R_soldat': PhotoImage(file='images/rouge/R_soldat.png'),
         'R_druide': PhotoImage(file='images/rouge/R_druide.png'),
 
-        #equipe bacterie
-        #batiments
+        # equipe jaune
+        # batiments
         'J_icon_watchtower': PhotoImage(file='images/jaune/J_icon_watchtower.png'),
         'J_watchtower': PhotoImage(file='images/jaune/J_watchtower.png'),
         'J_barracks': PhotoImage(file='images/jaune/J_barracks.png'),
@@ -91,21 +91,22 @@ def chargerimages2():
     }
     return images
 
+
 images = {}
 
 
 def chargerimages(chemin=None):
-    if chemin==None:
-        chemin=os.getcwd()
-        chemin=chemin+"\\images"
+    if chemin == None:
+        chemin = os.getcwd()
+        chemin = chemin + "\\images"
     for i in os.listdir(chemin):
-        che=chemin+"\\"+i
+        che = chemin + "\\" + i
         if os.path.isdir(che):
             chargerimages(che)
         else:
-            nom, ext=os.path.splitext(os.path.basename(i))
-            if ".png"==ext:
-                    images[nom]=PhotoImage(file=che) #.replace("\\","/")
+            nom, ext = os.path.splitext(os.path.basename(i))
+            if ".png" == ext:
+                images[nom] = PhotoImage(file=che)  # .replace("\\","/")
     return images
 
 
@@ -128,9 +129,9 @@ def chargergifs():
 
 
 if __name__ == '__main__':
-    images=chargerimages()
+    images = chargerimages()
 
     for i in images.keys():
-            print(i,images[i])
+        print(i, images[i])
 
-#asdsadsad
+# asdsadsad

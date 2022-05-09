@@ -48,7 +48,6 @@ class Vue():
         self.selecteuractif = None
         # # images des assets, definies dans le modue loadeurimages
 
-
     ####### INTERFACES GRAPHIQUES
     def changer_cadre(self, nomcadre: str):
         cadre = self.cadres[nomcadre]
@@ -275,11 +274,9 @@ class Vue():
         self.canevas.bind("<Control-Motion>", self.defiler)
 
         # acgtions liées aux objets dessinés par tag
-        # self.canevas.tag_bind("batiment", "<Button-1>", self.creer_entite)
         self.canevas.tag_bind("batiment", "<Button-1>", self.ajouter_selection_batiment)
         self.canevas.tag_bind("perso", "<Button-1>", self.ajouter_selection)
         self.canevas.tag_bind("organe", "<Button-1>", self.ramasser_ressource)
-        # self.canevas.tag_bind("baie", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("eau", "<Button-1>", self.ramasser_ressource)
         self.canevas.tag_bind("globuleRouge", "<Button-1>", self.chasser_ressource)
 
@@ -423,16 +420,9 @@ class Vue():
         coul = self.modele.joueurs[self.parent.monnom].couleur
         self.cadrejeuinfo.config(bg=coul[1])
         self.creer_aide()
-        # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "caserne", "abri", "usineballiste"])
-        # self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "lymphocyte", "monocyte", "neutrophil"])
         self.creer_cadre_ouvrier(coul[0] + "_", ["maison", "watchtower", "barracks", "turrets"])
-        # self.creer_cadre_batiment(coul[0] + "_", ["ouvrier", "druide", "soldat", "ballista"])
         self.creer_cadre_maison(coul[0] + "_", "ouvrier")
         self.creer_cadre_barracks(coul[0] + "_", ["druide", "soldat", "ballista"])
-
-
-        # self.creer_cadre_cellules(coul[0] + "_", ["lymphocyte", "monocyte", "neutrophil"])
-
         self.creer_chatter()
         # on affiche les maisons, point de depart des divers joueurs
         self.afficher_depart()
@@ -471,7 +461,6 @@ class Vue():
             btn = Button(self.cadrebarracks, text=i, image=self.images[coul + i])
             btn.bind("<Button>", self.creer_entite)
             btn.pack()
-
 
     # def creer_cadre_cellules(self, coul, artefacts):
     #     self.cadrecellules = Frame(self.canevasaction)
@@ -549,7 +538,6 @@ class Vue():
             self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill="red",
                                             tags=(self.parent.monnom, bio.id, "biotope", bio.montype))
 
-
     def afficher_batiment(self, joueur, batiment):
         coul = self.modele.joueurs[joueur].couleur[0]
 
@@ -626,7 +614,7 @@ class Vue():
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
-                                                      tags=("mobile", j, p, "perso",i.montype, "persochoisi"))
+                                                      tags=("mobile", j, p, "perso", i.montype, "persochoisi"))
                         # tags=(j,k,"artefact","mobile","persochoisi"))
 
                     # dessiner javelot de l'ouvrier
@@ -646,32 +634,13 @@ class Vue():
                                          tags=("", i.id, "artefact", "mobile"))
                 self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 30), i.y - 50, width=10, fill="green",
                                          tags=("", i.id, "artefact", "mobile"))
-
-                # tags=("",i.id,"artefact","daim","mobile"))
-
             else:
                 self.canevas.create_image(i.x, i.y, image=self.images[i.img],
                                           tags=("mobile", "", i.id, "biotope", i.montype, ""))
-                # tags=("",i.id,"artefact","daim","mobile"))
                 self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
                                          tags=("", i.id, "artefact", "mobile"))
                 self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 30), i.y - 50, width=10, fill="green",
                                          tags=("", i.id, "artefact", "mobile"))
-
-        # ajuster les choses vivantes dependantes de la partie (mais pas des joueurs)
-        # for j in self.modele.biotopes["eau"].keys():
-        #     i = self.modele.biotopes["eau"][j]
-        #     if i.sprite:
-        #         self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
-        #                                   tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
-                # tags=("",i.id,"artefact","eau","mobile"))
-
-        # for j in self.modele.biotopes["beacon"].keys(): #beacongif
-        #     i = self.modele.biotopes["beacon"][j]
-        #     if i.sprite:
-        #         self.canevas.create_image(i.x, i.y, image=self.gifs[i.sprite][i.spriteno],
-        #                                   tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
-        #         # tags=("",i.id,"artefact","eau","mobile"))
 
         # mettre les chat a jour si de nouveaux messages sont arrives
         if self.textchat and self.modele.joueurs[self.parent.monnom].chatneuf:
@@ -781,7 +750,7 @@ class Vue():
                 self.action.afficher_commande_perso()
             self.canevas.delete("selecteur")
 
-    ### FIN du multiselect
+    # Fin du multiselect
 
     def ramasser_ressource(self, evt):
         tag = self.canevas.gettags(CURRENT)
@@ -888,25 +857,15 @@ class Vue():
 
                 if ok:
                     pos = (posbatiment[0], posbatiment[1])
-                    action = [self.parent.monnom, "creerperso", [type_unite, self.action.derniertagchoisi[4], self.action.derniertagchoisi[2], pos]]
+                    action = [self.parent.monnom, "creerperso",
+                              [type_unite, self.action.derniertagchoisi[4], self.action.derniertagchoisi[2], pos]]
                     self.parent.actionsrequises.append(action)
                 else:
                     print("VOUS N'AVEZ PAS ASSEZ DE", k)
 
-
     def creer_entite1(self, evt):
         mestags = self.canevas.gettags(CURRENT)
         type_batiment = mestags[4]
-
-        # if type_batiment == "maison":
-        #     type_unite = "ouvrier"
-        # elif type_batiment == "abri":
-        #     type_unite = "druide"
-        # elif type_batiment == "caserne":
-        #     type_unite = "soldat"
-        # elif type_batiment == "usineballiste":
-        #     type_unite = "ballista"
-
         if type_batiment == "maison":
             type_unite = "ouvrier"
         elif type_batiment == "watchtower":
@@ -927,22 +886,6 @@ class Vue():
                         if val < vals[type_unite][k]:
                             ok = 0
                             break
-                # if "caserne" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-                # if "abri" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-                # if "usineballiste" in mestags:
-                #     for k, val in self.modele.joueurs[self.monnom].ressources.items():
-                #         if val < vals[type_unite][k]:
-                #             ok = 0
-                #             break
-
                 if "cellanimal" in mestags:
                     for k, val in self.modele.joueurs[self.monnom].ressources.items():
                         if val < vals[type_unite][k]:
@@ -1010,6 +953,7 @@ class Vue():
                                         fill=coul, tags=("territoire", "statique"))
         self.canevas.tag_lower("territoire")
         self.minicarte.tag_lower("territoire")
+
 
 # Singleton (mais pas automatique) sert a conserver les manipulations du joueur pour demander une action
 ######   CET OBJET SERVIRA À CONSERVER LES GESTES ET INFOS REQUISES POUR PRODUIRE UNE ACTION DE JEU

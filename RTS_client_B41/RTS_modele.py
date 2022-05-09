@@ -57,6 +57,7 @@ class Usineballiste(Batiment):
         self.perso = 0
         self.size = 20
 
+
 class Maison(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
@@ -183,20 +184,6 @@ class Beacon(Biotope):
         Biotope.__init__(self, parent, id, monimg, x, y, montype, case)
         self.valeur = 100
         self.case = case
-    #     n = random.randrange(50)
-    #     if n == 6:
-    #         self.spritelen = 12  # len(self.parent.parent.vue.gifs["poissons"])
-    #         self.sprite = "beacon"
-    #         self.spriteno = random.randrange(self.spritelen)
-    #         self.valeur = 100
-    #     else:
-    #         self.valeur = 10
-    #
-    # def jouer_prochain_coup(self):  #beacongif
-    #     if self.sprite:
-    #         self.spriteno += 1
-    #         if self.spriteno > self.spritelen - 1:
-    #             self.spriteno = 0
 
 
 class Organe(Biotope):
@@ -283,10 +270,7 @@ class Perso():
         self.id = id
         self.actioncourante = None
         self.batimentmere = batiment
-        # self.dir = "D"
-        # self.image = couleur[0] + "_" + montype + self.dir
         self.image = couleur[0] + "_" + montype
-
         self.x = x
         self.y = y
         self.movX = 0
@@ -496,13 +480,6 @@ class Soldat(Perso):
         self.size = 10  # nombre à ajuster
 
 
-class Archer(Perso):
-    def __init__(self, parent, id, maison, couleur, x, y, montype):
-        Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-        self.hp = 2
-        self.size = 2
-
-
 class Druide(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
@@ -549,7 +526,7 @@ class Ballista(Perso):
 class Ouvrier(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-        self.activite = None  # sedeplacer, cueillir, chasser, pecher, construire, reparer, attaquer, fuir, promener,explorer,chercher
+        self.activite = None  # se deplacer, cueillir, chasser, pecher, construire, reparer, attaquer, fuir, promener, explorer, chercher
         self.typeressource = None
         self.quota = 20
         self.hp = 2
@@ -652,7 +629,7 @@ class Ouvrier(Perso):
     def construire_batiment(self):
         self.cible.decremente_delai()
         if self.cible.delai < 1:
-            #test pour multiouvrier de construction
+            # test pour multiouvrier de construction
             if self.cible.id in self.parent.batiments['siteconstruction'].keys():
 
                 batiment = self.parent.parent.classesbatiments[self.cible.sorte](self, self.cible.id, self.parent.couleur,
@@ -678,11 +655,10 @@ class Ouvrier(Perso):
                 # self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
                 self.parent.parent.parent.afficher_territoire(nouveau_territoire, self.parent.couleur[1])
 
-
                 self.x = self.cible.x + 20
                 self.y = self.cible.y - 20
 
-            #mise a jour des ouvriers
+            # mise a jour des ouvriers
             if self.cible.sorte == "maison":
                 batiment = self.parent.batiments[self.cible.sorte][self.cible.id]
                 self.batimentmere = batiment
@@ -739,7 +715,7 @@ class Ouvrier(Perso):
                 self.actioncourante = "retourbatimentmere"
                 self.position_visee = [self.batimentmere.x, self.batimentmere.y]
 
-    ## PAS UTILISER POUR LE MOMENT          
+    ## PAS UTILISER POUR LE MOMENT
     def scanner_alentour(self):
         dicojoueurs = self.parent.parent.joueurs
         for i in dicojoueurs.values():
@@ -762,6 +738,7 @@ class Ouvrier(Perso):
     #             c = None
     #     self.angle = Helper.calcAngle(self.x, self.y, self.cible.x, self.cible.y)
 
+
 class GlobuleBlanche(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
@@ -772,7 +749,6 @@ class GlobuleBlanche(Perso):
         self.delai_action = 40
         self.delai_action_max = 40
         self.image = "npc"
-
 
     def deplacer(self):
         if self.position_visee:
@@ -880,15 +856,9 @@ class Caseregion():
 class Joueur():
     classespersos = {"ouvrier": Ouvrier,
                      "soldat": Soldat,
-                     "archer": Archer,
                      "druide": Druide,
                      "ballista": Ballista
                      }
-    ressources = {"Azteque": {"sang": 999,
-                              "matiere organique": 200},
-                  "Congolaise": {"sang": 10,
-                                 "matiere organique": 200},
-                  }
 
     def __init__(self, parent, id, nom, couleur, x, y):
         self.parent = parent
@@ -906,13 +876,11 @@ class Joueur():
         self.ressources = {"sang": 200,
                            "matiere organique": 200,
                            "DNA": 50,
-                           "Supply": self.total_supply - self.current_supply,}
+                           "Supply": self.total_supply - self.current_supply, }
+
         self.persos = {"ouvrier": {},
                        "soldat": {},
-                       "archer": {},
-                       "chevalier": {},
                        "druide": {},
-                       "ingenieur": {},
                        "ballista": {}}
 
         self.batiments = {"maison": {},
@@ -920,12 +888,6 @@ class Joueur():
                           "barracks": {},
                           "turrets": {},
                           "siteconstruction": {}}
-
-        # self.batiments = {"maison": {},
-        #                   "lymphocyte": {},
-        #                   "monocyte": {},
-        #                   "neutrophil": {},
-        #                   "siteconstruction": {}}
 
         self.actions = {"creerperso": self.creer_perso,
                         "deplacer": self.deplacer,
@@ -957,8 +919,6 @@ class Joueur():
     def annoncer_mort_batiment(self, perso):
         self.batiments[perso.montype].pop(perso.id)
 
-
-
     def attaquer(self, param):
         attaquants, attaque = param
         nomjoueur, idperso, sorte = attaque
@@ -973,29 +933,22 @@ class Joueur():
 
 
 
-
         # elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
         #     ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
         #     if idperso in attaque:
 
-
-
         elif sorte in self.parent.joueurs[nomjoueur].batiments.keys():
             ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][idperso]
-
-
 
         for i in self.persos.keys():
             for j in attaquants:
                 if j in self.persos[i]:
                     self.persos[i][j].attaquer(ennemi)
 
-
     def movAttaque(self, param):
         attaquants, attaque = param
         nomjoueur, idperso, sorte = attaque
         ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
-
 
         for i in self.persos.keys():
             for j in attaquants:
@@ -1060,7 +1013,6 @@ class Joueur():
         perso, sorte, pos = param
 
         # payer batiment
-
         case = self.parent.cartecase[int(param[2][1] / 20)][int(param[2][0] / 20)]
 
         if case in self.territoire:
@@ -1104,7 +1056,6 @@ class Joueur():
             if k != "Supply":
                 self.ressources[k] = val - vals[sorteperso][k]
 
-
         id = get_prochain_id()
         batiment = self.batiments[batimentsource][idbatiment]
 
@@ -1115,6 +1066,7 @@ class Joueur():
                                                                        sorteperso)
         # self.parent.calculer_current_supply()
         self.parent.calculer_supply()
+
 
 #######################  LE MODELE est la partie #######################
 class Partie:
@@ -1182,11 +1134,8 @@ class Partie:
         self.cartecase = []
         self.make_carte_case()
         self.NPCs = {"globuleBlanche": {}}
-
         self.delaiprochaineaction = 20
-
         self.joueurs = {}
-
         self.classesbatiments = {"maison": Maison,
                                  "watchtower": Caserne,
                                  "barracks": Abri,
@@ -1194,7 +1143,6 @@ class Partie:
 
         self.classespersos = {"ouvrier": Ouvrier,
                               "soldat": Soldat,
-                              "archer": Archer,
                               "druide": Druide,
                               "globuleBlanche": GlobuleBlanche}
         self.ressourcemorte = []
@@ -1204,15 +1152,11 @@ class Partie:
         self.listebiotopes = []
         self.biotopes = {"globuleRouge": {},
                          "beacon": {},
-                         "organe": {}
-                         }
-
+                         "organe": {}}
         self.evenements = {"spawnNPC": self.creer_NPC,
-                           "spawnOrgane": self.produire_organe
-                           }
+                           "spawnOrgane": self.produire_organe}
         self.evenementsActif = False
         self.delaiEvenement = 0
-
         self.regions = {}
 
         # self.creer_regions()
@@ -1252,7 +1196,7 @@ class Partie:
             case = self.trouver_case(x, y)
             if case.montype == "plaine":
                 id = get_prochain_id()
-                maGlobule= GlobuleRouge(self, id, x, y)
+                maGlobule = GlobuleRouge(self, id, x, y)
                 self.biotopes["globuleRouge"][id] = maGlobule
                 self.listebiotopes.append(maGlobule)
                 n -= 1
@@ -1312,15 +1256,14 @@ class Partie:
 
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
-
-   ############################# ZONE EVENEMENTS #########################
+    ############################# ZONE EVENEMENTS #########################
 
     def creer_NPC(self, nbr):
         x = random.randrange(self.aireX)
         y = random.randrange(self.aireY)
         h = 0
         while nbr:
-            x +=50
+            x += 50
             if h == 10:
                 y += 60
                 x -= 500
@@ -1329,13 +1272,13 @@ class Partie:
             if case.montype == "plaine":
                 id = get_prochain_id()
                 sorte = "globuleBlanche"
-               # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
-               # monNPC.image = None
+                # monNPC = NPC1(self, id, None, "red", x, y, "NPC")
+                # monNPC.image = None
                 self.NPCs[sorte][id] = self.classespersos[sorte](self, id, None, "red", x, y, sorte)
                 self.NPCs[sorte][id].image = "npc"
-                #self.NPCs.append(monNPC)
+                # self.NPCs.append(monNPC)
                 nbr -= 1
-                h+=1
+                h += 1
 
     def deplacer(self):
         for i in self.joueurs:
@@ -1358,15 +1301,9 @@ class Partie:
 
         for i in self.NPCs["globuleBlanche"].keys():
             self.NPCs["globuleBlanche"][i].trouverennemi()
-            if self.NPCs["globuleBlanche"][i].actioncourante == None:                      #a fixer
+            if self.NPCs["globuleBlanche"][i].actioncourante == None:  # a fixer
                 self.NPCs["globuleBlanche"][i].deplacer()
-          #  i.jouer_prochain_coup()
-
-        # for i in self.biotopes["eau"].keys():
-        #     self.biotopes["eau"][i].jouer_prochain_coup()
-
-        # for i in self.biotopes["beacon"].keys(): #beacongif
-        #     self.biotopes["beacon"][i].jouer_prochain_coup()
+        #  i.jouer_prochain_coup()
 
         # demander aux objets de s'activer
         for i in self.joueurs.keys():
@@ -1386,7 +1323,7 @@ class Partie:
 
     def faire_action_partie(self):
 
-        if self.delaiprochaineaction % 60 == 0: #le reste
+        if self.delaiprochaineaction % 60 == 0:  # le reste
             self.produireDNA()
 
       #  if self.delaiEvenement % 180 == 0: #sert a donner un temp limite aux évenements
@@ -1398,9 +1335,8 @@ class Partie:
             if len(self.biotopes["organe"].keys()) < 12:
                 self.produire_organe()
 
-
-        if self.delaiprochaineaction % 10 == 0: # EVENEMENTS
-           # if self.evenementsActif == False:
+        if self.delaiprochaineaction % 100 == 0:  # EVENEMENTS
+            # if self.evenementsActif == False:
 
             act = random.choice(list(self.evenements.keys()))
             if len(self.NPCs["globuleBlanche"].keys()) < 21:
@@ -1416,21 +1352,6 @@ class Partie:
         if self.evenementsActif == True:
             self.delaiEvenement += 1
         self.delaiprochaineaction += 1
-
-    # def produire_action(self):  #baies
-    #     typeressource = Baie.typeressource
-    #     n = 1
-    #     while n:
-    #         x = random.randrange(self.aireX)
-    #         y = random.randrange(self.aireY)
-    #         case = self.trouver_case(x, y)
-    #         if case.montype == "plaine":
-    #             id = get_prochain_id()
-    #             img = random.choice(typeressource)
-    #             baie = Baie(self, id, img, x, y, "baie")
-    #             self.biotopes["baie"][id] = baie
-    #             n -= 1
-    #             self.parent.afficher_bio(baie)
 
     def produire_beacon(self):
         typeressource = Beacon.typeressource
@@ -1528,8 +1449,8 @@ class Partie:
             for j in self.joueurs[i].persos:
                 # if j == "ouvrier":
                 self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
-            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[i].current_supply
-
+            self.joueurs[i].ressources["Supply"] = int(len(self.joueurs[i].territoire) / 10) - self.joueurs[
+                i].current_supply
 
     # VERIFIER CES FONCTIONS SUR LA CARTECASE
     def make_carte_case(self):
@@ -1622,8 +1543,8 @@ class Partie:
     #                             territoire.append(self.cartecase[m][l])
 
     def territoire_initial(self, x, y, coul):
-        cx = int(x/20)
-        cy = int(y/20)
+        cx = int(x / 20)
+        cy = int(y / 20)
         for i in self.joueurs.keys():
             if coul != self.joueurs[i].couleur[1]:
                 continue
