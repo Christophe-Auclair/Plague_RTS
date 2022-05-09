@@ -843,12 +843,16 @@ class GlobuleBlanche(Perso):
         self.cible = obj
         if obj:
             self.position_visee = [self.cible.x, self.cible.y]
-            if self.x < self.position_visee[0]:
-                self.dir = "D"
-            else:
-                self.dir = "G"
         else:
             self.position_visee = None
+
+    def recevoir_coup(self, force):
+        self.mana -= force
+        print("Ouch")
+        if self.mana < 1:
+            print("MORTS")
+            self.parent.NPCs[self.montype].pop(self.id)
+            return 1
 
 
 class Region():
@@ -953,18 +957,21 @@ class Joueur():
     def annoncer_mort_batiment(self, perso):
         self.batiments[perso.montype].pop(perso.id)
 
+
+
     def attaquer(self, param):
         attaquants, attaque = param
         nomjoueur, idperso, sorte = attaque
 
-
         ennemi = None
         # ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
-        if idperso in self.parent.joueurs[nomjoueur].persos[sorte].keys():
+        if idperso in self.parent.NPCs["globuleBlanche"].keys():
+            ennemi = self.parent.NPCs["globuleBlanche"][idperso]
+
+        elif idperso in self.parent.joueurs[nomjoueur].persos[sorte].keys():
             ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
 
-        if sorte in self.parent.NPCs.keys():             #a fixer
-            ennemi = self.parent.NPCs[sorte][idperso]
+
 
 
         # elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
@@ -1392,7 +1399,7 @@ class Partie:
                 self.produire_organe()
 
 
-        if self.delaiprochaineaction % 100 == 0: # EVENEMENTS
+        if self.delaiprochaineaction % 10 == 0: # EVENEMENTS
            # if self.evenementsActif == False:
 
             act = random.choice(list(self.evenements.keys()))

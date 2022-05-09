@@ -289,7 +289,9 @@ class Vue():
         self.canevas.tag_bind("territoire", "<Button-2>", self.indiquer_position)
         self.canevas.tag_bind("territoire", "<Button-3>", self.construire_batiment)
 
-        self.canevas.bind("<Control-Button-2>", self.action.attaquer)
+        self.canevas.tag_bind("perso", "<Button-2>", self.attaquer)
+        self.canevas.tag_bind("batiment", "<Button-2>", self.attaquer)
+       # self.canevas.tag_bind("biotope", "<Button-2>", self.attaquer)
 
     def defiler_vertical(self, evt):
         rep = self.scrollV.get()[0]
@@ -683,7 +685,7 @@ class Vue():
         for j in self.modele.NPCs["globuleBlanche"].keys():
             i = self.modele.NPCs["globuleBlanche"][j]
             self.canevas.create_image(i.x, i.y, image=self.images[i.image],
-                                      tags=("mobile", "", i.id, "biotope", type(i).__name__, ""))
+                                      tags=("mobile", "", i.id, "perso", type(i).__name__, ""))
 
     def centrer_maison(self):
         self.root.update()
@@ -794,6 +796,11 @@ class Vue():
             self.action.chasser_ressource(tag)
         else:
             print(tag[3])
+
+    def attaquer(self, evt):
+        tag = self.canevas.gettags(CURRENT)
+        if self.action.persochoisi:
+            self.action.attaquer(tag)
 
     def indiquer_position(self, evt):
         tag = self.canevas.gettags(CURRENT)
@@ -1024,8 +1031,9 @@ class Action():
 
     def attaquer(self, evt):
         tag = self.parent.canevas.gettags(CURRENT)
-
+        print("AA")
         if self.persochoisi:
+            print("AAA")
             qui = tag[1]
             cible = tag[2]
             sorte = tag[4]
