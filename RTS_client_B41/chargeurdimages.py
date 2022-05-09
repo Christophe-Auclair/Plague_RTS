@@ -29,6 +29,12 @@ def chargerimages2():
         'globulerougeMORT': PhotoImage(file='images/ennemi/globulerougeMORT.png'),
         'globulerouge': PhotoImage(file='images/ennemi/globulerouge.png'),
 
+        # batiments morts
+        'watchtowerMORT': PhotoImage(file='images/batimentsMORT/watchtowerMORT.png'),
+        'barracksMORT': PhotoImage(file='images/batimentsMORT/barracksMORT.png'),
+        'turretsMORT': PhotoImage(file='images/batimentsMORT/turretsMORT.png'),
+        'maisonMORT': PhotoImage(file='images/batimentsMORT/maisonMORT.png'),
+
         # cellules blanches
         "monocyte": PhotoImage(file='images/cellblanc/monocyte.png'),
         'neutrophil': PhotoImage(file='images/cellblanc/neutrophil.png'),
