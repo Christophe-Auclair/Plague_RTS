@@ -200,7 +200,7 @@ class Vue():
         self.cadrejeuinfo = Frame(self.cadrecanevas, bg="blue")
         # des etiquettes d'info
         self.infohud = {"Sang:": None,
-                        "Matiere organique:": None,
+                        "Matière Organique:": None,
                         "DNA:": None,
                         "Supply:": None, }
 
@@ -525,7 +525,7 @@ class Vue():
                                          width=10,
                                          fill="green")
                 self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5),
-                                         m.y - 75, width=10, fill="green")
+                                         m.y - 75, width=10, fill="green", tags=("mobile"))
 
                 # tags=("mobile","",i.id,)
                 # afficher sur minicarte
@@ -560,10 +560,10 @@ class Vue():
                                               ""))
 
         x0, y0, x2, y2 = self.canevas.bbox(chose)
-        self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + 100, batiment.y - 75, width=10,
-                                 fill="green")
-        self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + (batiment.hp * 5),
-                                 batiment.y - 75, width=10, fill="green")
+        # self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + 100, batiment.y - 75, width=10,
+        #                          fill="green")
+        # self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + (batiment.hp * 5),
+        #                          batiment.y - 75, width=10, fill="green")
 
         couleurs = {0: "",
                     1: "light green",
@@ -591,8 +591,8 @@ class Vue():
         for j in self.modele.joueurs.keys():
             # ajuster les infos du HUD
             if j == self.parent.monnom:
-                self.infohud["Sang:"][0].set(self.modele.joueurs[j].ressources["sang"])
-                self.infohud["Matiere organique:"][0].set(self.modele.joueurs[j].ressources["matiere organique"])
+                self.infohud["Sang:"][0].set(self.modele.joueurs[j].ressources["Sang"])
+                self.infohud["Matière Organique:"][0].set(self.modele.joueurs[j].ressources["Matière Organique"])
                 self.infohud["DNA:"][0].set(self.modele.joueurs[j].ressources["DNA"])
                 self.infohud["Supply:"][0].set(
                     str(self.modele.joueurs[j].current_supply) + "/" + str(self.modele.joueurs[j].total_supply))

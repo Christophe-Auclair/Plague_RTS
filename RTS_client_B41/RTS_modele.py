@@ -586,9 +586,9 @@ class Ouvrier(Perso):
         if reponse == "rendu":
             if self.cible:
                 if self.typeressource == "globuleRouge":
-                    self.parent.ressources["sang"] += self.ramassage
+                    self.parent.ressources["Sang"] += self.ramassage
                 elif self.typeressource == "organe":
-                    self.parent.ressources["matiere organique"] += self.ramassage
+                    self.parent.ressources["Matière Organique"] += self.ramassage
                 self.ramassage = 0
                 if self.cible.valeur < 1:
                     rep = self.chercher_nouvelle_ressource(self.cible.montype, self.cible.idregion)           # a fixer
@@ -666,8 +666,6 @@ class Ouvrier(Perso):
 
                 nouveau_territoire = self.parent.parent.aggrandir_territoire(self.cible.x, self.cible.y, batiment.montype, self.parent.couleur[1])
 
-                # territoire_a_dessiner = []
-
                 for i in nouveau_territoire:
                     if i not in self.parent.territoire:
                         self.parent.territoire.append(i)
@@ -675,9 +673,7 @@ class Ouvrier(Perso):
                         # territoire_a_dessiner.append(i)
 
                 self.parent.parent.calculer_supply()
-                # self.parent.parent.parent.afficher_territoire(territoire_a_dessiner)
                 self.parent.parent.parent.afficher_territoire(nouveau_territoire, self.parent.couleur[1])
-
 
                 self.x = self.cible.x + 20
                 self.y = self.cible.y - 20
@@ -880,10 +876,10 @@ class Joueur():
                      "druide": Druide,
                      "ballista": Ballista
                      }
-    ressources = {"Azteque": {"sang": 999,
-                              "matiere organique": 200},
-                  "Congolaise": {"sang": 10,
-                                 "matiere organique": 200},
+    ressources = {"Azteque": {"Sang": 999,
+                              "Matière Organique": 200},
+                  "Congolaise": {"Sang": 10,
+                                 "Matière Organique": 200},
                   }
 
     def __init__(self, parent, id, nom, couleur, x, y):
@@ -899,8 +895,8 @@ class Joueur():
         self.total_supply = 0
         self.current_supply = 0
         self.ressourcemorte = []
-        self.ressources = {"sang": 200,
-                           "matiere organique": 200,
+        self.ressources = {"Sang": 200,
+                           "Matière Organique": 200,
                            "DNA": 50,
                            "Supply": self.total_supply - self.current_supply,}
         self.persos = {"ouvrier": {},
@@ -1113,53 +1109,53 @@ class Joueur():
 class Partie:
     valeurs = {
         ### CRAFTING COSTS BATIMENTS
-        "maison": {"sang": 10,
-                          "matiere organique": 20,
-                          "DNA": 0,
-                          "Supply": 0,
-                          "delai": 50},
-        "watchtower": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 0,
-                          "delai": 30},
-        "barracks": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 0,
-                          "delai": 60},
-        "turrets": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 0,
-                          "delai": 80},
+        "maison": {"Sang": 10,
+                  "Matière Organique": 20,
+                  "DNA": 0,
+                  "Supply": 0,
+                  "delai": 50},
+        "watchtower": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 0,
+                      "delai": 30},
+        "barracks": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 0,
+                      "delai": 60},
+        "turrets": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 0,
+                      "delai": 80},
 
         ### CRAFTING COSTS UNITS
-        "soldat": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 10,
-                          "delai": 50},
-        "archer": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 10,
-                          "delai": 50},
-        "druide": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 10,
-                          "delai": 50},
-        "ballista": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 10,
-                          "delai": 50},
-        "ouvrier": {"sang": 10,
-                          "matiere organique": 10,
-                          "DNA": 0,
-                          "Supply": 10,
-                          "delai": 50},
+        "soldat": {"Sang": 10,
+                  "Matière Organique": 10,
+                  "DNA": 0,
+                  "Supply": 10,
+                  "delai": 50},
+        "archer": {"Sang": 10,
+                  "Matière Organique": 10,
+                  "DNA": 0,
+                  "Supply": 10,
+                  "delai": 50},
+        "druide": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 10,
+                      "delai": 50},
+        "ballista": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 10,
+                      "delai": 50},
+        "ouvrier": {"Sang": 10,
+                      "Matière Organique": 10,
+                      "DNA": 0,
+                      "Supply": 10,
+                      "delai": 50},
         }
 
     def __init__(self, parent, mondict):
@@ -1293,15 +1289,15 @@ class Partie:
             nquadspawn -= 1
             quad = quadrantsspawn.pop(choixquad)
 
-            x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
-            y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
+            # x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
+            # y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
 
-            # if i == mondict[0]:
-            #     x = 3000
-            #     y = 200
-            # if i == mondict[1]:
-            #     x = 3500
-            #     y = 200
+            if i == mondict[0]:
+                x = 3000
+                y = 200
+            if i == mondict[1]:
+                x = 3500
+                y = 200
 
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
@@ -1364,6 +1360,9 @@ class Partie:
         # demander aux objets de s'activer
         for i in self.joueurs.keys():
             self.joueurs[i].jouer_prochain_coup()
+
+            if len(self.joueurs[i].territoire) >= 20000:
+                print(self.joueurs[i].nom + " is Victorious!!")
 
         if self.msggeneral and "cadre" not in self.msggeneral:
             self.msggeneralcompteur += 1
@@ -1515,7 +1514,7 @@ class Partie:
     #             self.joueurs[i].current_supply += len(self.joueurs[i].persos[j]) * 10
 
     def calculer_supply(self):
-        for i in self.joueurs:
+        for i in self.joueurs.keys():
             self.joueurs[i].total_supply = int(len(self.joueurs[i].territoire) / 10)
             self.joueurs[i].current_supply = 0
             for j in self.joueurs[i].persos:
@@ -1597,6 +1596,22 @@ class Partie:
             for j in self.joueurs[i].territoire:
                 if j in territoire or beacon_territoire:
                     territoire_overwrite.append(j)
+
+            for a in self.joueurs[i].batiments.keys():
+                for b in self.joueurs[i].batiments[a]:
+                    cx = int(self.joueurs[i].batiments[a][b].x / 20)
+                    cy = int(self.joueurs[i].batiments[a][b].y / 20)
+                    for c in territoire:
+                        if c.x == cx and c.y == cy:
+                            self.joueurs[i].batiments[a][b].hp = 0
+                            print("batiment a tuer")
+                    if beacon_territoire:
+                        for d in beacon_territoire:
+                            if d.x == cx and d.y == cy:
+                                self.joueurs[i].batiments[a][b].hp = 0
+                                print("batiment a tuer")
+
+
             if territoire_overwrite:
                 for k in territoire_overwrite:
                     self.joueurs[i].territoire.remove(k)
@@ -1626,7 +1641,8 @@ class Partie:
                         if 200 > j >= 0 and 200 > k >= 0:
                             self.joueurs[i].territoire.append(self.cartecase[k][j])
                 self.parent.afficher_territoire(self.joueurs[i].territoire, coul)
-                self.calculer_supply()
+
+        self.calculer_supply()
 
     def trouver_case(self, x, y):
 
