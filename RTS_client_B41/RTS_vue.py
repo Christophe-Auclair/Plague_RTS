@@ -291,13 +291,13 @@ class Vue():
        # self.canevas.tag_bind("biotope", "<Button-2>", self.attaquer)
 
 ### TEST ####
-        self.canevas.bind("<Shift-Button-2>", self.kill_batiment)
-
-    def kill_batiment(self, evt):
-        for j in self.modele.joueurs.keys():
-            for a in self.modele.joueurs[j].batiments.keys():
-                for b in self.modele.joueurs[j].batiments[a]:
-                    self.modele.joueurs[j].batiments[a][b].hp = 0
+    #     self.canevas.bind("<Shift-Button-2>", self.kill_batiment)
+    #
+    # def kill_batiment(self, evt):
+    #     for j in self.modele.joueurs.keys():
+    #         for a in self.modele.joueurs[j].batiments.keys():
+    #             for b in self.modele.joueurs[j].batiments[a]:
+    #                 self.modele.joueurs[j].batiments[a][b].hp = 0
 ### FIN TEST ####
 
     def defiler_vertical(self, evt):
