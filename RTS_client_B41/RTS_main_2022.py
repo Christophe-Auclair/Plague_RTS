@@ -237,6 +237,9 @@ class Controleur():
     def montrer_stats(self,evt):
         self.modele.calc_stats()
 
+    def afficher_ruine(self, ruine):
+        self.vue.afficher_ruine(ruine)
+
 if __name__ == '__main__':
     print("Bienvenue au RTS")
     c = Controleur()

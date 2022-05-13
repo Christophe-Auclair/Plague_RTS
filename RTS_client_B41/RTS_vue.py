@@ -290,6 +290,16 @@ class Vue():
         self.canevas.tag_bind("batiment", "<Button-2>", self.attaquer)
        # self.canevas.tag_bind("biotope", "<Button-2>", self.attaquer)
 
+### TEST ####
+        self.canevas.bind("<Shift-Button-2>", self.kill_batiment)
+
+    def kill_batiment(self, evt):
+        for j in self.modele.joueurs.keys():
+            for a in self.modele.joueurs[j].batiments.keys():
+                for b in self.modele.joueurs[j].batiments[a]:
+                    self.modele.joueurs[j].batiments[a][b].hp = 0
+### FIN TEST ####
+
     def defiler_vertical(self, evt):
         rep = self.scrollV.get()[0]
         if evt.delta < 0:
@@ -510,7 +520,7 @@ class Vue():
                 coul = self.modele.joueurs[j].couleur[0]
                 couleur = self.modele.joueurs[j].couleur[1]
                 self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
-                                          tags=("statique", j, m.id, "batiment", m.montype, ""))
+                                          tags=("statique", j, m.id, "batiment", m.montype, "vivant"))
                 self.parent.territoire_initial(m.x, m.y, couleur)
                 self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75,
                                          width=10,
@@ -546,8 +556,8 @@ class Vue():
         print(self.parent.monnom)
         chose = self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.image],
                                           tags=(
-                                              "statique", self.parent.monnom, batiment.id, "batiment", batiment.montype,
-                                              ""))
+                                              "statique", joueur, batiment.id, "batiment", batiment.montype,
+                                              "vivant"))
 
         x0, y0, x2, y2 = self.canevas.bbox(chose)
         # self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + 100, batiment.y - 75, width=10,
@@ -565,7 +575,7 @@ class Vue():
         x1 = int((batiment.x / self.modele.aireX) * self.tailleminicarte)
         y1 = int((batiment.y / self.modele.aireY) * self.tailleminicarte)
         self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill=coul,
-                                        tags=(self.parent.monnom, batiment.id, "artefact", batiment.montype))
+                                        tags=(joueur, batiment.id, "artefact", batiment.montype))
         return [x0, y0, x2, y2]
 
     def afficher_jeu(self):
@@ -598,6 +608,14 @@ class Vue():
                 else:
                     self.canevas.create_image(s.x, s.y, anchor=CENTER, image=self.images["EnConstruction"],
                                               tags=("mobile", j, p, "batiment", type(s).__name__, ""))
+
+            # for a in self.modele.joueurs[j].batiments.keys():
+            #     for b in self.modele.joueurs[j].batiments[a]:
+            #         batiment = self.modele.joueurs[j].batiments[a][b]
+            #         if batiment.etat == "mort" and batiment.died is False:
+            #             self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.montype + "MORT"],
+            #                                       tags=("statique", self.parent.monnom, batiment.id, "batiment", batiment.montype, "mort"))
+            #             batiment.died = True
 
             # ajuster les persos de chaque joueur et leur dépendance (ici javelots des ouvriers)
             for p in self.modele.joueurs[j].persos.keys():
@@ -656,6 +674,10 @@ class Vue():
             self.canevas.create_image(i.x, i.y, image=self.images[i.image],
                                       tags=("mobile", "", i.id, "perso", type(i).__name__, ""))
 
+    def afficher_ruine(self, batiment):
+        self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.montype + "MORT"],
+                                  tags=("statique", "", "", "ruine", "", "mort"))
+
     def centrer_maison(self):
         self.root.update()
         cle = list(self.modele.joueurs[self.monnom].batiments["maison"].keys())[0]
@@ -711,15 +733,16 @@ class Vue():
         self.action = Action(self)
         mestags = self.canevas.gettags(CURRENT)
         self.action.derniertagchoisi = mestags
-        self.action.posbatiment = [evt.x, evt.y]
-        if self.parent.monnom == mestags[1]:
-            if "batiment" == mestags[3]:
-                if "maison" == mestags[4]:
-                    self.action.batimentchoisi.append(mestags[2])
-                    self.action.afficher_commande_maison()
-                elif "barracks" == mestags[4]:
-                    self.action.batimentchoisi.append(mestags[2])
-                    self.action.afficher_commande_barracks()
+        if mestags[5] == "vivant":
+            self.action.posbatiment = [evt.x, evt.y]
+            if self.parent.monnom == mestags[1]:
+                if "batiment" == mestags[3]:
+                    if "maison" == mestags[4]:
+                        self.action.batimentchoisi.append(mestags[2])
+                        self.action.afficher_commande_maison()
+                    elif "barracks" == mestags[4]:
+                        self.action.batimentchoisi.append(mestags[2])
+                        self.action.afficher_commande_barracks()
 
     # Methodes pour multiselect
     def debuter_multiselection(self, evt):

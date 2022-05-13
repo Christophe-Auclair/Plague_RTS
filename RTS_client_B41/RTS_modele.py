@@ -38,17 +38,19 @@ class Batiment():
         self.perso = 0
         self.cartebatiment = []
         self.mana = 200
+        self.etat = "vivant"
+        self.died = False
 
     def recevoir_coup(self, force):
-        self.mana -= force
+        self.hp -= force
         print("Ouch Batiment")
-        if self.mana < 1:
+        if self.hp <= 0:
+            self.etat = "mort"
             print("MORTS")
             self.parent.annoncer_mort_batiment(self)
             return 1
 
-
-class Usineballiste(Batiment):
+class Turrets(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
         self.image = couleur[0] + "_" + montype
@@ -67,7 +69,7 @@ class Maison(Batiment):
         self.size = 20
 
 
-class Abri():
+class Barracks(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
         self.image = couleur[0] + "_" + montype
@@ -77,7 +79,7 @@ class Abri():
         self.size = 20
 
 
-class Caserne():
+class Watchtower(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
         self.image = couleur[0] + "_" + montype
@@ -474,7 +476,7 @@ class Perso():
 class Soldat(Perso):
     def __init__(self, parent, id, maison, couleur, x, y, montype):
         Perso.__init__(self, parent, id, maison, couleur, x, y, montype)
-        self.force = 20
+        self.force = 1
         self.hp = 2
         self.size = 10  # nombre à ajuster
 
@@ -550,6 +552,9 @@ class Ouvrier(Perso):
                                  "validerjavelot": self.valider_javelot,
                                  "trouverennemi": self.trouverennemi,
                                  }
+
+    def annoncer_mort_batiment(self, batiment):
+        self.parent.annoncer_mort_batiment(batiment)
 
     def chasser_ramasser(self, objetcible, sontype, actiontype):
         self.cible = objetcible
@@ -919,29 +924,31 @@ class Joueur():
     def annoncer_mort(self, perso):
         self.persos[perso.montype].pop(perso.id)
 
-    def annoncer_mort_batiment(self, perso):
-        self.batiments[perso.montype].pop(perso.id)
+## traitement
+    def annoncer_mort_batiment(self, batiment):
+        bat = self.batiments[batiment.montype].pop(batiment.id)
+        self.parent.parent.afficher_ruine(bat)
+        ### faudrait nettoyer pour pointer dessus
+
 
     def attaquer(self, param):
         attaquants, attaque = param
-        nomjoueur, idperso, sorte = attaque
+        nomjoueur, id, sorte = attaque
 
         ennemi = None
         # ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
-        if idperso in self.parent.NPCs["globuleBlanche"].keys():
-            ennemi = self.parent.NPCs["globuleBlanche"][idperso]
+        if id in self.parent.NPCs["globuleBlanche"].keys():
+            ennemi = self.parent.NPCs["globuleBlanche"][id]
 
-        elif idperso in self.parent.joueurs[nomjoueur].persos[sorte].keys():
-            ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
-
-
+        # elif idperso in self.parent.joueurs[nomjoueur].persos[sorte].keys():
+        #     ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
 
         # elif sorte in self.parent.joueurs[nomjoueur].persos.keys():
         #     ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
         #     if idperso in attaque:
 
         elif sorte in self.parent.joueurs[nomjoueur].batiments.keys():
-            ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][idperso]
+            ennemi = self.parent.joueurs[nomjoueur].batiments[sorte][id]
 
         for i in self.persos.keys():
             for j in attaquants:
@@ -950,8 +957,8 @@ class Joueur():
 
     def movAttaque(self, param):
         attaquants, attaque = param
-        nomjoueur, idperso, sorte = attaque
-        ennemi = self.parent.joueurs[nomjoueur].persos[sorte][idperso]
+        nomjoueur, id, sorte = attaque
+        ennemi = self.parent.joueurs[nomjoueur].persos[sorte][id]
 
         for i in self.persos.keys():
             for j in attaquants:
@@ -1042,6 +1049,12 @@ class Joueur():
         for j in self.persos.keys():
             for i in self.persos[j].keys():
                 self.persos[j][i].jouer_prochain_coup()
+            for k in self.batiments.keys():
+                for l in self.batiments[k]:
+                    if self.batiments[k][l].etat == "vivant":
+                        if self.batiments[k][l].hp == 0:
+                            self.batiments[k][l].etat = "mort"
+
         # gestion des site des construction
         # sitesmorts = []
         # for i in self.batiments["siteconstruction"]:
@@ -1140,9 +1153,9 @@ class Partie:
         self.delaiprochaineaction = 20
         self.joueurs = {}
         self.classesbatiments = {"maison": Maison,
-                                 "watchtower": Caserne,
-                                 "barracks": Abri,
-                                 "turrets": Usineballiste}
+                                 "watchtower": Watchtower,
+                                 "barracks": Barracks,
+                                 "turrets": Turrets}
 
         self.classespersos = {"ouvrier": Ouvrier,
                               "soldat": Soldat,
@@ -1250,12 +1263,12 @@ class Partie:
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
 
-            # if i == mondict[0]:
-            #     x = 3000
-            #     y = 200
-            # if i == mondict[1]:
-            #     x = 3500
-            #     y = 200
+            if i == mondict[0]:
+                x = 3000
+                y = 200
+            if i == mondict[1]:
+                x = 3500
+                y = 200
 
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
