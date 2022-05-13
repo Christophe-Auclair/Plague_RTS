@@ -68,7 +68,6 @@ class Maison(Batiment):
         self.perso = 0
         self.size = 20
 
-
 class Barracks(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
@@ -78,7 +77,6 @@ class Barracks(Batiment):
         self.perso = 0
         self.size = 20
 
-
 class Watchtower(Batiment):
     def __init__(self, parent, id, couleur, x, y, montype):
         Batiment.__init__(self, parent, id, x, y)
@@ -87,7 +85,6 @@ class Watchtower(Batiment):
         self.maxperso = 20
         self.perso = 0
         self.size = 20
-
 
 class GlobuleRouge():
     def __init__(self, parent, id, x, y, notyperegion=-1, idregion=None):
@@ -1161,6 +1158,7 @@ class Partie:
                               "soldat": Soldat,
                               "druide": Druide,
                               "globuleBlanche": GlobuleBlanche}
+
         self.ressourcemorte = []
         self.msggeneral = None
         self.msggeneraldelai = 30
@@ -1263,12 +1261,12 @@ class Partie:
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
 
-            if i == mondict[0]:
-                x = 3000
-                y = 200
-            if i == mondict[1]:
-                x = 3500
-                y = 200
+            # if i == mondict[0]:
+            #     x = 3000
+            #     y = 200
+            # if i == mondict[1]:
+            #     x = 3500
+            #     y = 200
 
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
