@@ -520,7 +520,6 @@ class Vue():
 
                     m = self.modele.joueurs[j].batiments[k][i]
                     coul = self.modele.joueurs[j].couleur[0]
-                    couleur = self.modele.joueurs[j].couleur[1]
 
                     self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
                                               tags=("statique", j, m.id, "batiment", m.montype, "vivant"))
@@ -530,16 +529,17 @@ class Vue():
                     # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green",
                     #                          tags=("mobile"))
 
-                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="green")
-
-                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green", tags=("mobile"))
+                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="green", tags=("mobile"))
+                    #
+                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green", tags=("mobile"))
 
                     # tags=("mobile","",i.id,)
                     # afficher sur minicarte
-                    coul = self.modele.joueurs[j].couleur[1]
+
+                    couleur = self.modele.joueurs[j].couleur[1]
                     x1 = int((m.x / self.modele.aireX) * self.tailleminicarte)
                     y1 = int((m.y / self.modele.aireY) * self.tailleminicarte)
-                    self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill=coul,
+                    self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill=couleur,
                                                     tags=(j, m.id, "artefact", "maison"))
 
     def afficher_bio(self, bio):
@@ -602,13 +602,18 @@ class Vue():
                     self.canevas.create_image(s.x, s.y, anchor=CENTER, image=self.images["EnConstruction"],
                                               tags=("mobile", j, p, "batiment", type(s).__name__, ""))
 
-            # for a in self.modele.joueurs[j].batiments.keys():
-            #     for b in self.modele.joueurs[j].batiments[a]:
-            #         batiment = self.modele.joueurs[j].batiments[a][b]
-            #         if batiment.etat == "mort" and batiment.died is False:
-            #             self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.montype + "MORT"],
-            #                                       tags=("statique", self.parent.monnom, batiment.id, "batiment", batiment.montype, "mort"))
-            #             batiment.died = True
+            for a in self.modele.joueurs[j].batiments.keys():
+                if a == "siteconstruction":
+                    continue
+
+                for b in self.modele.joueurs[j].batiments[a]:
+
+                    m = self.modele.joueurs[j].batiments[a][b]
+
+                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="black",
+                                             tags=("mobile"))
+                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green",
+                                             tags=("mobile"))
 
             # ajuster les persos de chaque joueur et leur dépendance (ici javelots des ouvriers)
             for p in self.modele.joueurs[j].persos.keys():

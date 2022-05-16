@@ -1261,12 +1261,12 @@ class Partie:
             x = random.randrange(quad[0][0] + bord, quad[1][0] - bord)
             y = random.randrange(quad[0][1] + bord, quad[1][1] - bord)
 
-            # if i == mondict[0]:
-            #     x = 3000
-            #     y = 200
-            # if i == mondict[1]:
-            #     x = 3500
-            #     y = 200
+            if i == mondict[0]:
+                x = 3000
+                y = 200
+            if i == mondict[1]:
+                x = 3500
+                y = 200
 
             self.joueurs[i] = Joueur(self, id, i, coul, x, y)
 
