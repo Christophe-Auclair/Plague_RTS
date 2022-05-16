@@ -614,7 +614,19 @@ class Ouvrier(Perso):
         self.cible.valeur -= 1
         if self.cible.valeur == 0 or self.ramassage == self.quota:
             self.actioncourante = "retourbatimentmere"
-            self.position_visee = [self.batimentmere.x, self.batimentmere.y]
+
+            for i in self.parent.batiments["maison"].keys():
+                maison_trouvee = False
+                m = self.parent.batiments["maison"][i]
+                if m.etat == "vivant":
+                    self.position_visee = [m.x, m.y]
+                    maison_trouvee = True
+            if maison_trouvee is False:
+                self.position_visee = [self.batimentmere.x, self.batimentmere.y]
+                print("Aucune maison disponible")
+
+
+
             if self.cible.valeur == 0:
                 self.parent.avertir_ressource_mort(self.typeressource, self.cible)
                 # rep = self.chercher_nouvelle_ressource(self.cible.montype, self.cible.idregion)
