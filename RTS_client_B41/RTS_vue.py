@@ -524,18 +524,7 @@ class Vue():
                     self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
                                               tags=("statique", j, m.id, "batiment", m.montype, "vivant"))
 
-                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="black",
-                    #                          tags=("mobile"))
-                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green",
-                    #                          tags=("mobile"))
-
-                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="green", tags=("mobile"))
-                    #
-                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green", tags=("mobile"))
-
-                    # tags=("mobile","",i.id,)
                     # afficher sur minicarte
-
                     couleur = self.modele.joueurs[j].couleur[1]
                     x1 = int((m.x / self.modele.aireX) * self.tailleminicarte)
                     y1 = int((m.y / self.modele.aireY) * self.tailleminicarte)
@@ -605,7 +594,6 @@ class Vue():
             for a in self.modele.joueurs[j].batiments.keys():
                 if a == "siteconstruction":
                     continue
-
                 for b in self.modele.joueurs[j].batiments[a]:
 
                     m = self.modele.joueurs[j].batiments[a][b]
@@ -624,9 +612,9 @@ class Vue():
                                               tags=("mobile", j, k, "perso", i.montype, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
                     self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + 30, i.y - 60, width=10, fill="black",
-                                             tags=("mobile", i.id, "artefact", ""))
-                    self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + (i.hp * 15), i.y - 60, width=10,
-                                             fill="green", tags=("mobile", i.id, "artefact", ""))
+                                             tags=("mobile"))
+                    self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + (i.hp * 15), i.y - 60, width=10, fill="green",
+                                             tags=("mobile"))
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
