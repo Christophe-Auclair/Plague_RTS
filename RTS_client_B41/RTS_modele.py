@@ -37,7 +37,6 @@ class Batiment():
         self.maxperso = 0
         self.perso = 0
         self.cartebatiment = []
-        self.mana = 200
         self.etat = "vivant"
         self.died = False
 
@@ -277,7 +276,6 @@ class Perso():
         self.cible = None
         self.position_visee = None
         self.cibleennemi = None
-        self.mana = 100
         self.force = 5
         self.champvision = 100
         self.vitesse = 5
@@ -334,9 +332,9 @@ class Perso():
             self.actioncourante = None
 
     def recevoir_coup(self, force):
-        self.mana -= force
+        self.hp -= force
         print("Ouch")
-        if self.mana < 1:
+        if self.hp < 1:
             print("MORTS")
             self.parent.annoncer_mort(self)
             return 1
@@ -823,9 +821,9 @@ class GlobuleBlanche(Perso):
             self.position_visee = None
 
     def recevoir_coup(self, force):
-        self.mana -= force
+        self.hp -= force
         print("Ouch")
-        if self.mana < 1:
+        if self.hp < 1:
             print("MORTS")
             self.parent.NPCs[self.montype].pop(self.id)
             return 1
