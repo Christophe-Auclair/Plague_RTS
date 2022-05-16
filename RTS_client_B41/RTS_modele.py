@@ -1574,18 +1574,22 @@ class Partie:
     #                         if 200 > m >= 0 and 200 > l >= 0:
     #                             territoire.append(self.cartecase[m][l])
 
-    def territoire_initial(self, x, y, coul):
-        cx = int(x / 20)
-        cy = int(y / 20)
+    def territoire_initial(self):
+
         for i in self.joueurs.keys():
-            if coul != self.joueurs[i].couleur[1]:
-                continue
-            else:
+            j = self.joueurs[i]
+            couleur = j.couleur[1]
+
+            for k in j.batiments["maison"].keys():
+                m = j.batiments["maison"][k]
+                cx = int(m.x / 20)
+                cy = int(m.y / 20)
+
                 for j in range(cx - 10, cx + 10):
                     for k in range(cy - 10, cy + 10):
                         if 200 > j >= 0 and 200 > k >= 0:
                             self.joueurs[i].territoire.append(self.cartecase[k][j])
-                self.parent.afficher_territoire(self.joueurs[i].territoire, coul)
+                self.parent.afficher_territoire(self.joueurs[i].territoire, couleur)
 
         self.calculer_supply()
 

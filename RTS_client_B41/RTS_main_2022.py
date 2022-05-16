@@ -63,9 +63,6 @@ class Controleur():
         self.vue.changer_cadre("lobby")
         self.boucler_sur_lobby()
 
-    def territoire_initial(self, x, y, coul):
-        self.modele.territoire_initial(x, y, coul)
-
     # un joueur s'inscrit à la partie, similaire à creer_partie
     def inscrire_joueur(self, nom, urljeu):
         # on quitte le splash et sa boucle
@@ -105,6 +102,7 @@ class Controleur():
         self.vue.initialiser_avec_modele(self.modele)  # on fournit le modele et mets la vue à jour
         self.vue.changer_cadre("jeu")  # on change le cadre la fenetre pour passer dans l'interface de jeu
         self.vue.centrer_maison()
+        self.modele.territoire_initial()
 
         self.boucler_sur_jeu()  # on lance la boucle de jeu
 

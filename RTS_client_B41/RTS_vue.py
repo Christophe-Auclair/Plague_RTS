@@ -515,26 +515,32 @@ class Vue():
         py = int(self.tailleminicarte / self.modele.aireY)
 
         for j in self.modele.joueurs.keys():
-            for i in self.modele.joueurs[j].batiments["maison"].keys():
-                m = self.modele.joueurs[j].batiments["maison"][i]
-                coul = self.modele.joueurs[j].couleur[0]
-                couleur = self.modele.joueurs[j].couleur[1]
-                self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
-                                          tags=("statique", j, m.id, "batiment", m.montype, "vivant"))
-                self.parent.territoire_initial(m.x, m.y, couleur)
-                self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75,
-                                         width=10,
-                                         fill="green")
-                self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5),
-                                         m.y - 75, width=10, fill="green", tags=("mobile"))
+            for k in self.modele.joueurs[j].batiments.keys():
+                for i in self.modele.joueurs[j].batiments[k]:
 
-                # tags=("mobile","",i.id,)
-                # afficher sur minicarte
-                coul = self.modele.joueurs[j].couleur[1]
-                x1 = int((m.x / self.modele.aireX) * self.tailleminicarte)
-                y1 = int((m.y / self.modele.aireY) * self.tailleminicarte)
-                self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill=coul,
-                                                tags=(j, m.id, "artefact", "maison"))
+                    m = self.modele.joueurs[j].batiments[k][i]
+                    coul = self.modele.joueurs[j].couleur[0]
+                    couleur = self.modele.joueurs[j].couleur[1]
+
+                    self.canevas.create_image(m.x, m.y, image=self.images[coul + "_maison"],
+                                              tags=("statique", j, m.id, "batiment", m.montype, "vivant"))
+
+                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="black",
+                    #                          tags=("mobile"))
+                    # self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green",
+                    #                          tags=("mobile"))
+
+                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + 100, m.y - 75, width=10, fill="green")
+
+                    self.canevas.create_line(m.x - 50, m.y - 75, (m.x - 50) + (m.hp * 5), m.y - 75, width=10, fill="green", tags=("mobile"))
+
+                    # tags=("mobile","",i.id,)
+                    # afficher sur minicarte
+                    coul = self.modele.joueurs[j].couleur[1]
+                    x1 = int((m.x / self.modele.aireX) * self.tailleminicarte)
+                    y1 = int((m.y / self.modele.aireY) * self.tailleminicarte)
+                    self.minicarte.create_rectangle(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill=coul,
+                                                    tags=(j, m.id, "artefact", "maison"))
 
     def afficher_bio(self, bio):
         self.canevas.create_image(bio.x, bio.y, image=self.images[bio.img],
@@ -549,28 +555,15 @@ class Vue():
                                             tags=(self.parent.monnom, bio.id, "biotope", bio.montype))
 
     def afficher_batiment(self, joueur, batiment):
-        coul = self.modele.joueurs[joueur].couleur[0]
 
         self.canevas.delete(batiment.id)
 
         print(self.parent.monnom)
         chose = self.canevas.create_image(batiment.x, batiment.y, image=self.images[batiment.image],
-                                          tags=(
-                                              "statique", joueur, batiment.id, "batiment", batiment.montype,
-                                              "vivant"))
+                    tags=("statique", joueur, batiment.id, "batiment", batiment.montype, "vivant"))
 
         x0, y0, x2, y2 = self.canevas.bbox(chose)
-        # self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + 100, batiment.y - 75, width=10,
-        #                          fill="green")
-        # self.canevas.create_line(batiment.x - 50, batiment.y - 75, (batiment.x - 50) + (batiment.hp * 5),
-        #                          batiment.y - 75, width=10, fill="green")
 
-        couleurs = {0: "",
-                    1: "light green",
-                    2: "light blue",
-                    3: "tan",
-                    4: "gray30",
-                    5: "orange"}
         coul = self.modele.joueurs[joueur].couleur[1]
         x1 = int((batiment.x / self.modele.aireX) * self.tailleminicarte)
         y1 = int((batiment.y / self.modele.aireY) * self.tailleminicarte)
@@ -626,9 +619,9 @@ class Vue():
                                               tags=("mobile", j, k, "perso", i.montype, ""))
                     # tags=(j,k,"artefact","mobile","perso",p))
                     self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + 30, i.y - 60, width=10, fill="black",
-                                             tags=("", i.id, "artefact", "mobile"))
+                                             tags=("mobile", i.id, "artefact", ""))
                     self.canevas.create_line(i.x - 15, i.y - 60, (i.x - 15) + (i.hp * 15), i.y - 60, width=10,
-                                             fill="green", tags=("", i.id, "artefact", "mobile"))
+                                             fill="green", tags=("mobile", i.id, "artefact", ""))
 
                     if k in self.action.persochoisi:
                         self.canevas.create_rectangle(i.x - 10, i.y + 5, i.x + 10, i.y + 10, fill="yellow",
@@ -648,17 +641,14 @@ class Vue():
             if i.etat == "mort":
                 self.canevas.create_image(i.x, i.y, image=self.images["globulerougeMORT"],
                                           tags=("mobile", "", i.id, "biotope", i.montype, ""))
-                self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
-                                         tags=("", i.id, "artefact", "mobile"))
-                self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 30), i.y - 50, width=10, fill="green",
-                                         tags=("", i.id, "artefact", "mobile"))
             else:
                 self.canevas.create_image(i.x, i.y, image=self.images[i.img],
                                           tags=("mobile", "", i.id, "biotope", i.montype, ""))
-                self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
-                                         tags=("", i.id, "artefact", "mobile"))
-                self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 30), i.y - 50, width=10, fill="green",
-                                         tags=("", i.id, "artefact", "mobile"))
+
+            self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + 30, i.y - 50, width=10, fill="black",
+                                     tags=("mobile", i.id, "artefact", ""))
+            self.canevas.create_line(i.x - 15, i.y - 50, (i.x - 15) + (i.hp * 30), i.y - 50, width=10, fill="green",
+                                     tags=("mobile", i.id, "artefact", ""))
 
         # mettre les chat a jour si de nouveaux messages sont arrives
         if self.textchat and self.modele.joueurs[self.parent.monnom].chatneuf:
