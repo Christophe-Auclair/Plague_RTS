@@ -33,6 +33,8 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 - Le code inutile a été enlevé
 - Les joueurs ennemi peuvent s'entretuer 
 - Le lag quand on joue singleplayer a été éliminé
+- Les barres de vie marchent maintenant
+- Les ouvriers vont maintenant à la cellule la plus proche
 
 
 ### VERSION 0.3:
