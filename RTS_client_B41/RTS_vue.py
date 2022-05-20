@@ -1141,6 +1141,7 @@ class Action():
             # self.canevasvictoire.create_image(320, 10, image=self.images['win'])
         else:
             self.condition = Label(self.windowwin, text="LMAOO! T'as pas gagné HAHAHAHAHAH, pleure")
+
             # self.canevasvictoire.create_image(320, 10, image=self.images['lose'])
 
         self.condition.config(font=('Comic Sans MS', 20), wraplength=250)
