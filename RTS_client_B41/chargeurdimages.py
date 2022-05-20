@@ -13,6 +13,8 @@ def chargerimages2():
     images = {
         # logo splash
         'logo': PhotoImage(file='images/misc/logo.png'),
+        'win': PhotoImage(file='images/misc/win.png'),
+        'lose': PhotoImage(file='images/misc/lost.png'),
 
         # organes
         'coeur': PhotoImage(file='images/organe/coeur.png'),

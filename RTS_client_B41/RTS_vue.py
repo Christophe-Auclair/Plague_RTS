@@ -97,22 +97,6 @@ class Vue():
         self.canevassplash.create_window(320, 400, window=self.btninscrirejoueur, width=200, height=30)
         self.canevassplash.create_window(320, 450, window=self.btnreset, width=200, height=30)
 
-        ############ ## NOTES : ceci est un exemple pour ajouter des options au cadresplash
-        # ## POUR CHOIX CIVILISATION, 4 OPTIONS
-        # # LA VARIABLE DONT LA VALEUR CHANGERA AU FIL DES CLICK
-        self.valciv = StringVar(self.cadresplash, "1")
-        # LES 4 BTN RADIO
-        # radciv1 = Radiobutton(text="Virus", variable=self.valciv, value="Virus")
-        # radciv2 = Radiobutton(text="Fungus", variable=self.valciv, value="Fungus")
-        # radciv3 = Radiobutton(text="Worm", variable=self.valciv, value="Worm")
-        # radciv4 = Radiobutton(text="Bacterie", variable=self.valciv, value="Bacterie")
-        # LE PLACEMENTS DES BTN RADIOS
-        # self.canevassplash.create_window(220, 350, window=radciv1, width=180, height=30)
-        # self.canevassplash.create_window(220, 380, window=radciv2, width=180, height=30)
-        # self.canevassplash.create_window(220, 410, window=radciv3, width=180, height=30)
-        # self.canevassplash.create_window(220, 440, window=radciv4, width=180, height=30)
-        # ## ##########    FIN de l'exemple des choix de civilisations
-
         ############# NOTE le bouton suivant permet de générer un Frame issu d'un autre module et l'intégrer à la vue directement
         # self.btncadretest = Button(text="Cadre test", font=("Arial", 9),  command=self.montrercadretest)
         # on place les autres boutons
@@ -226,7 +210,7 @@ class Vue():
 
         self.btnchat = Button(self.cadrejeuinfo, text="Chat", command=self.action.chatter)
         self.btnaide = Button(self.cadrejeuinfo, text="Aide", command=self.action.aider)
-        self.btnskill = Button(self.cadrejeuinfo, text="Skill", command=self.action.skill)
+        self.btnskill = Button(self.cadrejeuinfo, text="Skill", command=self.action.victoire)
 
         self.btnaide.pack(side=RIGHT)
         self.btnchat.pack(side=RIGHT)
@@ -372,6 +356,26 @@ class Vue():
         self.joueurs.pack(expand=1, fill=X)
         self.entreechat.pack(expand=1, fill=X)
         self.cadreparler.pack(expand=1, fill=X)
+
+    def cadrevictoire(self):
+        self.windowwin = Tk()
+        self.cadrevictoire = Frame(self.windowwin, width=500, height=400)
+        self.canevasvictoire = Canvas(self.cadrevictoire, width=600, height=480, bg="DarkOliveGreen1")
+        self.canevasvictoire.pack()
+
+        # self.condition = ""
+        self.windowwin.title("GAME OVER")
+
+        if self.victoireon == 0:
+            # self.condition = Label(self.windowwin, text="T'est un WINNER mon chum")
+            self.canevasvictoire.create_image(320, 10, image=self.images['win'])
+        else:
+            # self.condition = Label(self.windowwin, text="LMAOO! T'as pas gagné HAHAHAHAHAH, pleure")
+            self.canevasvictoire.create_image(320, 10, image=self.images['lose'])
+
+        # self.condition.config(font=('Comic Sans MS', 20), wraplength=250)
+        # self.condition.pack()
+
 
     ##### FONCTIONS DU SPLASH #########################################################################
     def creer_partie(self):
@@ -976,8 +980,10 @@ class Action():
         self.chaton = 0
         self.aideon = 0
         self.skillon = 0
+        self.victoireon = 0
         self.derniertagchoisi = None
         self.posbatiment = None
+        self.images = chargerimages()
 
     def attaquer(self, evt):
         tag = self.parent.canevas.gettags(CURRENT)
@@ -1120,6 +1126,26 @@ class Action():
 
         else:
             self.parent.canevas.delete(self.skillon)
+
+    def victoire(self):
+        self.windowwin = Tk()
+        self.cadrevictoire = Frame(self.windowwin, width=500, height=400)
+        self.canevasvictoire = Canvas(self.cadrevictoire, width=600, height=480, bg="DarkOliveGreen1")
+        self.canevasvictoire.pack()
+
+        self.condition = ""
+        self.windowwin.title("GAME OVER")
+
+        if self.victoireon == 0:
+            self.condition = Label(self.windowwin, text="T'est un WINNER mon chum")
+            # self.canevasvictoire.create_image(320, 10, image=self.images['win'])
+        else:
+            self.condition = Label(self.windowwin, text="LMAOO! T'as pas gagné HAHAHAHAHAH, pleure")
+            # self.canevasvictoire.create_image(320, 10, image=self.images['lose'])
+
+        self.condition.config(font=('Comic Sans MS', 20), wraplength=250)
+        self.condition.pack()
+
 
     ### FIN des methodes pour lancer la partie
 

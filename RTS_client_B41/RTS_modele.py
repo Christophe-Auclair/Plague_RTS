@@ -1335,6 +1335,8 @@ class Partie:
 
             if len(self.joueurs[i].territoire) >= 20000:
                 print(self.joueurs[i].nom + " is Victorious!!")
+                self.vue.cadrevictoire()
+
 
         if self.msggeneral and "cadre" not in self.msggeneral:
             self.msggeneralcompteur += 1

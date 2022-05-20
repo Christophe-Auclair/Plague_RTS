@@ -27,7 +27,15 @@ Jeu de RTS inspiré du gameplay des Zergs de Starcraft
 - Ctrl-MouseMotion pour bouger en liberté
 
 ### VERSION 0.4 
-#### À VENIR
+- Les images qui n'était pas utilisé ont été éliminé
+- Les batiments ennemis peuvent etre détruits
+- Les batiments morts ont une image quand ils sont mis décommission
+- Le code inutile a été enlevé
+- Les joueurs ennemi peuvent s'entretuer 
+- Le lag quand on joue singleplayer a été éliminé
+- Les barres de vie marchent maintenant
+- Les ouvriers vont maintenant à la cellule la plus proche
+
 
 ### VERSION 0.3:
 - Toutes les entitées sont mis dans leur place spécifié sur la map
