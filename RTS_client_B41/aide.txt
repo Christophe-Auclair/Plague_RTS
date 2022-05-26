@@ -1,5 +1,24 @@
-ÉTAT INITIAL DU JEU
+LE BUT DU JEU:
+Agrandir son territoire pour controller plus de la moitié de la carte pour gagner (comme splatoon:))
 
+Pour agrandir son terriroire il suffit de construire des batiments dans le terrioire que l'on possède déja
+
+Certains batiments produissent plus de territoire nottamentt la watchtower
+
+Il y a aussi des beacons au milieu de la map que lorsquon capture avec notre territoire, ils aggrandissent ce dernier encore plus
+N'oubliez pas de vous defendre contre vos ennemis (joueurs adverses autant que les NPCs)
+
+Pour creer des batiments et des unités il faut des ressources (sang et matieres organiques)
+on peut obtenir ces ressources en recoltant avec les ouvriers, les globules rouges et les organes
+
+CONTROLES:
+- Clique-droit de la souris pour faire apparaitre les ouvriers et pour attaquer les autres NPCs
+- Clique-gauche apres avoir choisit une cellule merepour le faire apparaitre sur le territoire qui proliférera le terrioire
+- Shift-LeftClick pour selectionner plusieurs troupeau de travailleur pour ensuite leur faire faire une tache
+- Ctrl-MiddleClick pour attaquer les joueurs
+
+
+ÉTAT INITIAL DU JEU:
 0- Chaque joueur est identifié par son nom, 
 	affiché dans la barre titre et dans
 	la section de commande, à droite et un virus
@@ -31,7 +50,7 @@
 13- Les beacons servent à étandre sont territoire
     et peuvent etre capturer
 
-MANIPULATION DANS L'AIRE DE JEU
+MANIPULATION DANS L'AIRE DE JEU:
 
 CREATION DE PERSOS
 Bouton-1: sur une maison: crée virus
@@ -95,3 +114,4 @@ CHAT ET AIDE
 Attaque/ mouvement agressif
 
 1- ctrl+bouton2, attaquer un autre joueur.
+
