@@ -889,34 +889,34 @@ class Joueur():
         self.current_supply = 0
         self.ressourcemorte = []
         self.ressources = {"Sang": 200,
-                           "Matière Organique": 200,
-                           "DNA": 50,
-                           "Supply": self.total_supply - self.current_supply, }
+                            "Matière Organique": 200,
+                            "DNA": 50,
+                            "Supply": self.total_supply - self.current_supply, }
 
         self.persos = {"ouvrier": {},
-                       "soldat": {},
-                       "druide": {},
-                       "ballista": {}}
+                            "soldat": {},
+                            "druide": {},
+                            "ballista": {}}
 
         self.batiments = {"maison": {},
-                          "watchtower": {},
-                          "barracks": {},
-                          "turrets": {},
-                          "siteconstruction": {}}
+                            "watchtower": {},
+                            "barracks": {},
+                            "turrets": {},
+                            "siteconstruction": {}}
 
         self.actions = {"creerperso": self.creer_perso,
-                        "deplacer": self.deplacer,
-                        "deplacerGroupe": self.deplacerGroupe,
-                        "ramasserressource": self.ramasser_ressource,
-                        "chasserressource": self.chasser_ressource,
-                        "construirebatiment": self.construire_batiment,
-                        "attaquer": self.attaquer,
-                        "chatter": self.chatter,
-                        "abandonner": self.abandonner}
+                            "deplacer": self.deplacer,
+                            "deplacerGroupe": self.deplacerGroupe,
+                            "ramasserressource": self.ramasser_ressource,
+                            "chasserressource": self.chasser_ressource,
+                            "construirebatiment": self.construire_batiment,
+                            "attaquer": self.attaquer,
+                            "chatter": self.chatter,
+                            "abandonner": self.abandonner}
 
         self.skilltree = {"skill1": 0,
-                          "skill2": 0,
-                          "skill3": 0}
+                            "skill2": 0,
+                            "skill3": 0}
         # on va creer une maison comme centre pour le joueur
         self.creer_point_origine(x, y)
 
@@ -1096,52 +1096,52 @@ class Partie:
     valeurs = {
         ### CRAFTING COSTS BATIMENTS
         "maison": {"Sang": 10,
-                  "Matière Organique": 20,
-                  "DNA": 0,
-                  "Supply": 0,
-                  "delai": 50},
+                        "Matière Organique": 20,
+                        "DNA": 0,
+                        "Supply": 0,
+                        "delai": 50},
         "watchtower": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 0,
-                      "delai": 30},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 0,
+                        "delai": 30},
         "barracks": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 0,
-                      "delai": 60},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 0,
+                        "delai": 60},
         "turrets": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 0,
-                      "delai": 80},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 0,
+                        "delai": 80},
 
         ### CRAFTING COSTS UNITS
         "soldat": {"Sang": 10,
-                  "Matière Organique": 10,
-                  "DNA": 0,
-                  "Supply": 10,
-                  "delai": 50},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 10,
+                        "delai": 50},
         "archer": {"Sang": 10,
-                  "Matière Organique": 10,
-                  "DNA": 0,
-                  "Supply": 10,
-                  "delai": 50},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 10,
+                        "delai": 50},
         "druide": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 10,
-                      "delai": 50},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 10,
+                        "delai": 50},
         "ballista": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 10,
-                      "delai": 50},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 10,
+                        "delai": 50},
         "ouvrier": {"Sang": 10,
-                      "Matière Organique": 10,
-                      "DNA": 0,
-                      "Supply": 10,
-                      "delai": 50},
+                        "Matière Organique": 10,
+                        "DNA": 0,
+                        "Supply": 10,
+                        "delai": 50},
         }
 
     def __init__(self, parent, mondict):
@@ -1335,7 +1335,6 @@ class Partie:
 
             if len(self.joueurs[i].territoire) >= 20000:
                 print(self.joueurs[i].nom + " is Victorious!!")
-                self.vue.cadrevictoire()
 
 
         if self.msggeneral and "cadre" not in self.msggeneral:

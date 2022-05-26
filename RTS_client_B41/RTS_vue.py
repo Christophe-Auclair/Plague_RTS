@@ -983,7 +983,7 @@ class Action():
         self.victoireon = 0
         self.derniertagchoisi = None
         self.posbatiment = None
-        self.images = chargerimages()
+        # self.images = chargerimages()
 
     def attaquer(self, evt):
         tag = self.parent.canevas.gettags(CURRENT)
@@ -1141,7 +1141,6 @@ class Action():
             # self.canevasvictoire.create_image(320, 10, image=self.images['win'])
         else:
             self.condition = Label(self.windowwin, text="LMAOO! T'as pas gagné HAHAHAHAHAH, pleure")
-
             # self.canevasvictoire.create_image(320, 10, image=self.images['lose'])
 
         self.condition.config(font=('Comic Sans MS', 20), wraplength=250)
